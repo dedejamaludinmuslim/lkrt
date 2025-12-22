@@ -9,19 +9,27 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
     
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #F8FAFC; }
-        .card-gradient-abi { background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%); }
-        .card-gradient-umi { background: linear-gradient(135deg, #EC4899 0%, #DB2777 100%); }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #F1F5F9; }
+        .card-gradient-abi { background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%); }
+        .card-gradient-umi { background: linear-gradient(135deg, #DB2777 0%, #BE185D 100%); }
         
-        /* Animasi */
         .fade-in { animation: fadeIn 0.3s ease-in-out; }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        
-        /* Sembunyikan elemen */
         .hidden { display: none !important; }
+        
+        /* Style untuk cell yang bisa diedit */
+        .editable:hover {
+            background-color: #FEF3C7; /* Kuning muda saat dihover */
+            cursor: pointer;
+            text-decoration: underline;
+            text-decoration-style: dotted;
+        }
+        
+        /* Smooth scrolling */
+        html { scroll-behavior: smooth; }
     </style>
 </head>
 <body class="text-gray-800 h-screen flex flex-col overflow-hidden">
@@ -30,12 +38,12 @@
         <div class="max-w-3xl mx-auto px-4 w-full">
             <div class="flex flex-col sm:flex-row justify-between h-auto sm:h-16 items-center py-3 sm:py-0 gap-3 sm:gap-0">
                 <div class="flex items-center gap-2">
-                    <div class="bg-indigo-600 text-white p-1.5 rounded-lg font-bold text-sm">DK</div>
-                    <span class="font-bold text-lg text-gray-800">Dompet Keluarga</span>
+                    <div class="bg-slate-800 text-white p-1.5 rounded-lg font-bold text-sm">DK</div>
+                    <span class="font-bold text-lg text-slate-800">Dompet Keluarga</span>
                 </div>
                 
-                <div class="flex bg-gray-100 p-1 rounded-xl">
-                    <button type="button" onclick="pindahTab('input')" id="tabInput" class="px-6 py-1.5 rounded-lg text-sm font-semibold transition-all shadow-sm bg-white text-indigo-600">
+                <div class="flex bg-slate-100 p-1 rounded-xl">
+                    <button type="button" onclick="pindahTab('input')" id="tabInput" class="px-6 py-1.5 rounded-lg text-sm font-bold transition-all shadow-md bg-indigo-600 text-white transform scale-105">
                         + Input Baru
                     </button>
                     <button type="button" onclick="pindahTab('laporan')" id="tabLaporan" class="px-6 py-1.5 rounded-lg text-sm font-semibold transition-all text-gray-500 hover:text-gray-700">
@@ -47,35 +55,34 @@
     </nav>
 
     <div class="flex-1 overflow-y-auto bg-slate-50">
-        <div class="max-w-3xl mx-auto px-4 py-8">
+        <div class="max-w-3xl mx-auto px-4 py-6 pb-20">
             
             <section id="viewInput" class="fade-in">
-                <div class="bg-white p-6 sm:p-8 rounded-3xl shadow-xl border border-gray-100 max-w-lg mx-auto">
+                <div class="bg-white p-6 sm:p-8 rounded-3xl shadow-xl border border-slate-200 max-w-lg mx-auto mt-4">
                     <div class="text-center mb-6">
-                        <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-indigo-100 text-indigo-600 mb-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>
+                        <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-indigo-50 text-indigo-600 mb-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
                         </div>
-                        <h2 class="text-2xl font-bold text-gray-800">Catat Transaksi</h2>
-                        <p class="text-gray-500 text-sm">Masukkan detail pengeluaran atau pemasukan.</p>
+                        <h2 class="text-2xl font-bold text-slate-800">Catat Transaksi</h2>
                     </div>
 
                     <form id="formTransaksi" class="space-y-5">
                         <div>
-                            <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Tanggal</label>
-                            <input type="date" id="inputTanggal" required class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-indigo-500 outline-none transition font-medium">
+                            <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Tanggal</label>
+                            <input type="date" id="inputTanggal" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-indigo-500 outline-none transition font-medium">
                         </div>
                         
                         <div class="grid grid-cols-2 gap-4">
                             <div>
-                                <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Siapa?</label>
-                                <select id="inputPelapor" required class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-indigo-500 outline-none transition">
+                                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Siapa?</label>
+                                <select id="inputPelapor" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-indigo-500 outline-none transition">
                                     <option value="Abi">Abi</option>
                                     <option value="Umi">Umi</option>
                                 </select>
                             </div>
                             <div>
-                                <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Jenis</label>
-                                <select id="inputJenis" required class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-indigo-500 outline-none transition">
+                                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Jenis</label>
+                                <select id="inputJenis" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-indigo-500 outline-none transition">
                                     <option value="pengeluaran">Pengeluaran</option>
                                     <option value="pemasukan">Pemasukan</option>
                                 </select>
@@ -83,16 +90,16 @@
                         </div>
 
                         <div>
-                            <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Jumlah (Rp)</label>
+                            <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Jumlah (Rp)</label>
                             <div class="relative">
-                                <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-gray-400 font-bold">Rp</span>
-                                <input type="number" id="inputJumlah" required min="0" placeholder="0" class="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-indigo-500 outline-none transition text-lg font-bold text-gray-800">
+                                <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-slate-400 font-bold">Rp</span>
+                                <input type="number" id="inputJumlah" required min="0" placeholder="0" class="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-indigo-500 outline-none transition text-lg font-bold text-slate-800">
                             </div>
                         </div>
 
                         <div>
-                            <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Rincian</label>
-                            <textarea id="inputRincian" required rows="2" placeholder="Contoh: Belanja Sayur, Bensin" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-indigo-500 outline-none transition"></textarea>
+                            <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Rincian</label>
+                            <textarea id="inputRincian" required rows="2" placeholder="Contoh: Belanja Sayur, Bensin" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-indigo-500 outline-none transition"></textarea>
                         </div>
 
                         <button type="submit" id="btnSubmit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3.5 rounded-xl transition duration-200 shadow-lg shadow-indigo-200 transform hover:-translate-y-0.5">
@@ -102,30 +109,35 @@
                 </div>
             </section>
 
-            <section id="viewLaporan" class="hidden fade-in space-y-6">
+            <section id="viewLaporan" class="hidden fade-in space-y-8">
                 
-                <div class="flex justify-between items-center bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-                    <h3 class="font-bold text-gray-700">Laporan Bulanan</h3>
-                    <div class="flex items-center gap-2">
-                        <input type="month" id="filterBulan" class="border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium">
-                    </div>
+                <div class="flex justify-between items-center bg-white p-4 rounded-xl shadow-sm border border-slate-200">
+                    <h3 class="font-bold text-slate-700">Laporan Bulanan</h3>
+                    <input type="month" id="filterBulan" class="border border-slate-300 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium">
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="bg-white rounded-2xl shadow-md overflow-hidden border border-blue-100">
-                        <div class="card-gradient-abi p-5 text-white">
+                    <div onclick="document.getElementById('sectionAbi').scrollIntoView({behavior: 'smooth'})" class="bg-white rounded-2xl shadow-md overflow-hidden border border-blue-100 cursor-pointer transform hover:scale-[1.02] transition duration-200 group">
+                        <div class="card-gradient-abi p-5 text-white relative">
                             <p class="text-blue-100 text-xs font-bold uppercase tracking-wider mb-1">Dompet Abi</p>
-                            <h2 class="text-2xl font-bold" id="sisaAbi">Rp 0</h2>
+                            <h2 class="text-3xl font-bold" id="sisaAbi">Rp 0</h2>
+                            <div class="absolute right-4 top-4 opacity-50 group-hover:opacity-100 transition">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" /></svg>
+                            </div>
                         </div>
                         <div class="p-3 grid grid-cols-2 divide-x divide-gray-100 text-sm text-center">
                             <div><span class="text-gray-400 text-xs block">Masuk</span><span class="text-green-600 font-bold" id="masukAbi">0</span></div>
                             <div><span class="text-gray-400 text-xs block">Keluar</span><span class="text-red-500 font-bold" id="keluarAbi">0</span></div>
                         </div>
                     </div>
-                    <div class="bg-white rounded-2xl shadow-md overflow-hidden border border-pink-100">
-                        <div class="card-gradient-umi p-5 text-white">
+                    
+                    <div onclick="document.getElementById('sectionUmi').scrollIntoView({behavior: 'smooth'})" class="bg-white rounded-2xl shadow-md overflow-hidden border border-pink-100 cursor-pointer transform hover:scale-[1.02] transition duration-200 group">
+                        <div class="card-gradient-umi p-5 text-white relative">
                             <p class="text-pink-100 text-xs font-bold uppercase tracking-wider mb-1">Dompet Umi</p>
-                            <h2 class="text-2xl font-bold" id="sisaUmi">Rp 0</h2>
+                            <h2 class="text-3xl font-bold" id="sisaUmi">Rp 0</h2>
+                            <div class="absolute right-4 top-4 opacity-50 group-hover:opacity-100 transition">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" /></svg>
+                            </div>
                         </div>
                         <div class="p-3 grid grid-cols-2 divide-x divide-gray-100 text-sm text-center">
                             <div><span class="text-gray-400 text-xs block">Masuk</span><span class="text-green-600 font-bold" id="masukUmi">0</span></div>
@@ -134,98 +146,144 @@
                     </div>
                 </div>
 
-                <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
-                    <div class="p-4 bg-gray-50 border-b border-gray-100 flex justify-between items-center">
-                        <h4 class="font-bold text-gray-600 text-sm">Riwayat Transaksi</h4>
-                        <span id="loadingIndicator" class="text-xs text-indigo-500 hidden font-bold">Memuat...</span>
+                <div class="flex justify-center">
+                    <span id="loadingIndicator" class="text-sm font-bold text-indigo-500 animate-pulse hidden bg-indigo-50 px-4 py-2 rounded-full">Sedang memuat data...</span>
+                </div>
+
+                <div id="sectionAbi" class="pt-2">
+                    <div class="flex items-center gap-2 mb-3">
+                        <div class="w-3 h-8 bg-blue-600 rounded-full"></div>
+                        <h4 class="font-bold text-slate-700 text-lg">Riwayat Abi</h4>
                     </div>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left text-sm">
-                            <thead class="bg-white text-gray-500 border-b border-gray-100">
-                                <tr>
-                                    <th class="px-4 py-3 font-semibold">Tgl</th>
-                                    <th class="px-4 py-3 font-semibold">Siapa</th>
-                                    <th class="px-4 py-3 font-semibold">Rincian</th>
-                                    <th class="px-4 py-3 font-semibold text-right">Rp</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tabelBody" class="divide-y divide-gray-50"></tbody>
-                        </table>
-                    </div>
-                    <div id="emptyState" class="hidden py-8 text-center text-gray-400 text-sm">
-                        Belum ada data bulan ini.
+                    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-sm">
+                                <thead class="bg-blue-50 text-blue-800 border-b border-blue-100">
+                                    <tr>
+                                        <th class="px-4 py-3 w-1/4">Tanggal</th>
+                                        <th class="px-4 py-3 w-1/2">Rincian <span class="text-[10px] font-normal text-blue-500">(Klik edit)</span></th>
+                                        <th class="px-4 py-3 w-1/4 text-right">Jumlah <span class="text-[10px] font-normal text-blue-500">(Klik edit)</span></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbodyAbi" class="divide-y divide-slate-50"></tbody>
+                            </table>
+                        </div>
+                        <div id="emptyAbi" class="hidden py-6 text-center text-slate-400 text-sm bg-slate-50">Tidak ada transaksi Abi bulan ini.</div>
                     </div>
                 </div>
+
+                <div id="sectionUmi" class="pt-6">
+                    <div class="flex items-center gap-2 mb-3">
+                        <div class="w-3 h-8 bg-pink-600 rounded-full"></div>
+                        <h4 class="font-bold text-slate-700 text-lg">Riwayat Umi</h4>
+                    </div>
+                    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-sm">
+                                <thead class="bg-pink-50 text-pink-800 border-b border-pink-100">
+                                    <tr>
+                                        <th class="px-4 py-3 w-1/4">Tanggal</th>
+                                        <th class="px-4 py-3 w-1/2">Rincian <span class="text-[10px] font-normal text-pink-500">(Klik edit)</span></th>
+                                        <th class="px-4 py-3 w-1/4 text-right">Jumlah <span class="text-[10px] font-normal text-pink-500">(Klik edit)</span></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbodyUmi" class="divide-y divide-slate-50"></tbody>
+                            </table>
+                        </div>
+                        <div id="emptyUmi" class="hidden py-6 text-center text-slate-400 text-sm bg-slate-50">Tidak ada transaksi Umi bulan ini.</div>
+                    </div>
+                </div>
+
             </section>
         </div>
     </div>
 
     <script>
-        // 1. SETUP DATABASE (Gunakan var agar aman di browser console lama)
+        // 1. KONFIGURASI
         var MY_SUPABASE_URL = 'https://rvlmszheenxbhehpzlne.supabase.co';
         var MY_SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ2bG1zemhlZW54YmhlaHB6bG5lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY0MDIyNDEsImV4cCI6MjA4MTk3ODI0MX0.qqrPfESiAVG2CO4l-AgEPQqZ2ZNAV5WEZZN7MLLHitA';
-        
         var supabase = window.supabase.createClient(MY_SUPABASE_URL, MY_SUPABASE_KEY);
 
-        // 2. REFERENCES ELEMENT
-        var views = {
-            input: document.getElementById('viewInput'),
-            laporan: document.getElementById('viewLaporan')
-        };
-        var tabs = {
-            input: document.getElementById('tabInput'),
-            laporan: document.getElementById('tabLaporan')
+        // 2. REFERENCES
+        var views = { input: document.getElementById('viewInput'), laporan: document.getElementById('viewLaporan') };
+        var tabs = { input: document.getElementById('tabInput'), laporan: document.getElementById('tabLaporan') };
+        var loading = document.getElementById('loadingIndicator');
+
+        // 3. FUNGSI EDIT DATA (NEW FEATURE)
+        window.editData = async function(id, field, oldValue) {
+            // Tanya user input baru
+            var newValue = prompt(`Edit ${field === 'jumlah' ? 'Jumlah (Masukkan 0 untuk HAPUS)' : 'Rincian (Kosongkan untuk HAPUS)'}:`, oldValue);
+
+            // Jika user menekan Cancel
+            if (newValue === null) return;
+
+            // LOGIKA HAPUS: Jika jumlah 0 atau rincian kosong
+            if (newValue.trim() === '' || newValue === '0') {
+                if (confirm("Yakin ingin MENGHAPUS data ini?")) {
+                    loading.classList.remove('hidden');
+                    const { error } = await supabase.from('transaksi_keuangan').delete().eq('id', id);
+                    if (!error) {
+                        alert("Data dihapus.");
+                        fetchData();
+                    } else {
+                        alert("Gagal hapus.");
+                    }
+                    loading.classList.add('hidden');
+                }
+                return;
+            }
+
+            // LOGIKA UPDATE
+            loading.classList.remove('hidden');
+            var updatePayload = {};
+            // Jika field jumlah, pastikan formatnya angka
+            updatePayload[field] = field === 'jumlah' ? parseFloat(newValue) : newValue;
+
+            const { error } = await supabase.from('transaksi_keuangan').update(updatePayload).eq('id', id);
+            
+            loading.classList.add('hidden');
+            if (error) {
+                alert("Gagal update: " + error.message);
+            } else {
+                fetchData(); // Refresh otomatis
+            }
         };
 
-        // 3. FUNGSI PINDAH TAB
-        // Dipasang ke window agar pasti bisa dipanggil onclick
+        // 4. NAVIGASI TAB
         window.pindahTab = function(namaTab) {
-            console.log('Pindah ke tab:', namaTab); // Debugging
-
             if (namaTab === 'input') {
-                // Tampilkan Input, Sembunyikan Laporan
                 views.input.classList.remove('hidden');
                 views.laporan.classList.add('hidden');
                 
-                // Style Tombol
-                tabs.input.className = "px-6 py-1.5 rounded-lg text-sm font-semibold transition-all shadow-sm bg-white text-indigo-600";
+                // Style Active Input (Biru Solid)
+                tabs.input.className = "px-6 py-1.5 rounded-lg text-sm font-bold transition-all shadow-md bg-indigo-600 text-white transform scale-105";
                 tabs.laporan.className = "px-6 py-1.5 rounded-lg text-sm font-semibold transition-all text-gray-500 hover:text-gray-700";
             
             } else if (namaTab === 'laporan') {
-                // Tampilkan Laporan, Sembunyikan Input
                 views.input.classList.add('hidden');
                 views.laporan.classList.remove('hidden');
 
-                // Style Tombol
-                tabs.laporan.className = "px-6 py-1.5 rounded-lg text-sm font-semibold transition-all shadow-sm bg-white text-indigo-600";
+                // Style Active Laporan (Biru Solid)
+                tabs.laporan.className = "px-6 py-1.5 rounded-lg text-sm font-bold transition-all shadow-md bg-indigo-600 text-white transform scale-105";
                 tabs.input.className = "px-6 py-1.5 rounded-lg text-sm font-semibold transition-all text-gray-500 hover:text-gray-700";
 
-                // Ambil data terbaru
                 fetchData();
             }
         };
 
-        // 4. LOGIC DATABASE & UI
-        var filterBulan = document.getElementById('filterBulan');
-        var loadingIndicator = document.getElementById('loadingIndicator');
-        var tabelBody = document.getElementById('tabelBody');
-        var emptyState = document.getElementById('emptyState');
-        
-        // Helper Format Rupiah
+        // 5. HELPER FORMAT
         function formatRupiah(angka) {
             return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(angka);
         }
-
-        // Helper Format Tanggal
         function formatTanggal(str) {
             var d = new Date(str);
             return d.getDate() + '/' + (d.getMonth() + 1);
         }
 
-        // Fetch Data
+        // 6. FETCH DATA
         async function fetchData() {
-            loadingIndicator.classList.remove('hidden');
-            var bulan = filterBulan.value;
+            loading.classList.remove('hidden');
+            var bulan = document.getElementById('filterBulan').value;
 
             var { data, error } = await supabase
                 .from('transaksi_keuangan')
@@ -234,87 +292,87 @@
                 .order('tanggal', { ascending: false })
                 .order('created_at', { ascending: false });
 
-            loadingIndicator.classList.add('hidden');
+            loading.classList.add('hidden');
+            if (error) { console.error(error); return; }
 
-            if (error) {
-                console.error("Error:", error);
-                return;
-            }
+            // Pisahkan Data Abi & Umi
+            var dataAbi = data.filter(x => x.pelapor === 'Abi');
+            var dataUmi = data.filter(x => x.pelapor === 'Umi');
 
-            renderTabel(data);
+            renderTabel('tbodyAbi', 'emptyAbi', dataAbi);
+            renderTabel('tbodyUmi', 'emptyUmi', dataUmi);
+            
             hitungSaldo(data);
         }
 
-        // Render Tabel
-        function renderTabel(data) {
-            tabelBody.innerHTML = '';
-            if (!data || data.length === 0) {
-                emptyState.classList.remove('hidden');
+        // 7. RENDER TABEL GENERIK
+        function renderTabel(tbodyId, emptyId, dataset) {
+            var tbody = document.getElementById(tbodyId);
+            var emptyDiv = document.getElementById(emptyId);
+            tbody.innerHTML = '';
+
+            if (dataset.length === 0) {
+                emptyDiv.classList.remove('hidden');
                 return;
             }
-            emptyState.classList.add('hidden');
+            emptyDiv.classList.add('hidden');
 
-            data.forEach(function(item) {
+            dataset.forEach(function(item) {
                 var tr = document.createElement('tr');
-                tr.className = "hover:bg-gray-50 transition";
+                tr.className = "hover:bg-slate-50 transition border-b border-slate-50";
                 
-                var warnaUang = item.jenis === 'pengeluaran' ? 'text-red-500' : 'text-green-600';
-                var badgeWarna = item.pelapor === 'Abi' ? 'bg-blue-50 text-blue-600' : 'bg-pink-50 text-pink-600';
-
+                var colorClass = item.jenis === 'pengeluaran' ? 'text-red-500' : 'text-green-600';
+                
+                // Perhatikan onclick di TD Rincian dan Jumlah
                 tr.innerHTML = `
-                    <td class="px-4 py-3 text-gray-500">${formatTanggal(item.tanggal)}</td>
-                    <td class="px-4 py-3">
-                        <span class="px-2 py-1 rounded text-xs font-bold uppercase ${badgeWarna}">${item.pelapor}</span>
+                    <td class="px-4 py-3 text-slate-400 text-xs align-middle">
+                        ${formatTanggal(item.tanggal)}
                     </td>
-                    <td class="px-4 py-3 text-gray-700 font-medium">${item.rincian}</td>
-                    <td class="px-4 py-3 text-right font-bold ${warnaUang}">${formatRupiah(item.jumlah)}</td>
+                    <td class="px-4 py-3 text-slate-700 font-medium editable align-middle" 
+                        onclick="window.editData(${item.id}, 'rincian', '${item.rincian}')" title="Klik untuk edit">
+                        ${item.rincian}
+                    </td>
+                    <td class="px-4 py-3 text-right font-bold ${colorClass} editable align-middle"
+                        onclick="window.editData(${item.id}, 'jumlah', '${item.jumlah}')" title="Klik untuk edit">
+                        ${formatRupiah(item.jumlah)}
+                    </td>
                 `;
-                tabelBody.appendChild(tr);
+                tbody.appendChild(tr);
             });
         }
 
-        // Hitung Saldo
+        // 8. HITUNG SALDO
         function hitungSaldo(data) {
-            var stats = { 
-                abi: { masuk: 0, keluar: 0 }, 
-                umi: { masuk: 0, keluar: 0 } 
-            };
+            var s = { abi: {m:0, k:0}, umi: {m:0, k:0} };
 
-            data.forEach(function(item) {
-                var rp = parseFloat(item.jumlah);
+            data.forEach(item => {
+                var n = parseFloat(item.jumlah);
                 if (item.pelapor === 'Abi') {
-                    if (item.jenis === 'pemasukan') stats.abi.masuk += rp;
-                    else stats.abi.keluar += rp;
+                    if (item.jenis==='pemasukan') s.abi.m += n; else s.abi.k += n;
                 } else {
-                    if (item.jenis === 'pemasukan') stats.umi.masuk += rp;
-                    else stats.umi.keluar += rp;
+                    if (item.jenis==='pemasukan') s.umi.m += n; else s.umi.k += n;
                 }
             });
 
-            document.getElementById('masukAbi').innerText = formatRupiah(stats.abi.masuk);
-            document.getElementById('keluarAbi').innerText = formatRupiah(stats.abi.keluar);
-            document.getElementById('sisaAbi').innerText = formatRupiah(stats.abi.masuk - stats.abi.keluar);
+            document.getElementById('masukAbi').innerText = formatRupiah(s.abi.m);
+            document.getElementById('keluarAbi').innerText = formatRupiah(s.abi.k);
+            document.getElementById('sisaAbi').innerText = formatRupiah(s.abi.m - s.abi.k);
 
-            document.getElementById('masukUmi').innerText = formatRupiah(stats.umi.masuk);
-            document.getElementById('keluarUmi').innerText = formatRupiah(stats.umi.keluar);
-            document.getElementById('sisaUmi').innerText = formatRupiah(stats.umi.masuk - stats.umi.keluar);
+            document.getElementById('masukUmi').innerText = formatRupiah(s.umi.m);
+            document.getElementById('keluarUmi').innerText = formatRupiah(s.umi.k);
+            document.getElementById('sisaUmi').innerText = formatRupiah(s.umi.m - s.umi.k);
         }
 
-        // Submit Form
-        var form = document.getElementById('formTransaksi');
-        var btn = document.getElementById('btnSubmit');
-
-        form.addEventListener('submit', async function(e) {
+        // 9. HANDLE SUBMIT
+        document.getElementById('formTransaksi').addEventListener('submit', async function(e) {
             e.preventDefault();
-            btn.innerText = 'Menyimpan...';
-            btn.disabled = true;
+            var btn = document.getElementById('btnSubmit');
+            btn.innerText = 'Menyimpan...'; btn.disabled = true;
 
             var tgl = document.getElementById('inputTanggal').value;
-            var bln = tgl.slice(0, 7);
-            
             var payload = {
                 tanggal: tgl,
-                bulan_key: bln,
+                bulan_key: tgl.slice(0, 7),
                 pelapor: document.getElementById('inputPelapor').value,
                 jenis: document.getElementById('inputJenis').value,
                 jumlah: document.getElementById('inputJumlah').value,
@@ -322,37 +380,34 @@
             };
 
             var { error } = await supabase.from('transaksi_keuangan').insert([payload]);
+            
+            btn.innerText = 'Simpan Data'; btn.disabled = false;
 
             if (error) {
-                alert('Error: ' + error.message);
+                alert('Gagal: ' + error.message);
             } else {
-                form.reset();
+                this.reset();
                 document.getElementById('inputTanggal').valueAsDate = new Date();
+                document.getElementById('filterBulan').value = tgl.slice(0, 7);
+                pindahTab('laporan');
                 
-                // Pindah ke tab laporan
-                filterBulan.value = bln;
-                window.pindahTab('laporan');
-                alert('Berhasil disimpan!');
+                // Auto scroll ke tabel yang bersangkutan
+                setTimeout(() => {
+                   var targetId = payload.pelapor === 'Abi' ? 'sectionAbi' : 'sectionUmi';
+                   document.getElementById(targetId).scrollIntoView({behavior: 'smooth'});
+                }, 500);
             }
-            btn.innerText = 'Simpan Data';
-            btn.disabled = false;
         });
 
-        // Init Saat Loading Selesai
-        window.addEventListener('DOMContentLoaded', function() {
-            // Set Tanggal Hari Ini
+        // INIT
+        window.addEventListener('DOMContentLoaded', () => {
             document.getElementById('inputTanggal').valueAsDate = new Date();
-            // Set Filter Bulan Ini
             var today = new Date();
-            var m = today.getMonth() + 1; 
-            var y = today.getFullYear();
-            if(m < 10) m = '0'+m;
-            filterBulan.value = y + '-' + m;
+            var m = String(today.getMonth()+1).padStart(2,'0');
+            document.getElementById('filterBulan').value = today.getFullYear() + '-' + m;
         });
 
-        // Listener Filter
-        filterBulan.addEventListener('change', fetchData);
-
+        document.getElementById('filterBulan').addEventListener('change', fetchData);
     </script>
 </body>
 </html>
