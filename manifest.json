@@ -1,6 +1,6 @@
 {
-  "name": "Dompet Keluarga Kita",
-  "short_name": "DompetKeluarga",
+  "name": "Dompet Keluarga",
+  "short_name": "DK",
   "start_url": "index.html",
   "display": "standalone",
   "background_color": "#ffffff",
