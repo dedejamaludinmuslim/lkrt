@@ -22,17 +22,25 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .hidden { display: none !important; }
         .editable:hover { background-color: #FEF3C7; cursor: pointer; text-decoration: underline; text-decoration-style: dotted; border-radius: 4px; }
+        
+        /* SweetAlert Styling */
         .swal2-popup { border-radius: 1rem !important; font-family: 'Plus Jakarta Sans', sans-serif; }
         .swal2-confirm { background-color: #4F46E5 !important; box-shadow: none !important; }
         .swal2-cancel { background-color: #EF4444 !important; }
+        
+        /* Scrollbar Halus */
         html { scroll-behavior: smooth; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
     </style>
 </head>
 <body class="text-slate-800 h-screen flex flex-col overflow-hidden">
 
     <nav class="bg-white shadow-sm border-b border-slate-200 sticky top-0 z-50 flex-none">
         <div class="max-w-3xl mx-auto px-4 w-full">
-            <div class="flex flex-col sm:flex-row justify-between h-auto sm:h-16 items-center py-3 sm:py-0 gap-3 sm:gap-0">
+            <div class="flex flex-col sm:flex-row justify-between items-center py-3 sm:py-0 gap-3 sm:h-16">
+                
                 <div class="flex items-center justify-between w-full sm:w-auto gap-3">
                     <div class="flex items-center gap-2">
                         <div class="bg-slate-800 text-white p-1.5 rounded-lg font-bold text-sm">DK</div>
@@ -43,20 +51,21 @@
                     </button>
                 </div>
                 
-                <div class="flex bg-slate-100 p-1 rounded-xl w-full sm:w-auto mt-2 sm:mt-0">
-                    <button type="button" onclick="pindahTab('input')" id="tabInput" class="flex-1 sm:flex-none px-6 py-1.5 rounded-lg text-sm font-bold transition-all shadow-md bg-indigo-600 text-white transform scale-105">
+                <div class="flex justify-center bg-slate-100 p-1 rounded-xl w-full sm:w-auto mt-1 sm:mt-0 mx-auto sm:mx-0">
+                    <button type="button" onclick="pindahTab('input')" id="tabInput" class="w-1/2 sm:w-auto px-6 py-1.5 rounded-lg text-sm font-bold transition-all shadow-md bg-indigo-600 text-white transform scale-105 text-center">
                         + Input Baru
                     </button>
-                    <button type="button" onclick="pindahTab('laporan')" id="tabLaporan" class="flex-1 sm:flex-none px-6 py-1.5 rounded-lg text-sm font-semibold transition-all text-slate-500 hover:text-slate-700">
+                    <button type="button" onclick="pindahTab('laporan')" id="tabLaporan" class="w-1/2 sm:w-auto px-6 py-1.5 rounded-lg text-sm font-semibold transition-all text-slate-500 hover:text-slate-700 text-center">
                         Lihat Laporan
                     </button>
                 </div>
+
             </div>
         </div>
     </nav>
 
     <div class="flex-1 overflow-y-auto bg-slate-50">
-        <div class="max-w-3xl mx-auto px-4 py-6 pb-24">
+        <div class="max-w-3xl mx-auto px-4 py-6 pb-32">
             
             <section id="viewInput" class="fade-in">
                 <div class="bg-white p-6 sm:p-8 rounded-3xl shadow-xl border border-slate-200 max-w-lg mx-auto mt-4">
@@ -120,7 +129,7 @@
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div onclick="document.getElementById('sectionAbi').scrollIntoView({behavior: 'smooth'})" class="bg-white rounded-2xl shadow-md overflow-hidden border border-blue-100 cursor-pointer transform hover:scale-[1.02] transition duration-200 group">
+                    <div onclick="document.getElementById('sectionAbi').scrollIntoView({behavior: 'smooth'})" class="bg-white rounded-2xl shadow-md overflow-hidden border border-blue-100 cursor-pointer transform hover:scale-[1.01] transition duration-200 group">
                         <div class="card-gradient-abi p-5 text-white relative">
                             <p class="text-blue-100 text-xs font-bold uppercase tracking-wider mb-1">Dompet Abi</p>
                             <h2 class="text-3xl font-bold" id="sisaAbi">Rp 0</h2>
@@ -132,7 +141,7 @@
                         </div>
                     </div>
                     
-                    <div onclick="document.getElementById('sectionUmi').scrollIntoView({behavior: 'smooth'})" class="bg-white rounded-2xl shadow-md overflow-hidden border border-pink-100 cursor-pointer transform hover:scale-[1.02] transition duration-200 group">
+                    <div onclick="document.getElementById('sectionUmi').scrollIntoView({behavior: 'smooth'})" class="bg-white rounded-2xl shadow-md overflow-hidden border border-pink-100 cursor-pointer transform hover:scale-[1.01] transition duration-200 group">
                         <div class="card-gradient-umi p-5 text-white relative">
                             <p class="text-pink-100 text-xs font-bold uppercase tracking-wider mb-1">Dompet Umi</p>
                             <h2 class="text-3xl font-bold" id="sisaUmi">Rp 0</h2>
@@ -151,7 +160,7 @@
 
                 <div id="sectionAbi" class="pt-2">
                     <div class="flex items-center gap-2 mb-3">
-                        <div class="w-3 h-8 bg-blue-600 rounded-full"></div>
+                        <div class="w-1 h-6 bg-blue-600 rounded-full"></div>
                         <h4 class="font-bold text-slate-700 text-lg">Riwayat Abi</h4>
                     </div>
                     <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
@@ -173,7 +182,7 @@
 
                 <div id="sectionUmi" class="pt-6">
                     <div class="flex items-center gap-2 mb-3">
-                        <div class="w-3 h-8 bg-pink-600 rounded-full"></div>
+                        <div class="w-1 h-6 bg-pink-600 rounded-full"></div>
                         <h4 class="font-bold text-slate-700 text-lg">Riwayat Umi</h4>
                     </div>
                     <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
@@ -214,6 +223,7 @@
             e.preventDefault();
             deferredPrompt = e;
             btnInstall.classList.remove('hidden');
+            btnInstall.classList.add('flex'); // Munculkan tombol
         });
 
         btnInstall.addEventListener('click', async () => {
@@ -222,6 +232,7 @@
             const { outcome } = await deferredPrompt.userChoice;
             if (outcome === 'accepted') {
                 btnInstall.classList.add('hidden');
+                btnInstall.classList.remove('flex');
                 deferredPrompt = null;
             }
         });
@@ -239,22 +250,30 @@
             if (namaTab === 'input') {
                 views.input.classList.remove('hidden');
                 views.laporan.classList.add('hidden');
-                tabs.input.className = "px-6 py-1.5 rounded-lg text-sm font-bold transition-all shadow-md bg-indigo-600 text-white transform scale-105";
-                tabs.laporan.className = "px-6 py-1.5 rounded-lg text-sm font-semibold transition-all text-slate-500 hover:text-slate-700";
+                // Tombol Aktif
+                tabs.input.className = "w-1/2 sm:w-auto px-6 py-1.5 rounded-lg text-sm font-bold transition-all shadow-md bg-indigo-600 text-white transform scale-105 text-center";
+                // Tombol Non-Aktif
+                tabs.laporan.className = "w-1/2 sm:w-auto px-6 py-1.5 rounded-lg text-sm font-semibold transition-all text-slate-500 hover:text-slate-700 text-center";
+                
                 fetchSuggestions();
             } else {
                 views.input.classList.add('hidden');
                 views.laporan.classList.remove('hidden');
-                tabs.laporan.className = "px-6 py-1.5 rounded-lg text-sm font-bold transition-all shadow-md bg-indigo-600 text-white transform scale-105";
-                tabs.input.className = "px-6 py-1.5 rounded-lg text-sm font-semibold transition-all text-slate-500 hover:text-slate-700";
+                // Tombol Non-Aktif
+                tabs.input.className = "w-1/2 sm:w-auto px-6 py-1.5 rounded-lg text-sm font-semibold transition-all text-slate-500 hover:text-slate-700 text-center";
+                // Tombol Aktif
+                tabs.laporan.className = "w-1/2 sm:w-auto px-6 py-1.5 rounded-lg text-sm font-bold transition-all shadow-md bg-indigo-600 text-white transform scale-105 text-center";
+                
                 fetchData();
             }
         };
 
         window.editData = async function(id, field, oldValue) {
             const inputType = field === 'jumlah' ? 'number' : 'text';
+            const labelText = field === 'jumlah' ? 'Jumlah Transaksi (Rp)' : 'Rincian Transaksi';
+            
             const { value: newValue } = await Swal.fire({
-                title: 'Edit Data', input: inputType, inputValue: oldValue, showCancelButton: true, confirmButtonText: 'Simpan', inputPlaceholder: 'Nilai baru...', footer: '<span class="text-xs text-gray-400">Isi 0 atau kosongkan untuk menghapus</span>'
+                title: 'Edit Data', input: inputType, inputLabel: labelText, inputValue: oldValue, showCancelButton: true, confirmButtonText: 'Simpan', inputPlaceholder: 'Nilai baru...', footer: '<span class="text-xs text-gray-400">Isi 0 atau kosongkan untuk menghapus</span>'
             });
 
             if (newValue === undefined || newValue === null) return;
