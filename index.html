@@ -4,8 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dompet Keluarga Kita</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
+    
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
     
     <style>
@@ -13,28 +18,32 @@
         .card-gradient-abi { background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%); }
         .card-gradient-umi { background: linear-gradient(135deg, #DB2777 0%, #BE185D 100%); }
         
-        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+        .fade-in { animation: fadeIn 0.4s ease-out; }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
         .hidden { display: none !important; }
         
-        /* Style untuk cell yang bisa diedit */
         .editable:hover {
-            background-color: #FEF3C7; /* Kuning muda saat dihover */
+            background-color: #FEF3C7;
             cursor: pointer;
             text-decoration: underline;
             text-decoration-style: dotted;
+            border-radius: 4px;
         }
         
-        /* Smooth scrolling */
+        /* Custom SweetAlert Style Override */
+        .swal2-popup { border-radius: 1rem !important; font-family: 'Plus Jakarta Sans', sans-serif; }
+        .swal2-confirm { background-color: #4F46E5 !important; box-shadow: none !important; }
+        .swal2-cancel { background-color: #EF4444 !important; }
+        
         html { scroll-behavior: smooth; }
     </style>
 </head>
-<body class="text-gray-800 h-screen flex flex-col overflow-hidden">
+<body class="text-slate-800 h-screen flex flex-col overflow-hidden">
 
-    <nav class="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50 flex-none">
+    <nav class="bg-white shadow-sm border-b border-slate-200 sticky top-0 z-50 flex-none">
         <div class="max-w-3xl mx-auto px-4 w-full">
             <div class="flex flex-col sm:flex-row justify-between h-auto sm:h-16 items-center py-3 sm:py-0 gap-3 sm:gap-0">
                 <div class="flex items-center gap-2">
@@ -46,7 +55,7 @@
                     <button type="button" onclick="pindahTab('input')" id="tabInput" class="px-6 py-1.5 rounded-lg text-sm font-bold transition-all shadow-md bg-indigo-600 text-white transform scale-105">
                         + Input Baru
                     </button>
-                    <button type="button" onclick="pindahTab('laporan')" id="tabLaporan" class="px-6 py-1.5 rounded-lg text-sm font-semibold transition-all text-gray-500 hover:text-gray-700">
+                    <button type="button" onclick="pindahTab('laporan')" id="tabLaporan" class="px-6 py-1.5 rounded-lg text-sm font-semibold transition-all text-slate-500 hover:text-slate-700">
                         Lihat Laporan
                     </button>
                 </div>
@@ -55,7 +64,7 @@
     </nav>
 
     <div class="flex-1 overflow-y-auto bg-slate-50">
-        <div class="max-w-3xl mx-auto px-4 py-6 pb-20">
+        <div class="max-w-3xl mx-auto px-4 py-6 pb-24">
             
             <section id="viewInput" class="fade-in">
                 <div class="bg-white p-6 sm:p-8 rounded-3xl shadow-xl border border-slate-200 max-w-lg mx-auto mt-4">
@@ -93,13 +102,15 @@
                             <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Jumlah (Rp)</label>
                             <div class="relative">
                                 <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-slate-400 font-bold">Rp</span>
-                                <input type="number" id="inputJumlah" required min="0" placeholder="0" class="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-indigo-500 outline-none transition text-lg font-bold text-slate-800">
+                                <input type="number" id="inputJumlah" list="listJumlah" required min="0" placeholder="0" class="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-indigo-500 outline-none transition text-lg font-bold text-slate-800">
+                                <datalist id="listJumlah"></datalist>
                             </div>
                         </div>
 
                         <div>
                             <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Rincian</label>
-                            <textarea id="inputRincian" required rows="2" placeholder="Contoh: Belanja Sayur, Bensin" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-indigo-500 outline-none transition"></textarea>
+                            <input type="text" id="inputRincian" list="listRincian" required placeholder="Contoh: Belanja Sayur, Bensin" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-indigo-500 outline-none transition">
+                            <datalist id="listRincian"></datalist>
                         </div>
 
                         <button type="submit" id="btnSubmit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3.5 rounded-xl transition duration-200 shadow-lg shadow-indigo-200 transform hover:-translate-y-0.5">
@@ -121,9 +132,7 @@
                         <div class="card-gradient-abi p-5 text-white relative">
                             <p class="text-blue-100 text-xs font-bold uppercase tracking-wider mb-1">Dompet Abi</p>
                             <h2 class="text-3xl font-bold" id="sisaAbi">Rp 0</h2>
-                            <div class="absolute right-4 top-4 opacity-50 group-hover:opacity-100 transition">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" /></svg>
-                            </div>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="absolute right-4 top-4 h-6 w-6 text-white opacity-50 group-hover:opacity-100 transition" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" /></svg>
                         </div>
                         <div class="p-3 grid grid-cols-2 divide-x divide-gray-100 text-sm text-center">
                             <div><span class="text-gray-400 text-xs block">Masuk</span><span class="text-green-600 font-bold" id="masukAbi">0</span></div>
@@ -135,9 +144,7 @@
                         <div class="card-gradient-umi p-5 text-white relative">
                             <p class="text-pink-100 text-xs font-bold uppercase tracking-wider mb-1">Dompet Umi</p>
                             <h2 class="text-3xl font-bold" id="sisaUmi">Rp 0</h2>
-                            <div class="absolute right-4 top-4 opacity-50 group-hover:opacity-100 transition">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" /></svg>
-                            </div>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="absolute right-4 top-4 h-6 w-6 text-white opacity-50 group-hover:opacity-100 transition" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" /></svg>
                         </div>
                         <div class="p-3 grid grid-cols-2 divide-x divide-gray-100 text-sm text-center">
                             <div><span class="text-gray-400 text-xs block">Masuk</span><span class="text-green-600 font-bold" id="masukUmi">0</span></div>
@@ -161,8 +168,8 @@
                                 <thead class="bg-blue-50 text-blue-800 border-b border-blue-100">
                                     <tr>
                                         <th class="px-4 py-3 w-1/4">Tanggal</th>
-                                        <th class="px-4 py-3 w-1/2">Rincian <span class="text-[10px] font-normal text-blue-500">(Klik edit)</span></th>
-                                        <th class="px-4 py-3 w-1/4 text-right">Jumlah <span class="text-[10px] font-normal text-blue-500">(Klik edit)</span></th>
+                                        <th class="px-4 py-3 w-1/2">Rincian</th>
+                                        <th class="px-4 py-3 w-1/4 text-right">Jumlah</th>
                                     </tr>
                                 </thead>
                                 <tbody id="tbodyAbi" class="divide-y divide-slate-50"></tbody>
@@ -183,8 +190,8 @@
                                 <thead class="bg-pink-50 text-pink-800 border-b border-pink-100">
                                     <tr>
                                         <th class="px-4 py-3 w-1/4">Tanggal</th>
-                                        <th class="px-4 py-3 w-1/2">Rincian <span class="text-[10px] font-normal text-pink-500">(Klik edit)</span></th>
-                                        <th class="px-4 py-3 w-1/4 text-right">Jumlah <span class="text-[10px] font-normal text-pink-500">(Klik edit)</span></th>
+                                        <th class="px-4 py-3 w-1/2">Rincian</th>
+                                        <th class="px-4 py-3 w-1/4 text-right">Jumlah</th>
                                     </tr>
                                 </thead>
                                 <tbody id="tbodyUmi" class="divide-y divide-slate-50"></tbody>
@@ -199,175 +206,190 @@
     </div>
 
     <script>
-        // 1. KONFIGURASI
+        // 1. SETUP
         var MY_SUPABASE_URL = 'https://rvlmszheenxbhehpzlne.supabase.co';
         var MY_SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ2bG1zemhlZW54YmhlaHB6bG5lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY0MDIyNDEsImV4cCI6MjA4MTk3ODI0MX0.qqrPfESiAVG2CO4l-AgEPQqZ2ZNAV5WEZZN7MLLHitA';
         var supabase = window.supabase.createClient(MY_SUPABASE_URL, MY_SUPABASE_KEY);
 
-        // 2. REFERENCES
         var views = { input: document.getElementById('viewInput'), laporan: document.getElementById('viewLaporan') };
         var tabs = { input: document.getElementById('tabInput'), laporan: document.getElementById('tabLaporan') };
         var loading = document.getElementById('loadingIndicator');
 
-        // 3. FUNGSI EDIT DATA (NEW FEATURE)
+        // 2. NAVIGASI
+        window.pindahTab = function(namaTab) {
+            if (namaTab === 'input') {
+                views.input.classList.remove('hidden');
+                views.laporan.classList.add('hidden');
+                tabs.input.className = "px-6 py-1.5 rounded-lg text-sm font-bold transition-all shadow-md bg-indigo-600 text-white transform scale-105";
+                tabs.laporan.className = "px-6 py-1.5 rounded-lg text-sm font-semibold transition-all text-slate-500 hover:text-slate-700";
+                
+                // Load rekomendasi saat masuk tab input
+                fetchSuggestions();
+
+            } else {
+                views.input.classList.add('hidden');
+                views.laporan.classList.remove('hidden');
+                tabs.laporan.className = "px-6 py-1.5 rounded-lg text-sm font-bold transition-all shadow-md bg-indigo-600 text-white transform scale-105";
+                tabs.input.className = "px-6 py-1.5 rounded-lg text-sm font-semibold transition-all text-slate-500 hover:text-slate-700";
+                fetchData();
+            }
+        };
+
+        // 3. EDIT DATA with SWEETALERT
         window.editData = async function(id, field, oldValue) {
-            // Tanya user input baru
-            var newValue = prompt(`Edit ${field === 'jumlah' ? 'Jumlah (Masukkan 0 untuk HAPUS)' : 'Rincian (Kosongkan untuk HAPUS)'}:`, oldValue);
+            // Konfigurasi Input SweetAlert
+            const inputType = field === 'jumlah' ? 'number' : 'text';
+            const labelText = field === 'jumlah' ? 'Jumlah Transaksi (Rp)' : 'Rincian Transaksi';
 
-            // Jika user menekan Cancel
-            if (newValue === null) return;
+            const { value: newValue } = await Swal.fire({
+                title: 'Edit Data',
+                input: inputType,
+                inputLabel: labelText,
+                inputValue: oldValue,
+                showCancelButton: true,
+                confirmButtonText: 'Simpan',
+                cancelButtonText: 'Batal',
+                inputPlaceholder: 'Masukkan nilai baru...',
+                footer: '<span class="text-xs text-gray-400">Isi 0 atau kosongkan untuk menghapus</span>'
+            });
 
-            // LOGIKA HAPUS: Jika jumlah 0 atau rincian kosong
-            if (newValue.trim() === '' || newValue === '0') {
-                if (confirm("Yakin ingin MENGHAPUS data ini?")) {
-                    loading.classList.remove('hidden');
-                    const { error } = await supabase.from('transaksi_keuangan').delete().eq('id', id);
-                    if (!error) {
-                        alert("Data dihapus.");
-                        fetchData();
-                    } else {
-                        alert("Gagal hapus.");
+            // Jika user tekan Cancel
+            if (newValue === undefined || newValue === null) return;
+
+            // LOGIKA HAPUS
+            if (newValue.toString().trim() === '' || newValue.toString() === '0') {
+                Swal.fire({
+                    title: 'Hapus Data?',
+                    text: "Data akan dihapus permanen.",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Ya, Hapus!',
+                    cancelButtonText: 'Batal'
+                }).then(async (result) => {
+                    if (result.isConfirmed) {
+                        loading.classList.remove('hidden');
+                        const { error } = await supabase.from('transaksi_keuangan').delete().eq('id', id);
+                        loading.classList.add('hidden');
+                        
+                        if (!error) {
+                            Swal.fire('Terhapus!', 'Data berhasil dihapus.', 'success');
+                            fetchData();
+                        } else {
+                            Swal.fire('Error', error.message, 'error');
+                        }
                     }
-                    loading.classList.add('hidden');
-                }
+                });
                 return;
             }
 
             // LOGIKA UPDATE
             loading.classList.remove('hidden');
             var updatePayload = {};
-            // Jika field jumlah, pastikan formatnya angka
             updatePayload[field] = field === 'jumlah' ? parseFloat(newValue) : newValue;
 
             const { error } = await supabase.from('transaksi_keuangan').update(updatePayload).eq('id', id);
-            
             loading.classList.add('hidden');
-            if (error) {
-                alert("Gagal update: " + error.message);
-            } else {
-                fetchData(); // Refresh otomatis
-            }
-        };
-
-        // 4. NAVIGASI TAB
-        window.pindahTab = function(namaTab) {
-            if (namaTab === 'input') {
-                views.input.classList.remove('hidden');
-                views.laporan.classList.add('hidden');
-                
-                // Style Active Input (Biru Solid)
-                tabs.input.className = "px-6 py-1.5 rounded-lg text-sm font-bold transition-all shadow-md bg-indigo-600 text-white transform scale-105";
-                tabs.laporan.className = "px-6 py-1.5 rounded-lg text-sm font-semibold transition-all text-gray-500 hover:text-gray-700";
             
-            } else if (namaTab === 'laporan') {
-                views.input.classList.add('hidden');
-                views.laporan.classList.remove('hidden');
-
-                // Style Active Laporan (Biru Solid)
-                tabs.laporan.className = "px-6 py-1.5 rounded-lg text-sm font-bold transition-all shadow-md bg-indigo-600 text-white transform scale-105";
-                tabs.input.className = "px-6 py-1.5 rounded-lg text-sm font-semibold transition-all text-gray-500 hover:text-gray-700";
-
+            if (error) {
+                Swal.fire('Gagal Update', error.message, 'error');
+            } else {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil',
+                    text: 'Data telah diperbarui',
+                    timer: 1500,
+                    showConfirmButton: false
+                });
                 fetchData();
             }
         };
 
-        // 5. HELPER FORMAT
-        function formatRupiah(angka) {
-            return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(angka);
-        }
-        function formatTanggal(str) {
-            var d = new Date(str);
-            return d.getDate() + '/' + (d.getMonth() + 1);
+        // 4. FETCH SUGGESTIONS (REKOMENDASI)
+        async function fetchSuggestions() {
+            // Ambil 500 data terakhir untuk dijadikan referensi
+            const { data, error } = await supabase
+                .from('transaksi_keuangan')
+                .select('rincian, jumlah')
+                .order('created_at', { ascending: false })
+                .limit(500);
+
+            if (data) {
+                // Filter Unik Rincian
+                const rincianUnik = [...new Set(data.map(item => item.rincian))];
+                const listRincian = document.getElementById('listRincian');
+                listRincian.innerHTML = '';
+                rincianUnik.forEach(r => {
+                    const opt = document.createElement('option');
+                    opt.value = r;
+                    listRincian.appendChild(opt);
+                });
+
+                // Filter Unik Jumlah
+                const jumlahUnik = [...new Set(data.map(item => item.jumlah))];
+                const listJumlah = document.getElementById('listJumlah');
+                listJumlah.innerHTML = '';
+                jumlahUnik.forEach(j => {
+                    const opt = document.createElement('option');
+                    opt.value = j;
+                    listJumlah.appendChild(opt);
+                });
+            }
         }
 
-        // 6. FETCH DATA
+        // 5. CORE LOGIC (FETCH DATA)
+        function formatRupiah(angka) { return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(angka); }
+        function formatTanggal(str) { var d = new Date(str); return d.getDate() + '/' + (d.getMonth() + 1); }
+
         async function fetchData() {
             loading.classList.remove('hidden');
             var bulan = document.getElementById('filterBulan').value;
-
-            var { data, error } = await supabase
-                .from('transaksi_keuangan')
-                .select('*')
-                .eq('bulan_key', bulan)
-                .order('tanggal', { ascending: false })
-                .order('created_at', { ascending: false });
-
+            var { data, error } = await supabase.from('transaksi_keuangan').select('*').eq('bulan_key', bulan).order('tanggal', { ascending: false }).order('created_at', { ascending: false });
             loading.classList.add('hidden');
-            if (error) { console.error(error); return; }
+            if (error) return;
 
-            // Pisahkan Data Abi & Umi
-            var dataAbi = data.filter(x => x.pelapor === 'Abi');
-            var dataUmi = data.filter(x => x.pelapor === 'Umi');
-
-            renderTabel('tbodyAbi', 'emptyAbi', dataAbi);
-            renderTabel('tbodyUmi', 'emptyUmi', dataUmi);
-            
+            renderTabel('tbodyAbi', 'emptyAbi', data.filter(x => x.pelapor === 'Abi'));
+            renderTabel('tbodyUmi', 'emptyUmi', data.filter(x => x.pelapor === 'Umi'));
             hitungSaldo(data);
         }
 
-        // 7. RENDER TABEL GENERIK
         function renderTabel(tbodyId, emptyId, dataset) {
             var tbody = document.getElementById(tbodyId);
             var emptyDiv = document.getElementById(emptyId);
             tbody.innerHTML = '';
-
-            if (dataset.length === 0) {
-                emptyDiv.classList.remove('hidden');
-                return;
-            }
+            if (dataset.length === 0) { emptyDiv.classList.remove('hidden'); return; }
             emptyDiv.classList.add('hidden');
 
             dataset.forEach(function(item) {
                 var tr = document.createElement('tr');
                 tr.className = "hover:bg-slate-50 transition border-b border-slate-50";
-                
                 var colorClass = item.jenis === 'pengeluaran' ? 'text-red-500' : 'text-green-600';
-                
-                // Perhatikan onclick di TD Rincian dan Jumlah
                 tr.innerHTML = `
-                    <td class="px-4 py-3 text-slate-400 text-xs align-middle">
-                        ${formatTanggal(item.tanggal)}
-                    </td>
-                    <td class="px-4 py-3 text-slate-700 font-medium editable align-middle" 
-                        onclick="window.editData(${item.id}, 'rincian', '${item.rincian}')" title="Klik untuk edit">
-                        ${item.rincian}
-                    </td>
-                    <td class="px-4 py-3 text-right font-bold ${colorClass} editable align-middle"
-                        onclick="window.editData(${item.id}, 'jumlah', '${item.jumlah}')" title="Klik untuk edit">
-                        ${formatRupiah(item.jumlah)}
-                    </td>
+                    <td class="px-4 py-3 text-slate-400 text-xs align-middle">${formatTanggal(item.tanggal)}</td>
+                    <td class="px-4 py-3 text-slate-700 font-medium editable align-middle" onclick="window.editData(${item.id}, 'rincian', '${item.rincian}')">${item.rincian}</td>
+                    <td class="px-4 py-3 text-right font-bold ${colorClass} editable align-middle" onclick="window.editData(${item.id}, 'jumlah', '${item.jumlah}')">${formatRupiah(item.jumlah)}</td>
                 `;
                 tbody.appendChild(tr);
             });
         }
 
-        // 8. HITUNG SALDO
         function hitungSaldo(data) {
             var s = { abi: {m:0, k:0}, umi: {m:0, k:0} };
-
             data.forEach(item => {
                 var n = parseFloat(item.jumlah);
-                if (item.pelapor === 'Abi') {
-                    if (item.jenis==='pemasukan') s.abi.m += n; else s.abi.k += n;
-                } else {
-                    if (item.jenis==='pemasukan') s.umi.m += n; else s.umi.k += n;
-                }
+                if (item.pelapor === 'Abi') { if (item.jenis==='pemasukan') s.abi.m += n; else s.abi.k += n; } 
+                else { if (item.jenis==='pemasukan') s.umi.m += n; else s.umi.k += n; }
             });
-
-            document.getElementById('masukAbi').innerText = formatRupiah(s.abi.m);
-            document.getElementById('keluarAbi').innerText = formatRupiah(s.abi.k);
-            document.getElementById('sisaAbi').innerText = formatRupiah(s.abi.m - s.abi.k);
-
-            document.getElementById('masukUmi').innerText = formatRupiah(s.umi.m);
-            document.getElementById('keluarUmi').innerText = formatRupiah(s.umi.k);
-            document.getElementById('sisaUmi').innerText = formatRupiah(s.umi.m - s.umi.k);
+            document.getElementById('masukAbi').innerText = formatRupiah(s.abi.m); document.getElementById('keluarAbi').innerText = formatRupiah(s.abi.k); document.getElementById('sisaAbi').innerText = formatRupiah(s.abi.m - s.abi.k);
+            document.getElementById('masukUmi').innerText = formatRupiah(s.umi.m); document.getElementById('keluarUmi').innerText = formatRupiah(s.umi.k); document.getElementById('sisaUmi').innerText = formatRupiah(s.umi.m - s.umi.k);
         }
 
-        // 9. HANDLE SUBMIT
+        // 6. SUBMIT
         document.getElementById('formTransaksi').addEventListener('submit', async function(e) {
             e.preventDefault();
             var btn = document.getElementById('btnSubmit');
-            btn.innerText = 'Menyimpan...'; btn.disabled = true;
+            btn.innerHTML = '<span class="animate-spin inline-block mr-2">⟳</span> Menyimpan...'; btn.disabled = true;
 
             var tgl = document.getElementById('inputTanggal').value;
             var payload = {
@@ -380,22 +402,22 @@
             };
 
             var { error } = await supabase.from('transaksi_keuangan').insert([payload]);
-            
-            btn.innerText = 'Simpan Data'; btn.disabled = false;
+            btn.innerHTML = 'Simpan Data'; btn.disabled = false;
 
             if (error) {
-                alert('Gagal: ' + error.message);
+                Swal.fire('Gagal!', error.message, 'error');
             } else {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil Disimpan!',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
                 this.reset();
                 document.getElementById('inputTanggal').valueAsDate = new Date();
                 document.getElementById('filterBulan').value = tgl.slice(0, 7);
                 pindahTab('laporan');
-                
-                // Auto scroll ke tabel yang bersangkutan
-                setTimeout(() => {
-                   var targetId = payload.pelapor === 'Abi' ? 'sectionAbi' : 'sectionUmi';
-                   document.getElementById(targetId).scrollIntoView({behavior: 'smooth'});
-                }, 500);
+                setTimeout(() => { document.getElementById(payload.pelapor === 'Abi' ? 'sectionAbi' : 'sectionUmi').scrollIntoView({behavior: 'smooth'}); }, 500);
             }
         });
 
@@ -405,8 +427,8 @@
             var today = new Date();
             var m = String(today.getMonth()+1).padStart(2,'0');
             document.getElementById('filterBulan').value = today.getFullYear() + '-' + m;
+            fetchSuggestions(); // Load suggestions awal
         });
-
         document.getElementById('filterBulan').addEventListener('change', fetchData);
     </script>
 </body>
