@@ -28,39 +28,29 @@
         .swal2-confirm { background-color: #4F46E5 !important; box-shadow: none !important; }
         .swal2-cancel { background-color: #EF4444 !important; }
         
-        /* Scrollbar Halus */
+        /* Scrollbar */
         html { scroll-behavior: smooth; }
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #f1f1f1; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        
+        /* Safe Area untuk HP tanpa tombol fisik (iPhone X ke atas) */
+        .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
     </style>
 </head>
 <body class="text-slate-800 h-screen flex flex-col overflow-hidden">
 
-    <nav class="bg-white shadow-sm border-b border-slate-200 sticky top-0 z-50 flex-none">
-        <div class="max-w-3xl mx-auto px-4 w-full">
-            <div class="flex flex-col sm:flex-row justify-between items-center py-3 sm:py-0 gap-3 sm:h-16">
-                
-                <div class="flex items-center justify-between w-full sm:w-auto gap-3">
-                    <div class="flex items-center gap-2">
-                        <div class="bg-slate-800 text-white p-1.5 rounded-lg font-bold text-sm">DK</div>
-                        <span class="font-bold text-lg text-slate-800">Dompet Keluarga</span>
-                    </div>
-                    <button id="btnInstall" class="hidden text-xs bg-indigo-100 text-indigo-700 px-3 py-1.5 rounded-full font-bold hover:bg-indigo-200 transition items-center gap-1">
-                        📲 Install
-                    </button>
-                </div>
-                
-                <div class="flex justify-center bg-slate-100 p-1 rounded-xl w-full sm:w-auto mt-1 sm:mt-0 mx-auto sm:mx-0">
-                    <button type="button" onclick="pindahTab('input')" id="tabInput" class="w-1/2 sm:w-auto px-6 py-1.5 rounded-lg text-sm font-bold transition-all shadow-md bg-indigo-600 text-white transform scale-105 text-center">
-                        + Input Baru
-                    </button>
-                    <button type="button" onclick="pindahTab('laporan')" id="tabLaporan" class="w-1/2 sm:w-auto px-6 py-1.5 rounded-lg text-sm font-semibold transition-all text-slate-500 hover:text-slate-700 text-center">
-                        Lihat Laporan
-                    </button>
-                </div>
-
+    <nav class="bg-white shadow-sm border-b border-slate-200 sticky top-0 z-50 flex-none h-16">
+        <div class="max-w-3xl mx-auto px-4 h-full flex items-center justify-between">
+            
+            <div class="flex items-center gap-2">
+                <div class="bg-slate-800 text-white p-1.5 rounded-lg font-bold text-sm">DK</div>
+                <span class="font-bold text-lg text-slate-800">Dompet Keluarga</span>
             </div>
+
+            <button id="btnInstall" class="hidden text-xs bg-indigo-100 text-indigo-700 px-3 py-1.5 rounded-full font-bold hover:bg-indigo-200 transition items-center gap-1">
+                📲 Install
+            </button>
         </div>
     </nav>
 
@@ -84,14 +74,14 @@
                         
                         <div class="grid grid-cols-2 gap-4">
                             <div>
-                                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Siapa?</label>
+                                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Pelapor</label>
                                 <select id="inputPelapor" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-indigo-500 outline-none transition">
                                     <option value="Abi">Abi</option>
                                     <option value="Umi">Umi</option>
                                 </select>
                             </div>
                             <div>
-                                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Jenis</label>
+                                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Jenis Laporan</label>
                                 <select id="inputJenis" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-indigo-500 outline-none transition">
                                     <option value="pengeluaran">Pengeluaran</option>
                                     <option value="pemasukan">Pemasukan</option>
@@ -201,8 +191,20 @@
                         <div id="emptyUmi" class="hidden py-6 text-center text-slate-400 text-sm bg-slate-50">Tidak ada transaksi Umi bulan ini.</div>
                     </div>
                 </div>
-
             </section>
+        </div>
+    </div>
+
+    <div class="fixed bottom-0 left-0 w-full bg-white border-t border-slate-200 p-3 z-50 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] pb-safe">
+        <div class="max-w-3xl mx-auto flex gap-3">
+            <button onclick="pindahTab('input')" id="tabInput" class="flex-1 py-3 rounded-xl text-sm font-bold transition-all shadow-lg bg-indigo-600 text-white transform scale-100 active:scale-95 text-center flex items-center justify-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>
+                Input Baru
+            </button>
+            <button onclick="pindahTab('laporan')" id="tabLaporan" class="flex-1 py-3 rounded-xl text-sm font-semibold transition-all text-slate-500 hover:text-slate-700 hover:bg-slate-50 text-center flex items-center justify-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
+                Laporan
+            </button>
         </div>
     </div>
 
@@ -223,7 +225,6 @@
             e.preventDefault();
             deferredPrompt = e;
             btnInstall.classList.remove('hidden');
-            btnInstall.classList.add('flex'); // Munculkan tombol
         });
 
         btnInstall.addEventListener('click', async () => {
@@ -232,7 +233,6 @@
             const { outcome } = await deferredPrompt.userChoice;
             if (outcome === 'accepted') {
                 btnInstall.classList.add('hidden');
-                btnInstall.classList.remove('flex');
                 deferredPrompt = null;
             }
         });
@@ -250,19 +250,19 @@
             if (namaTab === 'input') {
                 views.input.classList.remove('hidden');
                 views.laporan.classList.add('hidden');
-                // Tombol Aktif
-                tabs.input.className = "w-1/2 sm:w-auto px-6 py-1.5 rounded-lg text-sm font-bold transition-all shadow-md bg-indigo-600 text-white transform scale-105 text-center";
-                // Tombol Non-Aktif
-                tabs.laporan.className = "w-1/2 sm:w-auto px-6 py-1.5 rounded-lg text-sm font-semibold transition-all text-slate-500 hover:text-slate-700 text-center";
+                
+                // Style Active: Input
+                tabs.input.className = "flex-1 py-3 rounded-xl text-sm font-bold transition-all shadow-lg bg-indigo-600 text-white transform scale-100 active:scale-95 text-center flex items-center justify-center gap-2";
+                tabs.laporan.className = "flex-1 py-3 rounded-xl text-sm font-semibold transition-all text-slate-500 hover:text-slate-700 hover:bg-slate-50 text-center flex items-center justify-center gap-2";
                 
                 fetchSuggestions();
             } else {
                 views.input.classList.add('hidden');
                 views.laporan.classList.remove('hidden');
-                // Tombol Non-Aktif
-                tabs.input.className = "w-1/2 sm:w-auto px-6 py-1.5 rounded-lg text-sm font-semibold transition-all text-slate-500 hover:text-slate-700 text-center";
-                // Tombol Aktif
-                tabs.laporan.className = "w-1/2 sm:w-auto px-6 py-1.5 rounded-lg text-sm font-bold transition-all shadow-md bg-indigo-600 text-white transform scale-105 text-center";
+                
+                // Style Active: Laporan
+                tabs.laporan.className = "flex-1 py-3 rounded-xl text-sm font-bold transition-all shadow-lg bg-indigo-600 text-white transform scale-100 active:scale-95 text-center flex items-center justify-center gap-2";
+                tabs.input.className = "flex-1 py-3 rounded-xl text-sm font-semibold transition-all text-slate-500 hover:text-slate-700 hover:bg-slate-50 text-center flex items-center justify-center gap-2";
                 
                 fetchData();
             }
