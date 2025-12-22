@@ -13,7 +13,6 @@
         .card-gradient-abi { background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%); }
         .card-gradient-umi { background: linear-gradient(135deg, #EC4899 0%, #DB2777 100%); }
         
-        /* Animasi Transisi Tab */
         .fade-in { animation: fadeIn 0.3s ease-in-out; }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
@@ -32,10 +31,10 @@
                 </div>
                 
                 <div class="flex bg-gray-100 p-1 rounded-xl">
-                    <button onclick="switchTab('input')" id="tabInput" class="px-6 py-1.5 rounded-lg text-sm font-semibold transition-all shadow-sm bg-white text-indigo-600">
+                    <button onclick="window.switchTab('input')" id="tabInput" class="px-6 py-1.5 rounded-lg text-sm font-semibold transition-all shadow-sm bg-white text-indigo-600">
                         + Input Baru
                     </button>
-                    <button onclick="switchTab('laporan')" id="tabLaporan" class="px-6 py-1.5 rounded-lg text-sm font-semibold transition-all text-gray-500 hover:text-gray-700">
+                    <button onclick="window.switchTab('laporan')" id="tabLaporan" class="px-6 py-1.5 rounded-lg text-sm font-semibold transition-all text-gray-500 hover:text-gray-700">
                         Lihat Laporan
                     </button>
                 </div>
@@ -193,12 +192,15 @@
     </div>
 
     <script>
-        // --- KONFIGURASI SUPABASE ---
+        // --- 1. SETUP & KONFIGURASI SUPABASE ---
+        // Kita menggunakan "var" atau pengecekan sederhana untuk menghindari error double declaration
         const supabaseUrl = 'https://rvlmszheenxbhehpzlne.supabase.co';
         const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ2bG1zemhlZW54YmhlaHB6bG5lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY0MDIyNDEsImV4cCI6MjA4MTk3ODI0MX0.qqrPfESiAVG2CO4l-AgEPQqZ2ZNAV5WEZZN7MLLHitA';
+        
+        // Pastikan instance supabase dibuat
         const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-        // --- REFERENCES ---
+        // --- 2. VARIABEL ELEMENT HTML ---
         const viewInput = document.getElementById('viewInput');
         const viewLaporan = document.getElementById('viewLaporan');
         const tabInput = document.getElementById('tabInput');
@@ -217,15 +219,9 @@
             sisaUmi: document.getElementById('sisaUmi'), masukUmi: document.getElementById('masukUmi'), keluarUmi: document.getElementById('keluarUmi'),
         };
 
-        // --- HELPERS ---
-        const formatRupiah = (number) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(number);
-        const formatDate = (dateString) => {
-            const d = new Date(dateString);
-            return `${d.getDate()}/${d.getMonth()+1}`; // Format simpel DD/MM
-        };
-
-        // --- NAVIGATION LOGIC ---
-        function switchTab(tabName) {
+        // --- 3. FUNGSI NAVIGASI TAB ---
+        // Kita tempelkan ke window agar pasti bisa diakses oleh onclick di HTML
+        window.switchTab = function(tabName) {
             if (tabName === 'input') {
                 viewInput.classList.remove('hidden');
                 viewLaporan.classList.add('hidden');
@@ -248,12 +244,19 @@
                 tabInput.classList.remove('bg-white', 'text-indigo-600', 'shadow-sm');
                 tabInput.classList.add('text-gray-500', 'hover:text-gray-700');
 
-                // Fetch data saat tab laporan dibuka
+                // Load data saat tab laporan dibuka
                 fetchData();
             }
-        }
+        };
 
-        // --- DATA LOGIC ---
+        // --- 4. HELPER FORMATTING ---
+        const formatRupiah = (number) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(number);
+        const formatDate = (dateString) => {
+            const d = new Date(dateString);
+            return `${d.getDate()}/${d.getMonth()+1}`; 
+        };
+
+        // --- 5. LOGIC DATABASE ---
         async function fetchData() {
             loadingIndicator.classList.remove('hidden');
             const selectedMonth = filterBulan.value;
@@ -267,7 +270,10 @@
 
             loadingIndicator.classList.add('hidden');
 
-            if (error) { console.error(error); return; }
+            if (error) { 
+                console.error("Error mengambil data:", error); 
+                return; 
+            }
 
             renderData(data);
             calculateStats(data);
@@ -299,7 +305,7 @@
 
         function renderData(data) {
             tabelBody.innerHTML = '';
-            if (data.length === 0) {
+            if (!data || data.length === 0) {
                 emptyState.classList.remove('hidden');
                 return;
             }
@@ -328,6 +334,7 @@
             });
         }
 
+        // --- 6. HANDLE SUBMIT ---
         formTransaksi.addEventListener('submit', async (e) => {
             e.preventDefault();
             const btnOriginalText = btnSubmit.innerText;
@@ -352,16 +359,17 @@
                 formTransaksi.reset();
                 document.getElementById('inputTanggal').valueAsDate = new Date();
                 
-                // Pindah ke tab laporan otomatis untuk melihat hasil
-                filterBulan.value = bulan_key; // Set filter ke bulan transaksi
-                switchTab('laporan'); 
+                // Pindah ke tab laporan otomatis
+                filterBulan.value = bulan_key; 
+                window.switchTab('laporan'); 
+                alert('Data berhasil disimpan!');
             }
             btnSubmit.innerText = btnOriginalText;
             btnSubmit.disabled = false;
             btnSubmit.classList.remove('opacity-75');
         });
 
-        // Init
+        // --- 7. INISIALISASI SAAT LOAD ---
         window.addEventListener('DOMContentLoaded', () => {
             document.getElementById('inputTanggal').valueAsDate = new Date();
             const today = new Date();
@@ -369,6 +377,7 @@
         });
 
         filterBulan.addEventListener('change', fetchData);
+
     </script>
 </body>
 </html>
