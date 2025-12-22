@@ -9,169 +9,201 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
     
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #F3F4F6; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #F8FAFC; }
         .card-gradient-abi { background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%); }
         .card-gradient-umi { background: linear-gradient(135deg, #EC4899 0%, #DB2777 100%); }
+        
+        /* Animasi Transisi Tab */
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
-<body class="text-gray-800">
+<body class="text-gray-800 h-screen flex flex-col">
 
-    <nav class="bg-white shadow-sm sticky top-0 z-50">
-        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16 items-center">
+    <nav class="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
+        <div class="max-w-3xl mx-auto px-4">
+            <div class="flex flex-col sm:flex-row justify-between h-auto sm:h-16 items-center py-3 sm:py-0 gap-3 sm:gap-0">
                 <div class="flex items-center gap-2">
-                    <div class="bg-indigo-600 text-white p-2 rounded-lg font-bold">DK</div>
-                    <span class="font-bold text-xl text-gray-800">Dompet Keluarga</span>
+                    <div class="bg-indigo-600 text-white p-1.5 rounded-lg font-bold text-sm">DK</div>
+                    <span class="font-bold text-lg text-gray-800">Dompet Keluarga</span>
                 </div>
-                <div>
-                    <input type="month" id="filterBulan" class="border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                
+                <div class="flex bg-gray-100 p-1 rounded-xl">
+                    <button onclick="switchTab('input')" id="tabInput" class="px-6 py-1.5 rounded-lg text-sm font-semibold transition-all shadow-sm bg-white text-indigo-600">
+                        + Input Baru
+                    </button>
+                    <button onclick="switchTab('laporan')" id="tabLaporan" class="px-6 py-1.5 rounded-lg text-sm font-semibold transition-all text-gray-500 hover:text-gray-700">
+                        Lihat Laporan
+                    </button>
                 </div>
             </div>
         </div>
     </nav>
 
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+    <div class="flex-1 overflow-y-auto">
+        <div class="max-w-3xl mx-auto px-4 py-8">
             
-            <div class="bg-white rounded-2xl shadow-lg overflow-hidden border border-blue-100">
-                <div class="card-gradient-abi p-6 text-white">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <p class="text-blue-100 text-sm font-medium uppercase tracking-wider">Dompet Abi</p>
-                            <h2 class="text-3xl font-bold mt-1" id="sisaAbi">Rp 0</h2>
+            <section id="viewInput" class="fade-in">
+                <div class="bg-white p-8 rounded-3xl shadow-xl border border-gray-100 max-w-lg mx-auto">
+                    <div class="text-center mb-6">
+                        <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-indigo-100 text-indigo-600 mb-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>
                         </div>
-                        <div class="bg-white/20 p-2 rounded-lg">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
-                        </div>
+                        <h2 class="text-2xl font-bold text-gray-800">Catat Transaksi</h2>
+                        <p class="text-gray-500 text-sm">Masukkan detail pengeluaran atau pemasukan.</p>
                     </div>
-                </div>
-                <div class="p-4 grid grid-cols-2 divide-x divide-gray-100">
-                    <div class="text-center">
-                        <p class="text-xs text-gray-500 mb-1">Pemasukan</p>
-                        <p class="text-green-600 font-bold" id="masukAbi">Rp 0</p>
-                    </div>
-                    <div class="text-center">
-                        <p class="text-xs text-gray-500 mb-1">Pengeluaran</p>
-                        <p class="text-red-500 font-bold" id="keluarAbi">Rp 0</p>
-                    </div>
-                </div>
-            </div>
 
-            <div class="bg-white rounded-2xl shadow-lg overflow-hidden border border-pink-100">
-                <div class="card-gradient-umi p-6 text-white">
-                    <div class="flex justify-between items-start">
+                    <form id="formTransaksi" class="space-y-5">
                         <div>
-                            <p class="text-pink-100 text-sm font-medium uppercase tracking-wider">Dompet Umi</p>
-                            <h2 class="text-3xl font-bold mt-1" id="sisaUmi">Rp 0</h2>
-                        </div>
-                        <div class="bg-white/20 p-2 rounded-lg">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
-                        </div>
-                    </div>
-                </div>
-                <div class="p-4 grid grid-cols-2 divide-x divide-gray-100">
-                    <div class="text-center">
-                        <p class="text-xs text-gray-500 mb-1">Pemasukan</p>
-                        <p class="text-green-600 font-bold" id="masukUmi">Rp 0</p>
-                    </div>
-                    <div class="text-center">
-                        <p class="text-xs text-gray-500 mb-1">Pengeluaran</p>
-                        <p class="text-red-500 font-bold" id="keluarUmi">Rp 0</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            
-            <div class="lg:col-span-1">
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200 sticky top-24">
-                    <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-500" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" /></svg>
-                        Input Transaksi
-                    </h3>
-                    <form id="formTransaksi" class="space-y-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Tanggal</label>
-                            <input type="date" id="inputTanggal" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition">
+                            <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Tanggal Transaksi</label>
+                            <input type="date" id="inputTanggal" required class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition font-medium">
                         </div>
                         
                         <div class="grid grid-cols-2 gap-4">
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Pelapor</label>
-                                <select id="inputPelapor" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition bg-white">
-                                    <option value="Abi">Abi</option>
-                                    <option value="Umi">Umi</option>
-                                </select>
+                                <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Siapa?</label>
+                                <div class="relative">
+                                    <select id="inputPelapor" required class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-indigo-500 outline-none transition appearance-none">
+                                        <option value="Abi">Abi</option>
+                                        <option value="Umi">Umi</option>
+                                    </select>
+                                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-500">
+                                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                    </div>
+                                </div>
                             </div>
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Jenis</label>
-                                <select id="inputJenis" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition bg-white">
-                                    <option value="pengeluaran">Pengeluaran</option>
-                                    <option value="pemasukan">Pemasukan</option>
-                                </select>
+                                <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Jenis</label>
+                                <div class="relative">
+                                    <select id="inputJenis" required class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-indigo-500 outline-none transition appearance-none">
+                                        <option value="pengeluaran">Pengeluaran</option>
+                                        <option value="pemasukan">Pemasukan</option>
+                                    </select>
+                                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-500">
+                                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Jumlah (Rp)</label>
-                            <input type="number" id="inputJumlah" required min="0" placeholder="0" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition">
+                            <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Jumlah (Rp)</label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-gray-400 font-bold">Rp</span>
+                                <input type="number" id="inputJumlah" required min="0" placeholder="0" class="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-indigo-500 outline-none transition text-lg font-bold text-gray-800">
+                            </div>
                         </div>
 
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Rincian</label>
-                            <textarea id="inputRincian" required rows="3" placeholder="Contoh: Belanja Bulanan, Gaji, dll." class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition"></textarea>
+                            <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Untuk Apa?</label>
+                            <textarea id="inputRincian" required rows="2" placeholder="Cth: Belanja sayur, Bensin, Gaji" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-indigo-500 outline-none transition"></textarea>
                         </div>
 
-                        <button type="submit" id="btnSubmit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2.5 rounded-lg transition duration-200 shadow-md">
-                            Simpan Laporan
+                        <button type="submit" id="btnSubmit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3.5 rounded-xl transition duration-200 shadow-lg shadow-indigo-200 transform hover:-translate-y-0.5">
+                            Simpan Data
                         </button>
                     </form>
                 </div>
-            </div>
+            </section>
 
-            <div class="lg:col-span-2">
-                <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
-                    <div class="p-6 border-b border-gray-100 flex justify-between items-center">
-                        <h3 class="text-lg font-bold text-gray-800">Riwayat Transaksi</h3>
-                        <span id="loadingIndicator" class="text-sm text-indigo-500 hidden animate-pulse">Memuat data...</span>
+            <section id="viewLaporan" class="hidden fade-in space-y-6">
+                
+                <div class="flex justify-between items-center bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+                    <h3 class="font-bold text-gray-700">Laporan Bulanan</h3>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs text-gray-400">Periode:</span>
+                        <input type="month" id="filterBulan" class="border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium">
                     </div>
-                    <div class="overflow-x-auto">
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-white rounded-2xl shadow-md overflow-hidden border border-blue-100">
+                        <div class="card-gradient-abi p-5 text-white relative overflow-hidden">
+                            <div class="absolute -right-4 -top-4 bg-white/10 w-24 h-24 rounded-full blur-xl"></div>
+                            <div class="relative z-10">
+                                <p class="text-blue-100 text-xs font-bold uppercase tracking-wider mb-1">Dompet Abi</p>
+                                <h2 class="text-2xl font-bold" id="sisaAbi">Rp 0</h2>
+                            </div>
+                        </div>
+                        <div class="p-3 grid grid-cols-2 divide-x divide-gray-100 text-sm">
+                            <div class="text-center px-2">
+                                <span class="block text-gray-400 text-xs">Masuk</span>
+                                <span class="text-green-600 font-bold block truncate" id="masukAbi">0</span>
+                            </div>
+                            <div class="text-center px-2">
+                                <span class="block text-gray-400 text-xs">Keluar</span>
+                                <span class="text-red-500 font-bold block truncate" id="keluarAbi">0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-2xl shadow-md overflow-hidden border border-pink-100">
+                        <div class="card-gradient-umi p-5 text-white relative overflow-hidden">
+                            <div class="absolute -right-4 -top-4 bg-white/10 w-24 h-24 rounded-full blur-xl"></div>
+                            <div class="relative z-10">
+                                <p class="text-pink-100 text-xs font-bold uppercase tracking-wider mb-1">Dompet Umi</p>
+                                <h2 class="text-2xl font-bold" id="sisaUmi">Rp 0</h2>
+                            </div>
+                        </div>
+                        <div class="p-3 grid grid-cols-2 divide-x divide-gray-100 text-sm">
+                            <div class="text-center px-2">
+                                <span class="block text-gray-400 text-xs">Masuk</span>
+                                <span class="text-green-600 font-bold block truncate" id="masukUmi">0</span>
+                            </div>
+                            <div class="text-center px-2">
+                                <span class="block text-gray-400 text-xs">Keluar</span>
+                                <span class="text-red-500 font-bold block truncate" id="keluarUmi">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+                    <div class="p-4 border-b border-gray-100 flex justify-between items-center bg-gray-50">
+                        <h4 class="font-bold text-gray-600 text-sm uppercase tracking-wide">Rincian Transaksi</h4>
+                        <span id="loadingIndicator" class="text-xs text-indigo-500 hidden animate-pulse font-medium">Memuat data...</span>
+                    </div>
+                    <div class="overflow-x-auto max-h-[500px]">
                         <table class="w-full text-left text-sm">
-                            <thead class="bg-gray-50 text-gray-600 font-semibold uppercase tracking-wider">
+                            <thead class="bg-white text-gray-500 font-semibold border-b border-gray-100 sticky top-0">
                                 <tr>
-                                    <th class="px-6 py-4">Tanggal</th>
-                                    <th class="px-6 py-4">Pelapor</th>
-                                    <th class="px-6 py-4">Rincian</th>
-                                    <th class="px-6 py-4 text-right">Jumlah</th>
+                                    <th class="px-4 py-3">Tgl</th>
+                                    <th class="px-4 py-3">Siapa</th>
+                                    <th class="px-4 py-3">Ket</th>
+                                    <th class="px-4 py-3 text-right">Rp</th>
                                 </tr>
                             </thead>
-                            <tbody id="tabelBody" class="divide-y divide-gray-100">
+                            <tbody id="tabelBody" class="divide-y divide-gray-50">
                                 </tbody>
                         </table>
                     </div>
-                    <div id="emptyState" class="hidden p-8 text-center text-gray-400">
-                        <p>Belum ada transaksi di bulan ini.</p>
+                    <div id="emptyState" class="hidden py-12 text-center">
+                        <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-100 mb-3 text-gray-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 011.414.586l4 4a1 1 0 01.586 1.414V19a2 2 0 01-2 2z" /></svg>
+                        </div>
+                        <p class="text-gray-500 font-medium">Belum ada data bulan ini.</p>
                     </div>
                 </div>
-            </div>
+            </section>
+
         </div>
     </div>
 
     <script>
         // --- KONFIGURASI SUPABASE ---
-        // GANTI DENGAN KREDENSIAL PROYEK ANDA
         const supabaseUrl = 'https://rvlmszheenxbhehpzlne.supabase.co';
         const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ2bG1zemhlZW54YmhlaHB6bG5lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY0MDIyNDEsImV4cCI6MjA4MTk3ODI0MX0.qqrPfESiAVG2CO4l-AgEPQqZ2ZNAV5WEZZN7MLLHitA';
-        
         const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-        // --- VARIABEL GLOBAL ---
-        const today = new Date();
-        const currentMonth = today.toISOString().slice(0, 7); // Format: YYYY-MM
-        
-        // Element References
+        // --- REFERENCES ---
+        const viewInput = document.getElementById('viewInput');
+        const viewLaporan = document.getElementById('viewLaporan');
+        const tabInput = document.getElementById('tabInput');
+        const tabLaporan = document.getElementById('tabLaporan');
+
         const filterBulan = document.getElementById('filterBulan');
         const formTransaksi = document.getElementById('formTransaksi');
         const loadingIndicator = document.getElementById('loadingIndicator');
@@ -181,32 +213,51 @@
 
         // Stats Elements
         const els = {
-            sisaAbi: document.getElementById('sisaAbi'),
-            masukAbi: document.getElementById('masukAbi'),
-            keluarAbi: document.getElementById('keluarAbi'),
-            sisaUmi: document.getElementById('sisaUmi'),
-            masukUmi: document.getElementById('masukUmi'),
-            keluarUmi: document.getElementById('keluarUmi'),
+            sisaAbi: document.getElementById('sisaAbi'), masukAbi: document.getElementById('masukAbi'), keluarAbi: document.getElementById('keluarAbi'),
+            sisaUmi: document.getElementById('sisaUmi'), masukUmi: document.getElementById('masukUmi'), keluarUmi: document.getElementById('keluarUmi'),
         };
 
-        // --- HELPER FUNCTION ---
-        const formatRupiah = (number) => {
-            return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(number);
-        };
-
+        // --- HELPERS ---
+        const formatRupiah = (number) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(number);
         const formatDate = (dateString) => {
-            const options = { day: 'numeric', month: 'short', year: 'numeric' };
-            return new Date(dateString).toLocaleDateString('id-ID', options);
+            const d = new Date(dateString);
+            return `${d.getDate()}/${d.getMonth()+1}`; // Format simpel DD/MM
         };
 
-        // --- CORE LOGIC ---
+        // --- NAVIGATION LOGIC ---
+        function switchTab(tabName) {
+            if (tabName === 'input') {
+                viewInput.classList.remove('hidden');
+                viewLaporan.classList.add('hidden');
+                
+                // Style Button
+                tabInput.classList.add('bg-white', 'text-indigo-600', 'shadow-sm');
+                tabInput.classList.remove('text-gray-500', 'hover:text-gray-700');
+                
+                tabLaporan.classList.remove('bg-white', 'text-indigo-600', 'shadow-sm');
+                tabLaporan.classList.add('text-gray-500', 'hover:text-gray-700');
 
-        // 1. Fetch Data
+            } else {
+                viewInput.classList.add('hidden');
+                viewLaporan.classList.remove('hidden');
+
+                // Style Button
+                tabLaporan.classList.add('bg-white', 'text-indigo-600', 'shadow-sm');
+                tabLaporan.classList.remove('text-gray-500', 'hover:text-gray-700');
+                
+                tabInput.classList.remove('bg-white', 'text-indigo-600', 'shadow-sm');
+                tabInput.classList.add('text-gray-500', 'hover:text-gray-700');
+
+                // Fetch data saat tab laporan dibuka
+                fetchData();
+            }
+        }
+
+        // --- DATA LOGIC ---
         async function fetchData() {
             loadingIndicator.classList.remove('hidden');
-            const selectedMonth = filterBulan.value; // Format: YYYY-MM
+            const selectedMonth = filterBulan.value;
 
-            // Query Supabase
             const { data, error } = await supabase
                 .from('transaksi_keuangan')
                 .select('*')
@@ -216,38 +267,27 @@
 
             loadingIndicator.classList.add('hidden');
 
-            if (error) {
-                console.error('Error fetching data:', error);
-                alert('Gagal mengambil data.');
-                return;
-            }
+            if (error) { console.error(error); return; }
 
             renderData(data);
             calculateStats(data);
         }
 
-        // 2. Calculate Statistics (Rekap & Sisa)
         function calculateStats(data) {
-            let stats = {
-                abi: { masuk: 0, keluar: 0 },
-                umi: { masuk: 0, keluar: 0 }
-            };
+            let stats = { abi: { masuk: 0, keluar: 0 }, umi: { masuk: 0, keluar: 0 } };
 
             data.forEach(trx => {
                 const amount = parseFloat(trx.jumlah);
-                const pelapor = trx.pelapor.toLowerCase(); // Abi / Umi
-                const jenis = trx.jenis; // pemasukan / pengeluaran
+                const pelapor = trx.pelapor; 
+                const jenis = trx.jenis;
 
-                if (pelapor === 'abi') {
-                    if (jenis === 'pemasukan') stats.abi.masuk += amount;
-                    else stats.abi.keluar += amount;
-                } else if (pelapor === 'umi') {
-                    if (jenis === 'pemasukan') stats.umi.masuk += amount;
-                    else stats.umi.keluar += amount;
+                if (pelapor === 'Abi') {
+                    if (jenis === 'pemasukan') stats.abi.masuk += amount; else stats.abi.keluar += amount;
+                } else if (pelapor === 'Umi') {
+                    if (jenis === 'pemasukan') stats.umi.masuk += amount; else stats.umi.keluar += amount;
                 }
             });
 
-            // Update DOM
             els.masukAbi.textContent = formatRupiah(stats.abi.masuk);
             els.keluarAbi.textContent = formatRupiah(stats.abi.keluar);
             els.sisaAbi.textContent = formatRupiah(stats.abi.masuk - stats.abi.keluar);
@@ -257,10 +297,8 @@
             els.sisaUmi.textContent = formatRupiah(stats.umi.masuk - stats.umi.keluar);
         }
 
-        // 3. Render Table
         function renderData(data) {
             tabelBody.innerHTML = '';
-            
             if (data.length === 0) {
                 emptyState.classList.remove('hidden');
                 return;
@@ -272,35 +310,32 @@
                 tr.className = 'hover:bg-gray-50 transition';
                 
                 const isPengeluaran = trx.jenis === 'pengeluaran';
-                const colorClass = isPengeluaran ? 'text-red-600' : 'text-green-600';
-                const prefix = isPengeluaran ? '- ' : '+ ';
-
+                const colorClass = isPengeluaran ? 'text-red-500' : 'text-green-600';
+                
                 tr.innerHTML = `
-                    <td class="px-6 py-4 whitespace-nowrap text-gray-500">${formatDate(trx.tanggal)}</td>
-                    <td class="px-6 py-4">
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${trx.pelapor === 'Abi' ? 'bg-blue-100 text-blue-800' : 'bg-pink-100 text-pink-800'}">
+                    <td class="px-4 py-3 text-gray-400 text-xs">${formatDate(trx.tanggal)}</td>
+                    <td class="px-4 py-3">
+                        <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide ${trx.pelapor === 'Abi' ? 'bg-blue-50 text-blue-600' : 'bg-pink-50 text-pink-600'}">
                             ${trx.pelapor}
                         </span>
                     </td>
-                    <td class="px-6 py-4 text-gray-800 font-medium">${trx.rincian}</td>
-                    <td class="px-6 py-4 text-right font-bold ${colorClass}">
-                        ${prefix}${formatRupiah(trx.jumlah)}
+                    <td class="px-4 py-3 text-gray-700 font-medium">${trx.rincian}</td>
+                    <td class="px-4 py-3 text-right font-bold ${colorClass}">
+                        ${formatRupiah(trx.jumlah)}
                     </td>
                 `;
                 tabelBody.appendChild(tr);
             });
         }
 
-        // 4. Handle Submit Form
         formTransaksi.addEventListener('submit', async (e) => {
             e.preventDefault();
-            
             const btnOriginalText = btnSubmit.innerText;
             btnSubmit.innerText = 'Menyimpan...';
             btnSubmit.disabled = true;
+            btnSubmit.classList.add('opacity-75');
 
             const tanggal = document.getElementById('inputTanggal').value;
-            // Generate bulan_key dari tanggal (ambil YYYY-MM)
             const bulan_key = tanggal.slice(0, 7); 
             const pelapor = document.getElementById('inputPelapor').value;
             const jenis = document.getElementById('inputJenis').value;
@@ -309,51 +344,31 @@
 
             const { data, error } = await supabase
                 .from('transaksi_keuangan')
-                .insert([
-                    { 
-                        tanggal, 
-                        bulan_key, 
-                        pelapor, 
-                        jenis, 
-                        jumlah, 
-                        rincian 
-                    }
-                ]);
+                .insert([{ tanggal, bulan_key, pelapor, jenis, jumlah, rincian }]);
 
             if (error) {
-                alert('Gagal menyimpan: ' + error.message);
+                alert('Gagal: ' + error.message);
             } else {
-                // Reset form dan refresh data jika tanggal yg diinput sesuai filter sekarang
                 formTransaksi.reset();
                 document.getElementById('inputTanggal').valueAsDate = new Date();
                 
-                if (filterBulan.value === bulan_key) {
-                    fetchData();
-                } else {
-                    // Jika input tanggal bulan lain, switch filter ke bulan tersebut
-                    filterBulan.value = bulan_key;
-                    fetchData();
-                }
-                alert('Laporan berhasil disimpan!');
+                // Pindah ke tab laporan otomatis untuk melihat hasil
+                filterBulan.value = bulan_key; // Set filter ke bulan transaksi
+                switchTab('laporan'); 
             }
-
             btnSubmit.innerText = btnOriginalText;
             btnSubmit.disabled = false;
+            btnSubmit.classList.remove('opacity-75');
         });
 
-        // 5. Init & Listeners
+        // Init
         window.addEventListener('DOMContentLoaded', () => {
-            // Set default date input hari ini
             document.getElementById('inputTanggal').valueAsDate = new Date();
-            // Set default filter bulan ini
-            filterBulan.value = currentMonth;
-            
-            fetchData();
+            const today = new Date();
+            filterBulan.value = today.toISOString().slice(0, 7);
         });
 
-        // Jika filter bulan berubah
         filterBulan.addEventListener('change', fetchData);
-
     </script>
 </body>
 </html>
