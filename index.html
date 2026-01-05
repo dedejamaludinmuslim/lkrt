@@ -15,20 +15,24 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
     
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #F8FAFC; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #F1F5F9; }
         .card-gradient-abi { background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%); }
         .card-gradient-umi { background: linear-gradient(135deg, #DB2777 0%, #BE185D 100%); }
-        .fade-in { animation: fadeIn 0.3s ease-out; }
+        .fade-in { animation: fadeIn 0.4s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .hidden { display: none !important; }
-        /* Safe area untuk iPhone modern */
-        .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
+        .editable:hover { background-color: #FEF3C7; cursor: pointer; border-radius: 4px; }
         
-        /* Hilangkan icon kalender bawaan browser agar panah kustom kita rapi */
+        /* Style untuk tombol Install & SweetAlert */
+        .swal2-popup { border-radius: 1rem !important; font-family: 'Plus Jakarta Sans', sans-serif; }
+        .swal2-confirm { background-color: #4F46E5 !important; }
+        .swal2-cancel { background-color: #EF4444 !important; }
+        .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
+
+        /* Hilangkan icon kalender default browser agar panah kita rapi */
         input[type="date"]::-webkit-inner-spin-button,
         input[type="date"]::-webkit-calendar-picker-indicator {
-            display: none;
-            -webkit-appearance: none;
+            background: transparent; bottom: 0; color: transparent; cursor: pointer; height: auto; left: 0; position: absolute; right: 0; top: 0; width: auto;
         }
     </style>
 </head>
@@ -50,7 +54,7 @@
         <div class="max-w-3xl mx-auto px-4 py-6 pb-32">
             
             <section id="viewInput" class="fade-in">
-                <div class="bg-white p-6 rounded-3xl shadow-xl border border-slate-200 max-w-lg mx-auto mt-4">
+                <div class="bg-white p-6 sm:p-8 rounded-3xl shadow-xl border border-slate-200 max-w-lg mx-auto mt-4">
                     <div class="text-center mb-6">
                         <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-indigo-50 text-indigo-600 mb-3">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>
@@ -58,22 +62,22 @@
                         <h2 class="text-2xl font-bold text-slate-800">Catat Transaksi</h2>
                     </div>
 
-                    <form id="formTransaksi" class="space-y-4">
+                    <form id="formTransaksi" class="space-y-5">
                         <div>
                             <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Tanggal</label>
-                            <input type="date" id="inputTanggal" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none font-medium">
+                            <input type="date" id="inputTanggal" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-indigo-500 outline-none font-medium">
                         </div>
                         <div class="grid grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Siapa?</label>
-                                <select id="inputPelapor" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none">
+                                <select id="inputPelapor" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-indigo-500 outline-none">
                                     <option value="Abi">Abi</option>
                                     <option value="Umi">Umi</option>
                                 </select>
                             </div>
                             <div>
                                 <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Jenis</label>
-                                <select id="inputJenis" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none">
+                                <select id="inputJenis" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-indigo-500 outline-none">
                                     <option value="pengeluaran">Pengeluaran</option>
                                     <option value="pemasukan">Pemasukan</option>
                                 </select>
@@ -81,15 +85,17 @@
                         </div>
                         <div>
                             <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Jumlah (Rp)</label>
-                            <input type="number" id="inputJumlah" list="listJumlah" required min="0" placeholder="0" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none text-lg font-bold">
+                            <input type="number" id="inputJumlah" list="listJumlah" required min="0" placeholder="0" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-indigo-500 outline-none text-lg font-bold">
                             <datalist id="listJumlah"></datalist>
                         </div>
                         <div>
                             <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Rincian</label>
-                            <input type="text" id="inputRincian" list="listRincian" required placeholder="Contoh: Belanja Sayur" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none">
+                            <input type="text" id="inputRincian" list="listRincian" required placeholder="Contoh: Belanja Sayur" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-indigo-500 outline-none">
                             <datalist id="listRincian"></datalist>
                         </div>
-                        <button type="submit" id="btnSubmit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3.5 rounded-xl transition shadow-lg mt-2 active:scale-95">Simpan Data</button>
+                        <button type="submit" id="btnSubmit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3.5 rounded-xl transition duration-200 shadow-lg mt-2 transform hover:-translate-y-0.5">
+                            Simpan Data
+                        </button>
                     </form>
                 </div>
             </section>
@@ -100,7 +106,7 @@
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
                     </button>
                     <div class="flex flex-col items-center">
-                        <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Harian</span>
+                        <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Laporan Harian</span>
                         <input type="date" id="filterTanggal" class="bg-transparent text-center font-bold text-slate-700 focus:outline-none cursor-pointer">
                     </div>
                     <button onclick="changeDate(1)" class="p-3 bg-slate-100 rounded-lg hover:bg-slate-200 active:scale-95 transition">
@@ -135,12 +141,12 @@
                     <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
                         <div class="bg-slate-50 px-4 py-2 text-xs font-bold text-slate-500 uppercase">Transaksi Abi</div>
                         <table class="w-full text-sm text-left"><tbody id="tbodyAbiHarian"></tbody></table>
-                        <div id="emptyAbiHarian" class="hidden py-4 text-center text-xs text-slate-400">Belum ada transaksi</div>
+                        <div id="emptyAbiHarian" class="hidden py-4 text-center text-xs text-slate-400">Kosong</div>
                     </div>
                     <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
                         <div class="bg-slate-50 px-4 py-2 text-xs font-bold text-slate-500 uppercase">Transaksi Umi</div>
                         <table class="w-full text-sm text-left"><tbody id="tbodyUmiHarian"></tbody></table>
-                        <div id="emptyUmiHarian" class="hidden py-4 text-center text-xs text-slate-400">Belum ada transaksi</div>
+                        <div id="emptyUmiHarian" class="hidden py-4 text-center text-xs text-slate-400">Kosong</div>
                     </div>
                 </div>
             </section>
@@ -151,7 +157,7 @@
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
                     </button>
                     <div class="flex flex-col items-center">
-                        <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Bulanan</span>
+                        <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Laporan Bulanan</span>
                         <input type="month" id="filterBulan" class="bg-transparent text-center font-bold text-slate-700 focus:outline-none cursor-pointer">
                     </div>
                     <button onclick="changeMonth(1)" class="p-3 bg-slate-100 rounded-lg hover:bg-slate-200 active:scale-95 transition">
@@ -164,7 +170,7 @@
                         <div class="card-gradient-abi p-5 text-white relative">
                             <p class="text-blue-100 text-xs font-bold uppercase">Dompet Abi (Bulan)</p>
                             <h2 class="text-3xl font-bold" id="sisaAbiBulanan">Rp 0</h2>
-                            <div class="absolute right-4 top-4 text-white opacity-50">👨‍💼</div>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="absolute right-4 top-4 h-6 w-6 text-white opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" /></svg>
                         </div>
                         <div class="p-3 grid grid-cols-2 divide-x divide-gray-100 text-center text-sm">
                             <div>Masuk: <span class="text-green-600 font-bold" id="masukAbiBulanan">0</span></div>
@@ -175,7 +181,7 @@
                         <div class="card-gradient-umi p-5 text-white relative">
                             <p class="text-pink-100 text-xs font-bold uppercase">Dompet Umi (Bulan)</p>
                             <h2 class="text-3xl font-bold" id="sisaUmiBulanan">Rp 0</h2>
-                            <div class="absolute right-4 top-4 text-white opacity-50">🧕</div>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="absolute right-4 top-4 h-6 w-6 text-white opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" /></svg>
                         </div>
                         <div class="p-3 grid grid-cols-2 divide-x divide-gray-100 text-center text-sm">
                             <div>Masuk: <span class="text-green-600 font-bold" id="masukUmiBulanan">0</span></div>
@@ -187,19 +193,15 @@
                 <div id="sectionAbiBulan" class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
                     <div class="bg-blue-50 px-4 py-2 font-bold text-blue-800 text-sm">Riwayat Abi (Bulan Ini)</div>
                     <table class="w-full text-left text-sm"><tbody id="tbodyAbiBulanan" class="divide-y divide-slate-50"></tbody></table>
-                    <div id="emptyAbiBulanan" class="hidden py-6 text-center text-slate-400 text-xs">Belum ada data bulan ini.</div>
+                    <div id="emptyAbiBulanan" class="hidden py-6 text-center text-slate-400 text-xs">Belum ada data.</div>
                 </div>
 
                 <div id="sectionUmiBulan" class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
                     <div class="bg-pink-50 px-4 py-2 font-bold text-pink-800 text-sm">Riwayat Umi (Bulan Ini)</div>
                     <table class="w-full text-left text-sm"><tbody id="tbodyUmiBulanan" class="divide-y divide-slate-50"></tbody></table>
-                    <div id="emptyUmiBulanan" class="hidden py-6 text-center text-slate-400 text-xs">Belum ada data bulan ini.</div>
+                    <div id="emptyUmiBulanan" class="hidden py-6 text-center text-slate-400 text-xs">Belum ada data.</div>
                 </div>
             </section>
-
-            <div id="loadingIndicator" class="fixed top-20 left-1/2 transform -translate-x-1/2 bg-white px-4 py-2 rounded-full shadow-lg border border-indigo-100 hidden z-50 flex items-center gap-2">
-                <span class="animate-spin text-indigo-600">⟳</span> <span class="text-xs font-bold text-indigo-600">Memuat...</span>
-            </div>
         </div>
     </div>
 
@@ -220,40 +222,45 @@
         </div>
     </div>
 
+    <div id="loadingIndicator" class="fixed top-20 left-1/2 transform -translate-x-1/2 bg-white px-4 py-2 rounded-full shadow-lg border border-indigo-100 hidden z-50 flex items-center gap-2">
+        <span class="animate-spin text-indigo-600">⟳</span> <span class="text-xs font-bold text-indigo-600">Memuat...</span>
+    </div>
+
     <script>
-        // 1. SETUP SUPABASE (Hanya satu kali deklarasi!)
-        const MY_SUPABASE_URL = 'https://rvlmszheenxbhehpzlne.supabase.co';
-        const MY_SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ2bG1zemhlZW54YmhlaHB6bG5lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY0MDIyNDEsImV4cCI6MjA4MTk3ODI0MX0.qqrPfESiAVG2CO4l-AgEPQqZ2ZNAV5WEZZN7MLLHitA';
-        const supabase = window.supabase.createClient(MY_SUPABASE_URL, MY_SUPABASE_KEY);
+        // --- 1. CONFIG SUPABASE (Sama persis dengan index-old.html) ---
+        var MY_SUPABASE_URL = 'https://rvlmszheenxbhehpzlne.supabase.co';
+        var MY_SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ2bG1zemhlZW54YmhlaHB6bG5lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY0MDIyNDEsImV4cCI6MjA4MTk3ODI0MX0.qqrPfESiAVG2CO4l-AgEPQqZ2ZNAV5WEZZN7MLLHitA';
+        var supabase = window.supabase.createClient(MY_SUPABASE_URL, MY_SUPABASE_KEY);
 
-        // 2. REFERENCES DOM
-        const views = { input: document.getElementById('viewInput'), harian: document.getElementById('viewHarian'), bulanan: document.getElementById('viewBulanan') };
-        const tabs = { input: document.getElementById('tabInput'), harian: document.getElementById('tabHarian'), bulanan: document.getElementById('tabBulanan') };
-        const loading = document.getElementById('loadingIndicator');
+        // --- 2. VARIABEL ---
+        var views = { input: document.getElementById('viewInput'), harian: document.getElementById('viewHarian'), bulanan: document.getElementById('viewBulanan') };
+        var tabs = { input: document.getElementById('tabInput'), harian: document.getElementById('tabHarian'), bulanan: document.getElementById('tabBulanan') };
+        var loading = document.getElementById('loadingIndicator');
 
-        // 3. FUNGSI PINDAH TAB
-        // Kita pasang ke window agar bisa dipanggil dari HTML onclick
-        window.pindahTab = function(namaTab) {
+        // --- 3. NAVIGASI TAB UTAMA ---
+        function pindahTab(namaTab) {
             // Sembunyikan semua view
             Object.values(views).forEach(el => el.classList.add('hidden'));
-            // Reset warna tombol
+            
+            // Reset style tombol navigasi (jadi abu-abu)
             Object.values(tabs).forEach(el => {
                 el.className = "py-3 flex flex-col items-center gap-1 text-slate-400 hover:text-indigo-500 transition border-t-2 border-transparent";
             });
 
-            // Tampilkan view yg dipilih
+            // Tampilkan view yang dipilih
             views[namaTab].classList.remove('hidden');
-            // Highlight tombol
+            
+            // Highlight tombol aktif (jadi biru)
             tabs[namaTab].className = "py-3 flex flex-col items-center gap-1 text-indigo-600 transition border-t-2 border-indigo-600 bg-indigo-50/50";
 
-            // Load data sesuai tab
+            // Load Data sesuai tab
             if (namaTab === 'harian') fetchHarian();
             if (namaTab === 'bulanan') fetchBulanan();
             if (namaTab === 'input') fetchSuggestions();
-        };
+        }
 
-        // 4. LOGIC TANGGAL & BULAN (PANAH NAVIGASI)
-        window.changeDate = function(offset) {
+        // --- 4. LOGIC TANGGAL & BULAN (< >) ---
+        function changeDate(offset) {
             const dateInput = document.getElementById('filterTanggal');
             if(!dateInput.value) dateInput.valueAsDate = new Date();
             
@@ -267,219 +274,184 @@
             dateInput.value = `${y}-${m}-${d}`;
             
             fetchHarian();
-        };
+        }
 
-        window.changeMonth = function(offset) {
+        function changeMonth(offset) {
             const monthInput = document.getElementById('filterBulan');
             if(!monthInput.value) {
                 const now = new Date();
                 monthInput.value = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
             }
-            
+
             const parts = monthInput.value.split('-'); 
             let year = parseInt(parts[0]);
             let month = parseInt(parts[1]) - 1; 
-            
+
             const d = new Date(year, month + offset, 1);
+            
             const newY = d.getFullYear();
             const newM = String(d.getMonth() + 1).padStart(2, '0');
             monthInput.value = `${newY}-${newM}`;
             
             fetchBulanan();
-        };
+        }
 
-        // 5. FETCH DATA HARIAN
+        // --- 5. FETCH DATA (SUPABASE) ---
+        // A. Harian
         async function fetchHarian() {
             loading.classList.remove('hidden');
-            const tgl = document.getElementById('filterTanggal').value;
+            var tgl = document.getElementById('filterTanggal').value;
             
-            const { data, error } = await supabase
-                .from('transaksi_keuangan')
-                .select('*')
-                .eq('tanggal', tgl)
-                .order('created_at', { ascending: false });
-
+            var { data, error } = await supabase.from('transaksi_keuangan').select('*').eq('tanggal', tgl).order('created_at', { ascending: false });
             loading.classList.add('hidden');
-            if(error) { console.error(error); return; }
+            if(error) return console.error(error);
 
             renderTabel('tbodyAbiHarian', 'emptyAbiHarian', data.filter(x => x.pelapor === 'Abi'));
             renderTabel('tbodyUmiHarian', 'emptyUmiHarian', data.filter(x => x.pelapor === 'Umi'));
             hitungSaldo(data, 'Harian');
         }
 
-        // 6. FETCH DATA BULANAN
+        // B. Bulanan
         async function fetchBulanan() {
             loading.classList.remove('hidden');
-            const bln = document.getElementById('filterBulan').value;
+            var bln = document.getElementById('filterBulan').value;
             
-            const { data, error } = await supabase
-                .from('transaksi_keuangan')
-                .select('*')
-                .eq('bulan_key', bln)
-                .order('tanggal', { ascending: false })
-                .order('created_at', { ascending: false });
-
+            var { data, error } = await supabase.from('transaksi_keuangan').select('*').eq('bulan_key', bln).order('tanggal', { ascending: false }).order('created_at', { ascending: false });
             loading.classList.add('hidden');
-            if(error) { console.error(error); return; }
+            if(error) return console.error(error);
 
             renderTabel('tbodyAbiBulanan', 'emptyAbiBulanan', data.filter(x => x.pelapor === 'Abi'));
             renderTabel('tbodyUmiBulanan', 'emptyUmiBulanan', data.filter(x => x.pelapor === 'Umi'));
             hitungSaldo(data, 'Bulanan');
         }
 
-        // 7. RENDER TABEL & SALDO
+        // C. Rekomendasi Input
+        async function fetchSuggestions() {
+            var { data } = await supabase.from('transaksi_keuangan').select('rincian, jumlah').order('created_at', { ascending: false }).limit(200);
+            if (data) {
+                const listR = document.getElementById('listRincian'); listR.innerHTML = '';
+                [...new Set(data.map(i => i.rincian))].forEach(r => { 
+                    const opt = document.createElement('option'); opt.value = r; listR.appendChild(opt); 
+                });
+                const listJ = document.getElementById('listJumlah'); listJ.innerHTML = '';
+                [...new Set(data.map(i => i.jumlah))].forEach(j => { 
+                    const opt = document.createElement('option'); opt.value = j; listJ.appendChild(opt); 
+                });
+            }
+        }
+
+        // --- 6. RENDER & HITUNG ---
         function renderTabel(tbodyId, emptyId, dataset) {
-            const tbody = document.getElementById(tbodyId);
-            const empty = document.getElementById(emptyId);
+            var tbody = document.getElementById(tbodyId);
+            var empty = document.getElementById(emptyId);
             tbody.innerHTML = '';
             
             if(dataset.length === 0) { empty.classList.remove('hidden'); return; }
             empty.classList.add('hidden');
 
             dataset.forEach(item => {
-                const color = item.jenis === 'pengeluaran' ? 'text-red-500' : 'text-green-600';
-                const d = new Date(item.tanggal);
-                const tgl = `${d.getDate()}/${d.getMonth()+1}`;
+                var color = item.jenis === 'pengeluaran' ? 'text-red-500' : 'text-green-600';
+                var d = new Date(item.tanggal);
+                var tgl = `${d.getDate()}/${d.getMonth()+1}`;
                 
-                const tr = document.createElement('tr');
+                var tr = document.createElement('tr');
                 tr.className = "hover:bg-slate-50 border-b border-slate-50 transition";
                 tr.innerHTML = `
-                    <td class="px-4 py-3 w-[15%] text-slate-400 text-[10px] font-mono align-top pt-3">${tgl}</td>
-                    <td class="px-4 py-3 w-[55%] text-slate-700 font-medium editable text-xs align-top pt-3 cursor-pointer" onclick="window.editData(${item.id}, 'rincian', '${item.rincian}')">${item.rincian}</td>
-                    <td class="px-4 py-3 w-[30%] text-right font-bold ${color} editable text-xs align-top pt-3 cursor-pointer" onclick="window.editData(${item.id}, 'jumlah', '${item.jumlah}')">${formatRupiah(item.jumlah)}</td>
+                    <td class="px-4 py-3 w-[15%] text-slate-400 text-[10px] font-mono align-top pt-4">${tgl}</td>
+                    <td class="px-4 py-3 w-[55%] text-slate-700 font-medium editable text-xs align-top pt-4 cursor-pointer" onclick="editData(${item.id}, 'rincian', '${item.rincian}')">${item.rincian}</td>
+                    <td class="px-4 py-3 w-[30%] text-right font-bold ${color} editable text-xs align-top pt-4 cursor-pointer" onclick="editData(${item.id}, 'jumlah', '${item.jumlah}')">${formatRupiah(item.jumlah)}</td>
                 `;
                 tbody.appendChild(tr);
             });
         }
 
         function hitungSaldo(data, suffix) {
-            let s = { abi: {m:0, k:0}, umi: {m:0, k:0} };
+            var s = { abi: {m:0, k:0}, umi: {m:0, k:0} };
             data.forEach(i => {
-                let n = parseFloat(i.jumlah);
-                let p = i.pelapor === 'Abi' ? s.abi : s.umi;
+                var n = parseFloat(i.jumlah);
+                var p = i.pelapor === 'Abi' ? s.abi : s.umi;
                 i.jenis === 'pemasukan' ? p.m += n : p.k += n;
             });
 
             ['Abi', 'Umi'].forEach(who => {
-                const key = who.toLowerCase();
+                var key = who.toLowerCase();
                 document.getElementById(`masuk${who}${suffix}`).innerText = formatRupiah(s[key].m);
                 document.getElementById(`keluar${who}${suffix}`).innerText = formatRupiah(s[key].k);
                 document.getElementById(`sisa${who}${suffix}`).innerText = formatRupiah(s[key].m - s[key].k);
             });
         }
 
-        // 8. FUNGSI EDIT, HAPUS, & REKOMENDASI
-        window.editData = async function(id, field, oldVal) {
+        // --- 7. EDIT & HAPUS ---
+        async function editData(id, field, oldVal) {
             const isNum = field === 'jumlah';
             const { value: newVal } = await Swal.fire({
-                title: 'Ubah Data', input: isNum?'number':'text', inputValue: oldVal, showCancelButton:true, confirmButtonText:'Simpan', footer:'<span class="text-xs text-slate-400">Isi 0 atau kosongkan untuk MENGHAPUS</span>'
+                title: 'Ubah Data', input: isNum?'number':'text', inputValue: oldVal, showCancelButton:true, confirmButtonText:'Simpan', footer:'<span class="text-xs text-slate-400">Kosong/0 = HAPUS</span>'
             });
-            
-            if(newVal === undefined) return; // User cancel
+            if(newVal === undefined) return;
 
-            // Logic Hapus
-            if(!newVal || newVal.toString().trim() === '' || newVal.toString() === '0') {
-                Swal.fire({title:'Hapus Data?', icon:'warning', showCancelButton:true, confirmButtonColor:'#EF4444', confirmButtonText:'Ya, Hapus'}).then(async r => {
-                    if(r.isConfirmed) { 
-                        loading.classList.remove('hidden');
-                        await supabase.from('transaksi_keuangan').delete().eq('id', id); 
-                        loading.classList.add('hidden');
-                        refreshActiveTab(); 
-                        Swal.fire('Terhapus!', '', 'success');
-                    }
-                }); 
-                return;
+            if(!newVal || newVal.toString() === '0') {
+                Swal.fire({title:'Hapus?', icon:'warning', showCancelButton:true, confirmButtonColor:'#EF4444', confirmButtonText:'Hapus'}).then(async r => {
+                    if(r.isConfirmed) { await supabase.from('transaksi_keuangan').delete().eq('id', id); refreshActiveTab(); }
+                }); return;
             }
 
-            // Logic Update
-            loading.classList.remove('hidden');
-            let pl = {}; pl[field] = isNum ? parseFloat(newVal) : newVal;
-            const { error } = await supabase.from('transaksi_keuangan').update(pl).eq('id', id);
-            loading.classList.add('hidden');
-            
-            if(!error) {
-                refreshActiveTab();
-                const Toast = Swal.mixin({toast: true, position: 'top-end', showConfirmButton: false, timer: 1500});
-                Toast.fire({icon: 'success', title: 'Data disimpan'});
-            } else {
-                Swal.fire('Error', error.message, 'error');
-            }
-        };
+            var pl = {}; pl[field] = isNum ? parseFloat(newVal) : newVal;
+            await supabase.from('transaksi_keuangan').update(pl).eq('id', id);
+            refreshActiveTab();
+            Swal.fire({icon:'success', title:'Disimpan', timer:1000, showConfirmButton:false});
+        }
 
         function refreshActiveTab() {
             if(!views.harian.classList.contains('hidden')) fetchHarian();
             if(!views.bulanan.classList.contains('hidden')) fetchBulanan();
         }
 
-        async function fetchSuggestions() {
-            const {data} = await supabase.from('transaksi_keuangan').select('rincian, jumlah').order('created_at',{ascending:false}).limit(200);
-            if(data) {
-                const listR = document.getElementById('listRincian'); listR.innerHTML='';
-                [...new Set(data.map(i=>i.rincian))].forEach(r => { 
-                    const opt = document.createElement('option'); opt.value = r; listR.appendChild(opt); 
-                });
-                const listJ = document.getElementById('listJumlah'); listJ.innerHTML='';
-                [...new Set(data.map(i=>i.jumlah))].forEach(j => { 
-                    const opt = document.createElement('option'); opt.value = j; listJ.appendChild(opt); 
-                });
-            }
-        }
-
-        function formatRupiah(n) { return new Intl.NumberFormat('id-ID', {style:'currency', currency:'IDR', minimumFractionDigits:0}).format(n); }
-
-        // 9. SUBMIT FORM (INPUT BARU)
+        // --- 8. SUBMIT FORM ---
         document.getElementById('formTransaksi').addEventListener('submit', async function(e) {
             e.preventDefault();
-            const btn = document.getElementById('btnSubmit'); btn.innerText='Menyimpan...'; btn.disabled=true;
+            var btn = document.getElementById('btnSubmit'); btn.innerText='Menyimpan...'; btn.disabled=true;
+            var tgl = document.getElementById('inputTanggal').value;
             
-            const tgl = document.getElementById('inputTanggal').value;
-            // PENTING: bulan_key diambil dari 7 karakter pertama tanggal (YYYY-MM)
-            const payload = {
+            var payload = {
                 tanggal: tgl, 
-                bulan_key: tgl.slice(0,7),
+                bulan_key: tgl.slice(0, 7),
                 pelapor: document.getElementById('inputPelapor').value,
                 jenis: document.getElementById('inputJenis').value,
                 jumlah: document.getElementById('inputJumlah').value,
                 rincian: document.getElementById('inputRincian').value
             };
 
-            const {error} = await supabase.from('transaksi_keuangan').insert([payload]);
+            var { error } = await supabase.from('transaksi_keuangan').insert([payload]);
             btn.innerText='Simpan Data'; btn.disabled=false;
 
             if(!error) {
-                Swal.fire({icon:'success', title:'Berhasil Disimpan!', timer:1200, showConfirmButton:false});
-                this.reset(); 
-                document.getElementById('inputTanggal').valueAsDate = new Date();
-                
-                // Set filter tanggal ke tanggal transaksi agar user langsung melihat datanya
+                Swal.fire({icon:'success', title:'Berhasil', timer:1200, showConfirmButton:false});
+                this.reset(); document.getElementById('inputTanggal').valueAsDate = new Date();
+                // Auto pindah ke Harian
                 document.getElementById('filterTanggal').value = tgl;
-                window.pindahTab('harian');
-            } else { 
-                Swal.fire('Error', error.message, 'error'); 
-            }
+                pindahTab('harian');
+            } else { Swal.fire('Error', error.message, 'error'); }
         });
 
-        // 10. INSTALL PWA
+        // --- 9. PWA INSTALL & INIT ---
         let deferredPrompt; const btnInstall = document.getElementById('btnInstall');
         if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
         window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferredPrompt=e; btnInstall.classList.remove('hidden'); btnInstall.classList.add('flex'); });
         btnInstall.addEventListener('click', async () => { if(deferredPrompt) { deferredPrompt.prompt(); const {outcome} = await deferredPrompt.userChoice; if(outcome==='accepted') btnInstall.classList.add('hidden'); deferredPrompt=null; } });
-        
-        // 11. INITIALISASI SAAT LOAD
+
+        // Helper Format Rupiah
+        function formatRupiah(n) { return new Intl.NumberFormat('id-ID', {style:'currency', currency:'IDR', minimumFractionDigits:0}).format(n); }
+
+        // Start
         window.addEventListener('DOMContentLoaded', () => {
-            // Set default tanggal hari ini
-            const now = new Date();
-            document.getElementById('inputTanggal').valueAsDate = now;
-            document.getElementById('filterTanggal').valueAsDate = now;
+            document.getElementById('inputTanggal').valueAsDate = new Date();
+            document.getElementById('filterTanggal').valueAsDate = new Date();
             
-            // Set default bulan hari ini
-            const m = String(now.getMonth()+1).padStart(2,'0');
-            document.getElementById('filterBulan').value = `${now.getFullYear()}-${m}`;
+            var now = new Date();
+            document.getElementById('filterBulan').value = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
             
-            // Tab Default
-            window.pindahTab('input');
+            pindahTab('input');
             
-            // Auto refresh saat ganti filter manual
             document.getElementById('filterTanggal').addEventListener('change', fetchHarian);
             document.getElementById('filterBulan').addEventListener('change', fetchBulanan);
         });
