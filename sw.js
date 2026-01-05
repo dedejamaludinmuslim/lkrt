@@ -1,4 +1,4 @@
-const CACHE_NAME = 'lkrt-v6-ui';
+const CACHE_NAME = 'lkrt-v6-kategori';
 const urlsToCache = [
   './',
   './index.html',

@@ -100,7 +100,14 @@
                                 </select>
                             </div>
                         </div>
+                        
                         <div>
+                            <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Kategori</label>
+                            <select id="inputKategori" required class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-indigo-500 outline-none">
+                                <!-- opsi diisi otomatis via JS -->
+                            </select>
+                        </div>
+<div>
                             <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Jumlah (Rp)</label>
                             <input type="number" id="inputJumlah" list="listJumlah" required min="0" placeholder="0" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-indigo-500 outline-none text-lg font-bold">
                             <datalist id="listJumlah"></datalist>
@@ -141,6 +148,27 @@
                             <div>Masuk: <span class="text-green-600 font-bold" id="masukAbiHarian">0</span></div>
                             <div>Keluar: <span class="text-red-500 font-bold" id="keluarAbiHarian">0</span></div>
                         </div>
+                        <div class="px-3 pb-3 -mt-1">
+                            <div class="grid grid-cols-2 gap-2 text-[12px]">
+                                <div class="rounded-lg border border-emerald-100 bg-emerald-50/60 px-3 py-2 flex items-center justify-between">
+                                    <span class="text-slate-600">Rutin</span>
+                                    <span class="font-bold text-emerald-700" id="masukAbiHarianRutin">0</span>
+                                </div>
+                                <div class="rounded-lg border border-emerald-100 bg-emerald-50/60 px-3 py-2 flex items-center justify-between">
+                                    <span class="text-slate-600">Insidental</span>
+                                    <span class="font-bold text-emerald-700" id="masukAbiHarianInsidental">0</span>
+                                </div>
+                                <div class="rounded-lg border border-rose-100 bg-rose-50/60 px-3 py-2 flex items-center justify-between">
+                                    <span class="text-slate-600">Kebutuhan</span>
+                                    <span class="font-bold text-rose-700" id="keluarAbiHarianKebutuhan">0</span>
+                                </div>
+                                <div class="rounded-lg border border-rose-100 bg-rose-50/60 px-3 py-2 flex items-center justify-between">
+                                    <span class="text-slate-600">Keinginan</span>
+                                    <span class="font-bold text-rose-700" id="keluarAbiHarianKeinginan">0</span>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                     <div class="bg-white rounded-2xl shadow-md overflow-hidden border border-pink-100">
                         <div class="card-gradient-umi p-4 text-white relative">
@@ -151,6 +179,27 @@
                             <div>Masuk: <span class="text-green-600 font-bold" id="masukUmiHarian">0</span></div>
                             <div>Keluar: <span class="text-red-500 font-bold" id="keluarUmiHarian">0</span></div>
                         </div>
+                        <div class="px-3 pb-3 -mt-1">
+                            <div class="grid grid-cols-2 gap-2 text-[12px]">
+                                <div class="rounded-lg border border-emerald-100 bg-emerald-50/60 px-3 py-2 flex items-center justify-between">
+                                    <span class="text-slate-600">Rutin</span>
+                                    <span class="font-bold text-emerald-700" id="masukUmiHarianRutin">0</span>
+                                </div>
+                                <div class="rounded-lg border border-emerald-100 bg-emerald-50/60 px-3 py-2 flex items-center justify-between">
+                                    <span class="text-slate-600">Insidental</span>
+                                    <span class="font-bold text-emerald-700" id="masukUmiHarianInsidental">0</span>
+                                </div>
+                                <div class="rounded-lg border border-rose-100 bg-rose-50/60 px-3 py-2 flex items-center justify-between">
+                                    <span class="text-slate-600">Kebutuhan</span>
+                                    <span class="font-bold text-rose-700" id="keluarUmiHarianKebutuhan">0</span>
+                                </div>
+                                <div class="rounded-lg border border-rose-100 bg-rose-50/60 px-3 py-2 flex items-center justify-between">
+                                    <span class="text-slate-600">Keinginan</span>
+                                    <span class="font-bold text-rose-700" id="keluarUmiHarianKeinginan">0</span>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
 
@@ -193,6 +242,27 @@
                             <div>Masuk: <span class="text-green-600 font-bold" id="masukAbiBulanan">0</span></div>
                             <div>Keluar: <span class="text-red-500 font-bold" id="keluarAbiBulanan">0</span></div>
                         </div>
+                        <div class="px-3 pb-3 -mt-1">
+                            <div class="grid grid-cols-2 gap-2 text-[12px]">
+                                <div class="rounded-lg border border-emerald-100 bg-emerald-50/60 px-3 py-2 flex items-center justify-between">
+                                    <span class="text-slate-600">Rutin</span>
+                                    <span class="font-bold text-emerald-700" id="masukAbiBulananRutin">0</span>
+                                </div>
+                                <div class="rounded-lg border border-emerald-100 bg-emerald-50/60 px-3 py-2 flex items-center justify-between">
+                                    <span class="text-slate-600">Insidental</span>
+                                    <span class="font-bold text-emerald-700" id="masukAbiBulananInsidental">0</span>
+                                </div>
+                                <div class="rounded-lg border border-rose-100 bg-rose-50/60 px-3 py-2 flex items-center justify-between">
+                                    <span class="text-slate-600">Kebutuhan</span>
+                                    <span class="font-bold text-rose-700" id="keluarAbiBulananKebutuhan">0</span>
+                                </div>
+                                <div class="rounded-lg border border-rose-100 bg-rose-50/60 px-3 py-2 flex items-center justify-between">
+                                    <span class="text-slate-600">Keinginan</span>
+                                    <span class="font-bold text-rose-700" id="keluarAbiBulananKeinginan">0</span>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                     <div onclick="document.getElementById('sectionUmiBulan').scrollIntoView({behavior:'smooth'})" class="bg-white rounded-2xl shadow-md overflow-hidden border border-pink-100 group cursor-pointer">
                         <div class="card-gradient-umi p-5 text-white relative">
@@ -204,6 +274,27 @@
                             <div>Masuk: <span class="text-green-600 font-bold" id="masukUmiBulanan">0</span></div>
                             <div>Keluar: <span class="text-red-500 font-bold" id="keluarUmiBulanan">0</span></div>
                         </div>
+                        <div class="px-3 pb-3 -mt-1">
+                            <div class="grid grid-cols-2 gap-2 text-[12px]">
+                                <div class="rounded-lg border border-emerald-100 bg-emerald-50/60 px-3 py-2 flex items-center justify-between">
+                                    <span class="text-slate-600">Rutin</span>
+                                    <span class="font-bold text-emerald-700" id="masukUmiBulananRutin">0</span>
+                                </div>
+                                <div class="rounded-lg border border-emerald-100 bg-emerald-50/60 px-3 py-2 flex items-center justify-between">
+                                    <span class="text-slate-600">Insidental</span>
+                                    <span class="font-bold text-emerald-700" id="masukUmiBulananInsidental">0</span>
+                                </div>
+                                <div class="rounded-lg border border-rose-100 bg-rose-50/60 px-3 py-2 flex items-center justify-between">
+                                    <span class="text-slate-600">Kebutuhan</span>
+                                    <span class="font-bold text-rose-700" id="keluarUmiBulananKebutuhan">0</span>
+                                </div>
+                                <div class="rounded-lg border border-rose-100 bg-rose-50/60 px-3 py-2 flex items-center justify-between">
+                                    <span class="text-slate-600">Keinginan</span>
+                                    <span class="font-bold text-rose-700" id="keluarUmiBulananKeinginan">0</span>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
 
@@ -244,6 +335,7 @@
     </div>
 
     <script>
+
         // --- 1. CONFIG SUPABASE (Sama persis dengan index-old.html) ---
         var MY_SUPABASE_URL = 'https://rvlmszheenxbhehpzlne.supabase.co';
         var MY_SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ2bG1zemhlZW54YmhlaHB6bG5lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY0MDIyNDEsImV4cCI6MjA4MTk3ODI0MX0.qqrPfESiAVG2CO4l-AgEPQqZ2ZNAV5WEZZN7MLLHitA';
@@ -358,11 +450,36 @@
         }
 
         // --- 6. RENDER & HITUNG ---
+        
+        // ===== HELPERS (SAFE STRING) =====
+        function escJS(s) {
+            return (s ?? '').toString()
+                .replace(/\/g, '\')
+                .replace(/'/g, "\'")
+                .replace(/?
+/g, ' ');
+        }
+        function escapeHtml(s) {
+            return (s ?? '').toString().replace(/[&<>"']/g, (c) => ({
+                '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+            }[c]));
+        }
+        function labelKategori(k) {
+            const v = (k ?? '').toString().trim().toLowerCase();
+            const map = { rutin: 'Rutin', insidental: 'Insidental', kebutuhan: 'Kebutuhan', keinginan: 'Keinginan' };
+            return map[v] || (k ?? '').toString().trim();
+        }
+        function badgeKategoriClass(jenis) {
+            if(jenis === 'pemasukan') return 'bg-emerald-50 text-emerald-700 border-emerald-100';
+            if(jenis === 'pengeluaran') return 'bg-rose-50 text-rose-700 border-rose-100';
+            return 'bg-slate-100 text-slate-600 border-slate-200';
+        }
+
         function renderTabel(tbodyId, emptyId, dataset) {
             var tbody = document.getElementById(tbodyId);
             var empty = document.getElementById(emptyId);
             tbody.innerHTML = '';
-            
+
             if(dataset.length === 0) { empty.classList.remove('hidden'); return; }
             empty.classList.add('hidden');
 
@@ -370,33 +487,76 @@
                 var color = item.jenis === 'pengeluaran' ? 'text-red-500' : 'text-green-600';
                 var d = new Date(item.tanggal);
                 var tgl = `${d.getDate()}/${d.getMonth()+1}`;
-                
+
+                const rincian = escapeHtml(item.rincian || '');
+                const katLabel = labelKategori(item.kategori);
+                const kat = katLabel ? `
+                    <div class="mt-1">
+                        <span class="inline-flex items-center px-2 py-0.5 rounded-full border text-[10px] font-bold ${badgeKategoriClass(item.jenis)} cursor-pointer"
+                              onclick="editData(${item.id}, 'kategori', '${escJS(item.kategori || '')}')">
+                            ${escapeHtml(katLabel)}
+                        </span>
+                    </div>` : '';
+
                 var tr = document.createElement('tr');
                 tr.className = "hover:bg-slate-50 border-b border-slate-50 transition";
                 tr.innerHTML = `
                     <td class="px-4 py-3 w-[15%] text-slate-400 text-[10px] font-mono align-top pt-4">${tgl}</td>
-                    <td class="px-4 py-3 w-[55%] text-slate-700 font-medium editable text-xs align-top pt-4 cursor-pointer" onclick="editData(${item.id}, 'rincian', '${item.rincian}')">${item.rincian}</td>
-                    <td class="px-4 py-3 w-[30%] text-right font-bold ${color} editable text-xs align-top pt-4 cursor-pointer" onclick="editData(${item.id}, 'jumlah', '${item.jumlah}')">${formatRupiah(item.jumlah)}</td>
+                    <td class="px-4 py-3 w-[55%] text-slate-800 align-top pt-3">
+                        <div class="flex flex-col">
+                            <div class="font-medium cursor-pointer" onclick="editData(${item.id}, 'rincian', '${escJS(item.rincian || '')}')">${rincian}</div>
+                            ${kat}
+                        </div>
+                    </td>
+                    <td class="px-4 py-3 w-[30%] text-right font-bold ${color} text-xs align-top pt-4 cursor-pointer"
+                        onclick="editData(${item.id}, 'jumlah', '${escJS(item.jumlah)}')">${formatRupiah(item.jumlah)}</td>
                 `;
                 tbody.appendChild(tr);
             });
         }
 
+        function setTextIfExists(id, val) {
+            var el = document.getElementById(id);
+            if(el) el.innerText = val;
+        }
+
         function hitungSaldo(data, suffix) {
-            var s = { abi: {m:0, k:0}, umi: {m:0, k:0} };
+            var s = {
+                abi: {m:0, k:0, mr:0, mi:0, kk:0, kq:0},
+                umi: {m:0, k:0, mr:0, mi:0, kk:0, kq:0}
+            };
             data.forEach(i => {
                 var n = parseFloat(i.jumlah);
+                if(isNaN(n)) n = 0;
                 var p = i.pelapor === 'Abi' ? s.abi : s.umi;
-                i.jenis === 'pemasukan' ? p.m += n : p.k += n;
+                var jenis = (i.jenis || '').toLowerCase();
+                var kat = (i.kategori || '').toString().trim().toLowerCase();
+
+                if(jenis === 'pemasukan') {
+                    p.m += n;
+                    if(kat === 'rutin') p.mr += n;
+                    if(kat === 'insidental') p.mi += n;
+                } else {
+                    p.k += n;
+                    if(kat === 'kebutuhan') p.kk += n;
+                    if(kat === 'keinginan') p.kq += n;
+                }
             });
 
             ['Abi', 'Umi'].forEach(who => {
                 var key = who.toLowerCase();
-                document.getElementById(`masuk${who}${suffix}`).innerText = formatRupiah(s[key].m);
-                document.getElementById(`keluar${who}${suffix}`).innerText = formatRupiah(s[key].k);
-                document.getElementById(`sisa${who}${suffix}`).innerText = formatRupiah(s[key].m - s[key].k);
+                setTextIfExists(`masuk${who}${suffix}`, formatRupiah(s[key].m));
+                setTextIfExists(`keluar${who}${suffix}`, formatRupiah(s[key].k));
+                setTextIfExists(`sisa${who}${suffix}`, formatRupiah(s[key].m - s[key].k));
+
+                // breakdown kategori
+                setTextIfExists(`masuk${who}${suffix}Rutin`, formatRupiah(s[key].mr));
+                setTextIfExists(`masuk${who}${suffix}Insidental`, formatRupiah(s[key].mi));
+                setTextIfExists(`keluar${who}${suffix}Kebutuhan`, formatRupiah(s[key].kk));
+                setTextIfExists(`keluar${who}${suffix}Keinginan`, formatRupiah(s[key].kq));
             });
         }
+
 
         // --- 7. EDIT & HAPUS ---
         async function editData(id, field, oldVal) {
@@ -435,10 +595,44 @@
                 pelapor: document.getElementById('inputPelapor').value,
                 jenis: document.getElementById('inputJenis').value,
                 jumlah: document.getElementById('inputJumlah').value,
-                rincian: document.getElementById('inputRincian').value
+                rincian: document.getElementById('inputRincian').value,
+                kategori: document.getElementById('inputKategori').value
             };
 
-            var { error } = await supabase.from('transaksi_keuangan').insert([payload]);
+            
+            let { error } = await supabase.from('transaksi_keuangan').insert([payload]);
+
+            // Jika schema Supabase belum punya kolom "kategori", kita coba simpan tanpa kategori
+            if(error && (error.message || '').toLowerCase().includes('kategori')) {
+                const payloadNoKat = { ...payload };
+                delete payloadNoKat.kategori;
+
+                const retry = await supabase.from('transaksi_keuangan').insert([payloadNoKat]);
+                error = retry.error;
+
+                if(!error) {
+                    Swal.fire({
+                        icon:'info',
+                        title:'Kategori belum tersimpan',
+                        text:'Data berhasil tersimpan, tapi kolom "kategori" belum ada di Supabase. Tambahkan kolom itu agar fitur kategori aktif penuh.',
+                        timer:2800,
+                        showConfirmButton:false
+                    });
+                } else {
+                    Swal.fire({
+                        icon:'error',
+                        title:'Butuh update tabel Supabase',
+                        html:`<div class="text-left text-sm">
+                                <p>Tambahkan kolom <b>kategori</b> pada tabel <b>transaksi_keuangan</b> (tipe <code>text</code>).</p>
+                                <div class="mt-2 p-3 rounded-lg bg-slate-900 text-slate-100 font-mono text-xs overflow-auto">
+                                    ALTER TABLE transaksi_keuangan ADD COLUMN IF NOT EXISTS kategori text;
+                                </div>
+                              </div>`,
+                        confirmButtonText:'Mengerti'
+                    });
+                }
+            }
+
             btn.innerText='Simpan Data'; btn.disabled=false;
 
             if(!error) {
@@ -467,6 +661,35 @@
             const splash = document.getElementById('appSplash');
             const splashStart = (window.performance && performance.now) ? performance.now() : Date.now();
             const MIN_SPLASH_MS = 1100;
+
+            // Kategori (Pemasukan/Pengeluaran)
+            const jenisEl = document.getElementById('inputJenis');
+            const katEl = document.getElementById('inputKategori');
+
+            function updateKategoriOptions() {
+                if(!jenisEl || !katEl) return;
+                const jenis = (jenisEl.value || '').toLowerCase();
+                const opts = (jenis === 'pemasukan')
+                    ? [
+                        {v:'rutin', t:'Rutin'},
+                        {v:'insidental', t:'Insidental'}
+                      ]
+                    : [
+                        {v:'kebutuhan', t:'Kebutuhan'},
+                        {v:'keinginan', t:'Keinginan'}
+                      ];
+                katEl.innerHTML = '';
+                opts.forEach(o => {
+                    const opt = document.createElement('option');
+                    opt.value = o.v;
+                    opt.textContent = o.t;
+                    katEl.appendChild(opt);
+                });
+            }
+
+            if(jenisEl) jenisEl.addEventListener('change', updateKategoriOptions);
+            updateKategoriOptions();
+
 
             const hideSplash = () => {
                 if(!splash) return;
@@ -503,6 +726,26 @@
             document.getElementById('filterBulan').addEventListener('change', fetchBulanan);
         });
     </script>
+
+<script>
+  // Setelah app siap, kembalikan theme-color ke biru (untuk status bar), tanpa mengubah splash sistem.
+  (function(){
+    const BLUE = '#0B5BD3';
+    function setThemeColor(color){
+      let meta = document.querySelector('meta[name="theme-color"]');
+      if(!meta){
+        meta = document.createElement('meta');
+        meta.setAttribute('name','theme-color');
+        document.head.appendChild(meta);
+      }
+      meta.setAttribute('content', color);
+    }
+    window.addEventListener('load', function(){
+      setThemeColor(BLUE);
+    });
+  })();
+
+</script>
 
 <script>
   // Setelah app siap, kembalikan theme-color ke biru (untuk status bar), tanpa mengubah splash sistem.
