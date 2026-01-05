@@ -41,7 +41,31 @@
         input[type="date"]::-webkit-calendar-picker-indicator {
             background: transparent; bottom: 0; color: transparent; cursor: pointer; height: auto; left: 0; position: absolute; right: 0; top: 0; width: auto;
         }
-    </style>
+    
+        /* === MOBILE: sembunyikan ikon/arrow bawaan date/month agar input simetris === */
+        @media (max-width: 640px) {
+          input[type="date"],
+          input[type="month"]{
+            -webkit-appearance: none;
+            appearance: none;
+            background-image: none !important;
+            padding-right: 12px; /* jangan sisakan ruang ikon di kanan */
+          }
+          input[type="date"]::-webkit-calendar-picker-indicator,
+          input[type="month"]::-webkit-calendar-picker-indicator{
+            opacity: 0;
+            width: 0;
+            height: 0;
+            padding: 0;
+            margin: 0;
+          }
+          input[type="date"]::-webkit-inner-spin-button,
+          input[type="month"]::-webkit-inner-spin-button{
+            display: none;
+          }
+        }
+
+</style>
 </head>
 <body class="text-slate-800 h-screen flex flex-col overflow-hidden">
 
