@@ -84,14 +84,15 @@
                             <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Tanggal</label>
                             <input type="date" id="inputTanggal" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-indigo-500 outline-none font-medium">
                         </div>
-                        <div class="grid grid-cols-2 gap-4">
-                            <div>
+                        <div>
                                 <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Siapa?</label>
-                                <select id="inputPelapor" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-indigo-500 outline-none">
-                                    <option value="Abi">Abi</option>
-                                    <option value="Umi">Umi</option>
-                                </select>
+                                <input type="hidden" id="inputPelapor" value="Abi">
+                                <div class="grid grid-cols-2 gap-3">
+                                    <button type="button" id="btnPelaporAbi" class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-gradient-to-r from-indigo-600 to-blue-600 text-white font-bold shadow-sm transition focus:outline-none focus:ring-2 focus:ring-indigo-500">Abi</button>
+                                    <button type="button" id="btnPelaporUmi" class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white text-slate-700 font-bold hover:bg-slate-50 transition focus:outline-none focus:ring-2 focus:ring-indigo-500">Umi</button>
+                                </div>
                             </div>
+                        <div class="grid grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Jenis</label>
                                 <select id="inputJenis" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-indigo-500 outline-none">
@@ -99,23 +100,22 @@
                                     <option value="pemasukan">Pemasukan</option>
                                 </select>
                             </div>
-                        </div>
-                        
-                        <div>
+                            <div>
                             <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Kategori</label>
                             <select id="inputKategori" required class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-indigo-500 outline-none">
                                 <!-- opsi diisi otomatis via JS -->
                             </select>
                         </div>
-<div>
-                            <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Jumlah (Rp)</label>
-                            <input type="number" id="inputJumlah" list="listJumlah" required min="0" placeholder="0" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-indigo-500 outline-none text-lg font-bold">
-                            <datalist id="listJumlah"></datalist>
                         </div>
-                        <div>
+<div>
                             <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Rincian</label>
                             <input type="text" id="inputRincian" list="listRincian" required placeholder="Contoh: Belanja Sayur" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-indigo-500 outline-none">
                             <datalist id="listRincian"></datalist>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Jumlah (Rp)</label>
+                            <input type="number" id="inputJumlah" list="listJumlah" required min="0" placeholder="0" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-indigo-500 outline-none text-lg font-bold">
+                            <datalist id="listJumlah"></datalist>
                         </div>
                         <button type="submit" id="btnSubmit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3.5 rounded-xl transition duration-200 shadow-lg mt-2 transform hover:-translate-y-0.5">
                             Simpan Data
@@ -662,6 +662,35 @@ function escapeHtml(s) {
             const splash = document.getElementById('appSplash');
             const splashStart = (window.performance && performance.now) ? performance.now() : Date.now();
             const MIN_SPLASH_MS = 1100;
+
+            // Pelapor (Abi/Umi) sebagai tombol
+            const pelaporEl = document.getElementById('inputPelapor');
+            const btnAbi = document.getElementById('btnPelaporAbi');
+            const btnUmi = document.getElementById('btnPelaporUmi');
+
+            const activeClasses = ['bg-gradient-to-r','from-indigo-600','to-blue-600','text-white','shadow-sm'];
+            const inactiveClasses = ['bg-white','text-slate-700','hover:bg-slate-50'];
+
+            function applyClasses(el, add, remove) {
+                if (!el) return;
+                remove.forEach(c => el.classList.remove(c));
+                add.forEach(c => el.classList.add(c));
+            }
+
+            function setPelapor(val) {
+                if (pelaporEl) pelaporEl.value = val;
+                if (val === 'Umi') {
+                    applyClasses(btnAbi, inactiveClasses, activeClasses);
+                    applyClasses(btnUmi, activeClasses, inactiveClasses);
+                } else {
+                    applyClasses(btnAbi, activeClasses, inactiveClasses);
+                    applyClasses(btnUmi, inactiveClasses, activeClasses);
+                }
+            }
+
+            if (btnAbi) btnAbi.addEventListener('click', () => setPelapor('Abi'));
+            if (btnUmi) btnUmi.addEventListener('click', () => setPelapor('Umi'));
+            setPelapor((pelaporEl && pelaporEl.value) ? pelaporEl.value : 'Abi');
 
             // Kategori (Pemasukan/Pengeluaran)
             const jenisEl = document.getElementById('inputJenis');
