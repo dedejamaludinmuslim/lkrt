@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="#0B5BD3">
+    <meta name="theme-color" content="#FFFFFF">
     <title>LKRT – Laporan Keuangan Rumah Tangga</title>
     
     <link rel="manifest" href="manifest.json">
@@ -498,5 +498,25 @@
             document.getElementById('filterBulan').addEventListener('change', fetchBulanan);
         });
     </script>
+
+<script>
+  // Setelah app siap, kembalikan theme-color ke biru (untuk status bar), tanpa mengubah splash sistem.
+  (function(){
+    const BLUE = '#0B5BD3';
+    function setThemeColor(color){
+      let meta = document.querySelector('meta[name="theme-color"]');
+      if(!meta){
+        meta = document.createElement('meta');
+        meta.setAttribute('name','theme-color');
+        document.head.appendChild(meta);
+      }
+      meta.setAttribute('content', color);
+    }
+    window.addEventListener('load', function(){
+      setThemeColor(BLUE);
+    });
+  })();
+</script>
+
 </body>
 </html>
