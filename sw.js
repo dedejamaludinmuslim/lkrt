@@ -1,4 +1,4 @@
-const CACHE_NAME = 'lkrt-v3';
+const CACHE_NAME = 'lkrt-v4';
 const urlsToCache = [
   './',
   './index.html',

@@ -30,8 +30,9 @@
         .swal2-cancel { background-color: #EF4444 !important; }
         .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
 
-        /* Splash screen (in-app) */
-        #appSplash { position: fixed; inset: 0; z-index: 9999; background: linear-gradient(180deg, #0B5BD3 0%, #0A4FC0 55%, #0B5BD3 100%); display: flex; align-items: center; justify-content: center; }
+        /* Splash screen (in-app)
+           Full-screen (tanpa kartu di tengah) supaya tidak terlihat seperti ada 2 gambar. */
+        #appSplash { position: fixed; inset: 0; z-index: 9999; background: #0B5BD3 url('splash-1080x1920.png') center/cover no-repeat; }
         #appSplash.fade-out { opacity: 0; transition: opacity .35s ease; pointer-events: none; }
 
         /* Hilangkan icon kalender default browser agar panah kita rapi */
@@ -45,7 +46,7 @@
 
     <!-- Splash screen (in-app). Akan hilang otomatis setelah halaman siap. -->
     <div id="appSplash" aria-label="Splash screen">
-        <img src="splash-1080x1920.png" alt="LKRT" style="width: min(420px, 92vw); height: min(780px, 92vh); object-fit: cover; border-radius: 24px; box-shadow: 0 30px 80px rgba(0,0,0,.35);" />
+        <span class="sr-only">Loading…</span>
     </div>
 
     <nav class="bg-white shadow-sm border-b border-slate-200 sticky top-0 z-50 flex-none h-16">
