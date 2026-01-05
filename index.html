@@ -453,13 +453,14 @@
         
         // ===== HELPERS (SAFE STRING) =====
         function escJS(s) {
+            // Escape for embedding inside single-quoted HTML attributes (onclick="... 'HERE' ...")
             return (s ?? '').toString()
-                .replace(/\/g, '\')
-                .replace(/'/g, "\'")
-                .replace(/?
-/g, ' ');
+                .replace(/\\/g, '\\\\')   // backslash
+                .replace(/'/g, "\\'")        // single quote
+                .replace(/\r?\n/g, ' ');      // newlines
         }
-        function escapeHtml(s) {
+
+function escapeHtml(s) {
             return (s ?? '').toString().replace(/[&<>"']/g, (c) => ({
                 '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
             }[c]));
