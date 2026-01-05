@@ -18,36 +18,34 @@
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #F1F5F9; }
         .card-gradient-abi { background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%); }
         .card-gradient-umi { background: linear-gradient(135deg, #DB2777 0%, #BE185D 100%); }
-        .fade-in { animation: fadeIn 0.4s ease-out; }
+        .fade-in { animation: fadeIn 0.3s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .hidden { display: none !important; }
-        .editable:hover { background-color: #FEF3C7; cursor: pointer; text-decoration: underline; text-decoration-style: dotted; border-radius: 4px; }
+        .editable:hover { background-color: #FEF3C7; cursor: pointer; border-radius: 4px; }
         
         /* SweetAlert Styling */
         .swal2-popup { border-radius: 1rem !important; font-family: 'Plus Jakarta Sans', sans-serif; }
-        .swal2-confirm { background-color: #4F46E5 !important; box-shadow: none !important; }
+        .swal2-confirm { background-color: #4F46E5 !important; }
         .swal2-cancel { background-color: #EF4444 !important; }
         
-        /* Scrollbar */
         html { scroll-behavior: smooth; }
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #f1f1f1; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
-        
-        /* Safe Area untuk HP tanpa tombol fisik (iPhone X ke atas) */
         .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
+        
+        /* Hide Date Picker Icon in some browsers to make custom arrows look cleaner */
+        input[type="date"]::-webkit-inner-spin-button,
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            background: transparent; bottom: 0; color: transparent; cursor: pointer; height: auto; left: 0; position: absolute; right: 0; top: 0; width: auto;
+        }
     </style>
 </head>
 <body class="text-slate-800 h-screen flex flex-col overflow-hidden">
 
     <nav class="bg-white shadow-sm border-b border-slate-200 sticky top-0 z-50 flex-none h-16">
         <div class="max-w-3xl mx-auto px-4 h-full flex items-center justify-between">
-            
             <div class="flex items-center gap-2">
                 <div class="bg-slate-800 text-white p-1.5 rounded-lg font-bold text-sm">DK</div>
                 <span class="font-bold text-lg text-slate-800">Dompet Keluarga</span>
             </div>
-
             <button id="btnInstall" class="hidden text-xs bg-indigo-100 text-indigo-700 px-3 py-1.5 rounded-full font-bold hover:bg-indigo-200 transition items-center gap-1">
                 📲 Install
             </button>
@@ -58,320 +56,418 @@
         <div class="max-w-3xl mx-auto px-4 py-6 pb-32">
             
             <section id="viewInput" class="fade-in">
-                <div class="bg-white p-6 sm:p-8 rounded-3xl shadow-xl border border-slate-200 max-w-lg mx-auto mt-4">
+                <div class="bg-white p-6 rounded-3xl shadow-xl border border-slate-200 max-w-lg mx-auto mt-4">
                     <div class="text-center mb-6">
                         <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-indigo-50 text-indigo-600 mb-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>
                         </div>
                         <h2 class="text-2xl font-bold text-slate-800">Catat Transaksi</h2>
                     </div>
 
-                    <form id="formTransaksi" class="space-y-5">
+                    <form id="formTransaksi" class="space-y-4">
                         <div>
                             <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Tanggal</label>
-                            <input type="date" id="inputTanggal" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-indigo-500 outline-none transition font-medium">
+                            <input type="date" id="inputTanggal" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none font-medium">
                         </div>
-                        
                         <div class="grid grid-cols-2 gap-4">
                             <div>
-                                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Pelapor</label>
-                                <select id="inputPelapor" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-indigo-500 outline-none transition">
+                                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Siapa?</label>
+                                <select id="inputPelapor" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none">
                                     <option value="Abi">Abi</option>
                                     <option value="Umi">Umi</option>
                                 </select>
                             </div>
                             <div>
-                                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Jenis Laporan</label>
-                                <select id="inputJenis" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-indigo-500 outline-none transition">
+                                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Jenis</label>
+                                <select id="inputJenis" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none">
                                     <option value="pengeluaran">Pengeluaran</option>
                                     <option value="pemasukan">Pemasukan</option>
                                 </select>
                             </div>
                         </div>
-
                         <div>
                             <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Jumlah (Rp)</label>
-                            <div class="relative">
-                                <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-slate-400 font-bold">Rp</span>
-                                <input type="number" id="inputJumlah" list="listJumlah" required min="0" placeholder="0" class="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-indigo-500 outline-none transition text-lg font-bold text-slate-800">
-                                <datalist id="listJumlah"></datalist>
-                            </div>
+                            <input type="number" id="inputJumlah" list="listJumlah" required min="0" placeholder="0" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none text-lg font-bold">
+                            <datalist id="listJumlah"></datalist>
                         </div>
-
                         <div>
                             <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Rincian</label>
-                            <input type="text" id="inputRincian" list="listRincian" required placeholder="Contoh: Belanja Sayur, Bensin" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-indigo-500 outline-none transition">
+                            <input type="text" id="inputRincian" list="listRincian" required placeholder="Contoh: Belanja Sayur" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none">
                             <datalist id="listRincian"></datalist>
                         </div>
-
-                        <button type="submit" id="btnSubmit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3.5 rounded-xl transition duration-200 shadow-lg shadow-indigo-200 transform hover:-translate-y-0.5">
-                            Simpan Data
-                        </button>
+                        <button type="submit" id="btnSubmit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3.5 rounded-xl transition shadow-lg mt-2 active:scale-95">Simpan Data</button>
                     </form>
                 </div>
             </section>
 
-            <section id="viewLaporan" class="hidden fade-in space-y-8">
-                
-                <div class="flex justify-between items-center bg-white p-4 rounded-xl shadow-sm border border-slate-200 sticky top-0 z-10 backdrop-blur-md bg-white/90">
-                    <h3 class="font-bold text-slate-700">Laporan Bulanan</h3>
-                    <input type="month" id="filterBulan" class="border border-slate-300 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium">
+            <section id="viewHarian" class="hidden fade-in space-y-6">
+                <div class="flex items-center justify-between bg-white p-2 rounded-xl shadow-sm border border-slate-200 sticky top-0 z-10">
+                    <button onclick="changeDate(-1)" class="p-3 bg-slate-100 rounded-lg hover:bg-slate-200 active:scale-95 transition">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
+                    </button>
+                    <div class="flex flex-col items-center">
+                        <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Laporan Harian</span>
+                        <input type="date" id="filterTanggal" class="bg-transparent text-center font-bold text-slate-700 focus:outline-none cursor-pointer">
+                    </div>
+                    <button onclick="changeDate(1)" class="p-3 bg-slate-100 rounded-lg hover:bg-slate-200 active:scale-95 transition">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+                    </button>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div onclick="document.getElementById('sectionAbi').scrollIntoView({behavior: 'smooth'})" class="bg-white rounded-2xl shadow-md overflow-hidden border border-blue-100 cursor-pointer transform hover:scale-[1.01] transition duration-200 group">
-                        <div class="card-gradient-abi p-5 text-white relative">
-                            <p class="text-blue-100 text-xs font-bold uppercase tracking-wider mb-1">Dompet Abi</p>
-                            <h2 class="text-3xl font-bold" id="sisaAbi">Rp 0</h2>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="absolute right-4 top-4 h-6 w-6 text-white opacity-50 group-hover:opacity-100 transition" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" /></svg>
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="bg-white rounded-2xl shadow border border-blue-100 overflow-hidden">
+                        <div class="bg-blue-50 p-3 text-center border-b border-blue-100">
+                            <h4 class="text-xs font-bold text-blue-800 uppercase">Abi (Hari Ini)</h4>
+                            <h2 class="text-xl font-bold text-slate-800 mt-1" id="sisaAbiHarian">Rp 0</h2>
                         </div>
-                        <div class="p-3 grid grid-cols-2 divide-x divide-gray-100 text-sm text-center">
-                            <div><span class="text-gray-400 text-xs block">Masuk</span><span class="text-green-600 font-bold" id="masukAbi">0</span></div>
-                            <div><span class="text-gray-400 text-xs block">Keluar</span><span class="text-red-500 font-bold" id="keluarAbi">0</span></div>
-                        </div>
-                    </div>
-                    
-                    <div onclick="document.getElementById('sectionUmi').scrollIntoView({behavior: 'smooth'})" class="bg-white rounded-2xl shadow-md overflow-hidden border border-pink-100 cursor-pointer transform hover:scale-[1.01] transition duration-200 group">
-                        <div class="card-gradient-umi p-5 text-white relative">
-                            <p class="text-pink-100 text-xs font-bold uppercase tracking-wider mb-1">Dompet Umi</p>
-                            <h2 class="text-3xl font-bold" id="sisaUmi">Rp 0</h2>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="absolute right-4 top-4 h-6 w-6 text-white opacity-50 group-hover:opacity-100 transition" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" /></svg>
-                        </div>
-                        <div class="p-3 grid grid-cols-2 divide-x divide-gray-100 text-sm text-center">
-                            <div><span class="text-gray-400 text-xs block">Masuk</span><span class="text-green-600 font-bold" id="masukUmi">0</span></div>
-                            <div><span class="text-gray-400 text-xs block">Keluar</span><span class="text-red-500 font-bold" id="keluarUmi">0</span></div>
+                        <div class="p-2 grid grid-cols-2 divide-x divide-slate-100 text-[10px] text-center">
+                            <div>Masuk: <span class="text-green-600 font-bold block" id="masukAbiHarian">0</span></div>
+                            <div>Keluar: <span class="text-red-500 font-bold block" id="keluarAbiHarian">0</span></div>
                         </div>
                     </div>
-                </div>
-
-                <div class="flex justify-center">
-                    <span id="loadingIndicator" class="text-sm font-bold text-indigo-500 animate-pulse hidden bg-indigo-50 px-4 py-2 rounded-full">Sedang memuat data...</span>
-                </div>
-
-                <div id="sectionAbi" class="pt-2">
-                    <div class="flex items-center gap-2 mb-3">
-                        <div class="w-1 h-6 bg-blue-600 rounded-full"></div>
-                        <h4 class="font-bold text-slate-700 text-lg">Riwayat Abi</h4>
-                    </div>
-                    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-                        <div class="overflow-x-auto">
-                            <table class="w-full text-left text-sm">
-                                <thead class="bg-blue-50 text-blue-800 border-b border-blue-100">
-                                    <tr>
-                                        <th class="px-4 py-3 w-1/4">Tanggal</th>
-                                        <th class="px-4 py-3 w-1/2">Rincian</th>
-                                        <th class="px-4 py-3 w-1/4 text-right">Jumlah</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="tbodyAbi" class="divide-y divide-slate-50"></tbody>
-                            </table>
+                    <div class="bg-white rounded-2xl shadow border border-pink-100 overflow-hidden">
+                        <div class="bg-pink-50 p-3 text-center border-b border-pink-100">
+                            <h4 class="text-xs font-bold text-pink-800 uppercase">Umi (Hari Ini)</h4>
+                            <h2 class="text-xl font-bold text-slate-800 mt-1" id="sisaUmiHarian">Rp 0</h2>
                         </div>
-                        <div id="emptyAbi" class="hidden py-6 text-center text-slate-400 text-sm bg-slate-50">Tidak ada transaksi Abi bulan ini.</div>
+                        <div class="p-2 grid grid-cols-2 divide-x divide-slate-100 text-[10px] text-center">
+                            <div>Masuk: <span class="text-green-600 font-bold block" id="masukUmiHarian">0</span></div>
+                            <div>Keluar: <span class="text-red-500 font-bold block" id="keluarUmiHarian">0</span></div>
+                        </div>
                     </div>
                 </div>
 
-                <div id="sectionUmi" class="pt-6">
-                    <div class="flex items-center gap-2 mb-3">
-                        <div class="w-1 h-6 bg-pink-600 rounded-full"></div>
-                        <h4 class="font-bold text-slate-700 text-lg">Riwayat Umi</h4>
+                <div class="space-y-4">
+                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                        <div class="bg-slate-50 px-4 py-2 text-xs font-bold text-slate-500 uppercase">Transaksi Abi</div>
+                        <table class="w-full text-sm text-left"><tbody id="tbodyAbiHarian"></tbody></table>
+                        <div id="emptyAbiHarian" class="hidden py-4 text-center text-xs text-slate-400">Kosong</div>
                     </div>
-                    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-                        <div class="overflow-x-auto">
-                            <table class="w-full text-left text-sm">
-                                <thead class="bg-pink-50 text-pink-800 border-b border-pink-100">
-                                    <tr>
-                                        <th class="px-4 py-3 w-1/4">Tanggal</th>
-                                        <th class="px-4 py-3 w-1/2">Rincian</th>
-                                        <th class="px-4 py-3 w-1/4 text-right">Jumlah</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="tbodyUmi" class="divide-y divide-slate-50"></tbody>
-                            </table>
-                        </div>
-                        <div id="emptyUmi" class="hidden py-6 text-center text-slate-400 text-sm bg-slate-50">Tidak ada transaksi Umi bulan ini.</div>
+                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                        <div class="bg-slate-50 px-4 py-2 text-xs font-bold text-slate-500 uppercase">Transaksi Umi</div>
+                        <table class="w-full text-sm text-left"><tbody id="tbodyUmiHarian"></tbody></table>
+                        <div id="emptyUmiHarian" class="hidden py-4 text-center text-xs text-slate-400">Kosong</div>
                     </div>
                 </div>
             </section>
+
+            <section id="viewBulanan" class="hidden fade-in space-y-6">
+                <div class="flex items-center justify-between bg-white p-2 rounded-xl shadow-sm border border-slate-200 sticky top-0 z-10">
+                    <button onclick="changeMonth(-1)" class="p-3 bg-slate-100 rounded-lg hover:bg-slate-200 active:scale-95 transition">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
+                    </button>
+                    <div class="flex flex-col items-center">
+                        <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Laporan Bulanan</span>
+                        <input type="month" id="filterBulan" class="bg-transparent text-center font-bold text-slate-700 focus:outline-none cursor-pointer">
+                    </div>
+                    <button onclick="changeMonth(1)" class="p-3 bg-slate-100 rounded-lg hover:bg-slate-200 active:scale-95 transition">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div onclick="document.getElementById('sectionAbiBulan').scrollIntoView({behavior:'smooth'})" class="bg-white rounded-2xl shadow-md overflow-hidden border border-blue-100 group cursor-pointer">
+                        <div class="card-gradient-abi p-5 text-white relative">
+                            <p class="text-blue-100 text-xs font-bold uppercase">Dompet Abi (Bulan)</p>
+                            <h2 class="text-3xl font-bold" id="sisaAbiBulanan">Rp 0</h2>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="absolute right-4 top-4 h-6 w-6 text-white opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" /></svg>
+                        </div>
+                        <div class="p-3 grid grid-cols-2 divide-x divide-gray-100 text-center text-sm">
+                            <div>Masuk: <span class="text-green-600 font-bold" id="masukAbiBulanan">0</span></div>
+                            <div>Keluar: <span class="text-red-500 font-bold" id="keluarAbiBulanan">0</span></div>
+                        </div>
+                    </div>
+                    <div onclick="document.getElementById('sectionUmiBulan').scrollIntoView({behavior:'smooth'})" class="bg-white rounded-2xl shadow-md overflow-hidden border border-pink-100 group cursor-pointer">
+                        <div class="card-gradient-umi p-5 text-white relative">
+                            <p class="text-pink-100 text-xs font-bold uppercase">Dompet Umi (Bulan)</p>
+                            <h2 class="text-3xl font-bold" id="sisaUmiBulanan">Rp 0</h2>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="absolute right-4 top-4 h-6 w-6 text-white opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" /></svg>
+                        </div>
+                        <div class="p-3 grid grid-cols-2 divide-x divide-gray-100 text-center text-sm">
+                            <div>Masuk: <span class="text-green-600 font-bold" id="masukUmiBulanan">0</span></div>
+                            <div>Keluar: <span class="text-red-500 font-bold" id="keluarUmiBulanan">0</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="sectionAbiBulan" class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                    <div class="bg-blue-50 px-4 py-2 font-bold text-blue-800 text-sm">Riwayat Abi (Bulan Ini)</div>
+                    <table class="w-full text-left text-sm"><tbody id="tbodyAbiBulanan" class="divide-y divide-slate-50"></tbody></table>
+                    <div id="emptyAbiBulanan" class="hidden py-6 text-center text-slate-400 text-xs">Belum ada data.</div>
+                </div>
+
+                <div id="sectionUmiBulan" class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                    <div class="bg-pink-50 px-4 py-2 font-bold text-pink-800 text-sm">Riwayat Umi (Bulan Ini)</div>
+                    <table class="w-full text-left text-sm"><tbody id="tbodyUmiBulanan" class="divide-y divide-slate-50"></tbody></table>
+                    <div id="emptyUmiBulanan" class="hidden py-6 text-center text-slate-400 text-xs">Belum ada data.</div>
+                </div>
+            </section>
+
+            <div id="loadingIndicator" class="fixed top-20 left-1/2 transform -translate-x-1/2 bg-white px-4 py-2 rounded-full shadow-lg border border-indigo-100 hidden z-50 flex items-center gap-2">
+                <span class="animate-spin text-indigo-600">⟳</span> <span class="text-xs font-bold text-indigo-600">Memuat...</span>
+            </div>
         </div>
     </div>
 
-    <div class="fixed bottom-0 left-0 w-full bg-white border-t border-slate-200 p-3 z-50 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] pb-safe">
-        <div class="max-w-3xl mx-auto flex gap-3">
-            <button onclick="pindahTab('input')" id="tabInput" class="flex-1 py-3 rounded-xl text-sm font-bold transition-all shadow-lg bg-indigo-600 text-white transform scale-100 active:scale-95 text-center flex items-center justify-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>
-                Input Baru
+    <div class="fixed bottom-0 left-0 w-full bg-white border-t border-slate-200 z-50 pb-safe">
+        <div class="grid grid-cols-3 max-w-3xl mx-auto">
+            <button onclick="pindahTab('input')" id="tabInput" class="py-3 flex flex-col items-center gap-1 text-slate-500 hover:text-indigo-600 transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                <span class="text-[10px] font-bold">Input</span>
             </button>
-            <button onclick="pindahTab('laporan')" id="tabLaporan" class="flex-1 py-3 rounded-xl text-sm font-semibold transition-all text-slate-500 hover:text-slate-700 hover:bg-slate-50 text-center flex items-center justify-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
-                Laporan
+            
+            <button onclick="pindahTab('harian')" id="tabHarian" class="py-3 flex flex-col items-center gap-1 text-slate-500 hover:text-indigo-600 transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                <span class="text-[10px] font-bold">Harian</span>
+            </button>
+
+            <button onclick="pindahTab('bulanan')" id="tabBulanan" class="py-3 flex flex-col items-center gap-1 text-slate-500 hover:text-indigo-600 transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 011.414.586l4 4a1 1 0 01.586 1.414V19a2 2 0 01-2 2z" /></svg>
+                <span class="text-[10px] font-bold">Bulanan</span>
             </button>
         </div>
     </div>
 
     <script>
-        // --- FITUR PWA (INSTALL) ---
-        const btnInstall = document.getElementById('btnInstall');
-        let deferredPrompt;
+        // --- 1. CONFIG & INIT ---
+        const MY_SUPABASE_URL = 'https://rvlmszheenxbhehpzlne.supabase.co';
+        const MY_SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ2bG1zemhlZW54YmhlaHB6bG5lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY0MDIyNDEsImV4cCI6MjA4MTk3ODI0MX0.qqrPfESiAVG2CO4l-AgEPQqZ2ZNAV5WEZZN7MLLHitA';
+        const supabase = window.supabase.createClient(MY_SUPABASE_URL, MY_SUPABASE_KEY);
 
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js')
-                    .then(reg => console.log('SW Registered', reg))
-                    .catch(err => console.log('SW Error', err));
+        const views = { input: document.getElementById('viewInput'), harian: document.getElementById('viewHarian'), bulanan: document.getElementById('viewBulanan') };
+        const tabs = { input: document.getElementById('tabInput'), harian: document.getElementById('tabHarian'), bulanan: document.getElementById('tabBulanan') };
+        const loading = document.getElementById('loadingIndicator');
+
+        // --- 2. NAVIGASI TAB ---
+        window.pindahTab = function(namaTab) {
+            // Sembunyikan semua view
+            Object.values(views).forEach(el => el.classList.add('hidden'));
+            // Reset style tombol navigasi
+            Object.values(tabs).forEach(el => {
+                el.className = "py-3 flex flex-col items-center gap-1 text-slate-400 hover:text-indigo-500 transition border-t-2 border-transparent";
+            });
+
+            // Tampilkan view aktif
+            views[namaTab].classList.remove('hidden');
+            
+            // Highlight tombol aktif
+            tabs[namaTab].className = "py-3 flex flex-col items-center gap-1 text-indigo-600 transition border-t-2 border-indigo-600 bg-indigo-50/50";
+
+            // Logic Fetch Data
+            if (namaTab === 'harian') fetchHarian();
+            if (namaTab === 'bulanan') fetchBulanan();
+            if (namaTab === 'input') fetchSuggestions();
+        };
+
+        // --- 3. LOGIC TANGGAL (HARIAN) ---
+        window.changeDate = function(offset) {
+            const dateInput = document.getElementById('filterTanggal');
+            if(!dateInput.value) dateInput.valueAsDate = new Date();
+            
+            const current = new Date(dateInput.value);
+            current.setDate(current.getDate() + offset); // Tambah/Kurang hari
+            
+            // Format YYYY-MM-DD manually to avoid timezone issues
+            const y = current.getFullYear();
+            const m = String(current.getMonth() + 1).padStart(2, '0');
+            const d = String(current.getDate()).padStart(2, '0');
+            dateInput.value = `${y}-${m}-${d}`;
+            
+            fetchHarian();
+        };
+
+        // --- 4. LOGIC BULAN (BULANAN) ---
+        window.changeMonth = function(offset) {
+            const monthInput = document.getElementById('filterBulan');
+            if(!monthInput.value) {
+                const now = new Date();
+                monthInput.value = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
+            }
+
+            const parts = monthInput.value.split('-'); // [YYYY, MM]
+            let year = parseInt(parts[0]);
+            let month = parseInt(parts[1]) - 1; // 0-11 index
+
+            // Buat date object baru
+            const d = new Date(year, month + offset, 1);
+            
+            const newY = d.getFullYear();
+            const newM = String(d.getMonth() + 1).padStart(2, '0');
+            monthInput.value = `${newY}-${newM}`;
+            
+            fetchBulanan();
+        };
+
+        // --- 5. FETCH DATA HARIAN ---
+        async function fetchHarian() {
+            loading.classList.remove('hidden');
+            const tgl = document.getElementById('filterTanggal').value;
+            
+            const { data, error } = await supabase
+                .from('transaksi_keuangan')
+                .select('*')
+                .eq('tanggal', tgl)
+                .order('created_at', { ascending: false });
+
+            loading.classList.add('hidden');
+            if(error) return console.error(error);
+
+            // Render
+            renderTabel('tbodyAbiHarian', 'emptyAbiHarian', data.filter(x => x.pelapor === 'Abi'));
+            renderTabel('tbodyUmiHarian', 'emptyUmiHarian', data.filter(x => x.pelapor === 'Umi'));
+            
+            // Hitung Saldo Harian
+            hitungSaldo(data, 'Harian');
+        }
+
+        // --- 6. FETCH DATA BULANAN ---
+        async function fetchBulanan() {
+            loading.classList.remove('hidden');
+            const bln = document.getElementById('filterBulan').value;
+            
+            const { data, error } = await supabase
+                .from('transaksi_keuangan')
+                .select('*')
+                .eq('bulan_key', bln)
+                .order('tanggal', { ascending: false })
+                .order('created_at', { ascending: false });
+
+            loading.classList.add('hidden');
+            if(error) return console.error(error);
+
+            // Render
+            renderTabel('tbodyAbiBulanan', 'emptyAbiBulanan', data.filter(x => x.pelapor === 'Abi'));
+            renderTabel('tbodyUmiBulanan', 'emptyUmiBulanan', data.filter(x => x.pelapor === 'Umi'));
+            
+            // Hitung Saldo Bulanan
+            hitungSaldo(data, 'Bulanan');
+        }
+
+        // --- 7. HELPER RENDER ---
+        function renderTabel(tbodyId, emptyId, dataset) {
+            const tbody = document.getElementById(tbodyId);
+            const empty = document.getElementById(emptyId);
+            tbody.innerHTML = '';
+            
+            if(dataset.length === 0) { empty.classList.remove('hidden'); return; }
+            empty.classList.add('hidden');
+
+            dataset.forEach(item => {
+                const color = item.jenis === 'pengeluaran' ? 'text-red-500' : 'text-green-600';
+                const d = new Date(item.tanggal);
+                const tgl = `${d.getDate()}/${d.getMonth()+1}`;
+                
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-50 border-b border-slate-50 transition";
+                tr.innerHTML = `
+                    <td class="px-4 py-3 w-[15%] text-slate-400 text-[10px] font-mono">${tgl}</td>
+                    <td class="px-4 py-3 w-[55%] text-slate-700 font-medium editable text-xs" onclick="editData(${item.id}, 'rincian', '${item.rincian}')">${item.rincian}</td>
+                    <td class="px-4 py-3 w-[30%] text-right font-bold ${color} editable text-xs" onclick="editData(${item.id}, 'jumlah', '${item.jumlah}')">${formatRupiah(item.jumlah)}</td>
+                `;
+                tbody.appendChild(tr);
             });
         }
 
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            btnInstall.classList.remove('hidden');
-        });
-
-        btnInstall.addEventListener('click', async () => {
-            if (!deferredPrompt) return;
-            deferredPrompt.prompt();
-            const { outcome } = await deferredPrompt.userChoice;
-            if (outcome === 'accepted') {
-                btnInstall.classList.add('hidden');
-                deferredPrompt = null;
-            }
-        });
-
-        // --- SUPABASE & LOGIC APLIKASI ---
-        var MY_SUPABASE_URL = 'https://rvlmszheenxbhehpzlne.supabase.co';
-        var MY_SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ2bG1zemhlZW54YmhlaHB6bG5lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY0MDIyNDEsImV4cCI6MjA4MTk3ODI0MX0.qqrPfESiAVG2CO4l-AgEPQqZ2ZNAV5WEZZN7MLLHitA';
-        var supabase = window.supabase.createClient(MY_SUPABASE_URL, MY_SUPABASE_KEY);
-
-        var views = { input: document.getElementById('viewInput'), laporan: document.getElementById('viewLaporan') };
-        var tabs = { input: document.getElementById('tabInput'), laporan: document.getElementById('tabLaporan') };
-        var loading = document.getElementById('loadingIndicator');
-
-        window.pindahTab = function(namaTab) {
-            if (namaTab === 'input') {
-                views.input.classList.remove('hidden');
-                views.laporan.classList.add('hidden');
-                
-                // Style Active: Input
-                tabs.input.className = "flex-1 py-3 rounded-xl text-sm font-bold transition-all shadow-lg bg-indigo-600 text-white transform scale-100 active:scale-95 text-center flex items-center justify-center gap-2";
-                tabs.laporan.className = "flex-1 py-3 rounded-xl text-sm font-semibold transition-all text-slate-500 hover:text-slate-700 hover:bg-slate-50 text-center flex items-center justify-center gap-2";
-                
-                fetchSuggestions();
-            } else {
-                views.input.classList.add('hidden');
-                views.laporan.classList.remove('hidden');
-                
-                // Style Active: Laporan
-                tabs.laporan.className = "flex-1 py-3 rounded-xl text-sm font-bold transition-all shadow-lg bg-indigo-600 text-white transform scale-100 active:scale-95 text-center flex items-center justify-center gap-2";
-                tabs.input.className = "flex-1 py-3 rounded-xl text-sm font-semibold transition-all text-slate-500 hover:text-slate-700 hover:bg-slate-50 text-center flex items-center justify-center gap-2";
-                
-                fetchData();
-            }
-        };
-
-        window.editData = async function(id, field, oldValue) {
-            const inputType = field === 'jumlah' ? 'number' : 'text';
-            const labelText = field === 'jumlah' ? 'Jumlah Transaksi (Rp)' : 'Rincian Transaksi';
-            
-            const { value: newValue } = await Swal.fire({
-                title: 'Edit Data', input: inputType, inputLabel: labelText, inputValue: oldValue, showCancelButton: true, confirmButtonText: 'Simpan', inputPlaceholder: 'Nilai baru...', footer: '<span class="text-xs text-gray-400">Isi 0 atau kosongkan untuk menghapus</span>'
+        function hitungSaldo(data, suffix) {
+            let s = { abi: {m:0, k:0}, umi: {m:0, k:0} };
+            data.forEach(i => {
+                let n = parseFloat(i.jumlah);
+                let p = i.pelapor === 'Abi' ? s.abi : s.umi;
+                i.jenis === 'pemasukan' ? p.m += n : p.k += n;
             });
 
-            if (newValue === undefined || newValue === null) return;
+            ['Abi', 'Umi'].forEach(who => {
+                const key = who.toLowerCase();
+                document.getElementById(`masuk${who}${suffix}`).innerText = formatRupiah(s[key].m);
+                document.getElementById(`keluar${who}${suffix}`).innerText = formatRupiah(s[key].k);
+                document.getElementById(`sisa${who}${suffix}`).innerText = formatRupiah(s[key].m - s[key].k);
+            });
+        }
 
-            if (newValue.toString().trim() === '' || newValue.toString() === '0') {
-                Swal.fire({ title: 'Hapus Data?', text: "Data akan dihapus permanen.", icon: 'warning', showCancelButton: true, confirmButtonColor: '#d33', confirmButtonText: 'Ya, Hapus!' }).then(async (result) => {
-                    if (result.isConfirmed) {
-                        loading.classList.remove('hidden');
-                        const { error } = await supabase.from('transaksi_keuangan').delete().eq('id', id);
-                        loading.classList.add('hidden');
-                        if (!error) { Swal.fire('Terhapus!', 'Data berhasil dihapus.', 'success'); fetchData(); } 
-                        else { Swal.fire('Error', error.message, 'error'); }
-                    }
-                });
-                return;
+        // --- 8. GLOBAL HELPERS (Edit, Suggestion, Format) ---
+        window.editData = async function(id, field, oldVal) {
+            const isNum = field === 'jumlah';
+            const { value: newVal } = await Swal.fire({
+                title: 'Ubah Data', input: isNum?'number':'text', inputValue: oldVal, showCancelButton:true, confirmButtonText:'Simpan', footer:'<span class="text-xs text-slate-400">Kosong/0 = HAPUS</span>'
+            });
+            if(newVal === undefined) return;
+
+            if(!newVal || newVal.toString() === '0') {
+                Swal.fire({title:'Hapus?', icon:'warning', showCancelButton:true, confirmButtonColor:'#EF4444', confirmButtonText:'Hapus'}).then(async r => {
+                    if(r.isConfirmed) { await supabase.from('transaksi_keuangan').delete().eq('id', id); refreshActiveTab(); }
+                }); return;
             }
 
-            loading.classList.remove('hidden');
-            var updatePayload = {}; updatePayload[field] = field === 'jumlah' ? parseFloat(newValue) : newValue;
-            const { error } = await supabase.from('transaksi_keuangan').update(updatePayload).eq('id', id);
-            loading.classList.add('hidden');
-            if (error) { Swal.fire('Gagal Update', error.message, 'error'); } 
-            else { Swal.fire({ icon: 'success', title: 'Berhasil', showConfirmButton: false, timer: 1500 }); fetchData(); }
+            let pl = {}; pl[field] = isNum ? parseFloat(newVal) : newVal;
+            await supabase.from('transaksi_keuangan').update(pl).eq('id', id);
+            refreshActiveTab();
+            Swal.fire({icon:'success', title:'Disimpan', timer:1000, showConfirmButton:false});
         };
+
+        function refreshActiveTab() {
+            if(!views.harian.classList.contains('hidden')) fetchHarian();
+            if(!views.bulanan.classList.contains('hidden')) fetchBulanan();
+        }
 
         async function fetchSuggestions() {
-            const { data } = await supabase.from('transaksi_keuangan').select('rincian, jumlah').order('created_at', { ascending: false }).limit(200);
-            if (data) {
-                const listRincian = document.getElementById('listRincian'); listRincian.innerHTML = '';
-                [...new Set(data.map(item => item.rincian))].forEach(r => { const opt = document.createElement('option'); opt.value = r; listRincian.appendChild(opt); });
-                const listJumlah = document.getElementById('listJumlah'); listJumlah.innerHTML = '';
-                [...new Set(data.map(item => item.jumlah))].forEach(j => { const opt = document.createElement('option'); opt.value = j; listJumlah.appendChild(opt); });
+            const {data} = await supabase.from('transaksi_keuangan').select('rincian, jumlah').order('created_at',{ascending:false}).limit(100);
+            if(data) {
+                const listR = document.getElementById('listRincian'); listR.innerHTML='';
+                [...new Set(data.map(i=>i.rincian))].forEach(r => listR.innerHTML += `<option value="${r}">`);
+                const listJ = document.getElementById('listJumlah'); listJ.innerHTML='';
+                [...new Set(data.map(i=>i.jumlah))].forEach(j => listJ.innerHTML += `<option value="${j}">`);
             }
         }
 
-        function formatRupiah(angka) { return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(angka); }
-        function formatTanggal(str) { var d = new Date(str); return d.getDate() + '/' + (d.getMonth() + 1); }
+        function formatRupiah(n) { return new Intl.NumberFormat('id-ID', {style:'currency', currency:'IDR', minimumFractionDigits:0}).format(n); }
 
-        async function fetchData() {
-            loading.classList.remove('hidden');
-            var bulan = document.getElementById('filterBulan').value;
-            var { data, error } = await supabase.from('transaksi_keuangan').select('*').eq('bulan_key', bulan).order('tanggal', { ascending: false }).order('created_at', { ascending: false });
-            loading.classList.add('hidden');
-            if (error) return;
-            renderTabel('tbodyAbi', 'emptyAbi', data.filter(x => x.pelapor === 'Abi'));
-            renderTabel('tbodyUmi', 'emptyUmi', data.filter(x => x.pelapor === 'Umi'));
-            hitungSaldo(data);
-        }
-
-        function renderTabel(tbodyId, emptyId, dataset) {
-            var tbody = document.getElementById(tbodyId); var emptyDiv = document.getElementById(emptyId); tbody.innerHTML = '';
-            if (dataset.length === 0) { emptyDiv.classList.remove('hidden'); return; }
-            emptyDiv.classList.add('hidden');
-            dataset.forEach(function(item) {
-                var tr = document.createElement('tr'); tr.className = "hover:bg-slate-50 transition border-b border-slate-50";
-                var colorClass = item.jenis === 'pengeluaran' ? 'text-red-500' : 'text-green-600';
-                tr.innerHTML = `
-                    <td class="px-4 py-3 text-slate-400 text-xs align-middle">${formatTanggal(item.tanggal)}</td>
-                    <td class="px-4 py-3 text-slate-700 font-medium editable align-middle" onclick="window.editData(${item.id}, 'rincian', '${item.rincian}')">${item.rincian}</td>
-                    <td class="px-4 py-3 text-right font-bold ${colorClass} editable align-middle" onclick="window.editData(${item.id}, 'jumlah', '${item.jumlah}')">${formatRupiah(item.jumlah)}</td>
-                `; tbody.appendChild(tr);
-            });
-        }
-
-        function hitungSaldo(data) {
-            var s = { abi: {m:0, k:0}, umi: {m:0, k:0} };
-            data.forEach(item => {
-                var n = parseFloat(item.jumlah);
-                if (item.pelapor === 'Abi') { if (item.jenis==='pemasukan') s.abi.m += n; else s.abi.k += n; } 
-                else { if (item.jenis==='pemasukan') s.umi.m += n; else s.umi.k += n; }
-            });
-            document.getElementById('masukAbi').innerText = formatRupiah(s.abi.m); document.getElementById('keluarAbi').innerText = formatRupiah(s.abi.k); document.getElementById('sisaAbi').innerText = formatRupiah(s.abi.m - s.abi.k);
-            document.getElementById('masukUmi').innerText = formatRupiah(s.umi.m); document.getElementById('keluarUmi').innerText = formatRupiah(s.umi.k); document.getElementById('sisaUmi').innerText = formatRupiah(s.umi.m - s.umi.k);
-        }
-
+        // --- 9. SUBMIT FORM ---
         document.getElementById('formTransaksi').addEventListener('submit', async function(e) {
             e.preventDefault();
-            var btn = document.getElementById('btnSubmit');
-            btn.innerHTML = '<span class="animate-spin inline-block mr-2">⟳</span> Menyimpan...'; btn.disabled = true;
-            var tgl = document.getElementById('inputTanggal').value;
-            var payload = { tanggal: tgl, bulan_key: tgl.slice(0, 7), pelapor: document.getElementById('inputPelapor').value, jenis: document.getElementById('inputJenis').value, jumlah: document.getElementById('inputJumlah').value, rincian: document.getElementById('inputRincian').value };
-            var { error } = await supabase.from('transaksi_keuangan').insert([payload]);
-            btn.innerHTML = 'Simpan Data'; btn.disabled = false;
-            if (error) { Swal.fire('Gagal!', error.message, 'error'); } 
-            else { 
-                Swal.fire({ icon: 'success', title: 'Berhasil Disimpan!', showConfirmButton: false, timer: 1500 });
-                this.reset(); document.getElementById('inputTanggal').valueAsDate = new Date(); document.getElementById('filterBulan').value = tgl.slice(0, 7);
-                pindahTab('laporan'); setTimeout(() => { document.getElementById(payload.pelapor === 'Abi' ? 'sectionAbi' : 'sectionUmi').scrollIntoView({behavior: 'smooth'}); }, 500);
-            }
+            const btn = document.getElementById('btnSubmit'); btn.innerText='Menyimpan...'; btn.disabled=true;
+            const tgl = document.getElementById('inputTanggal').value;
+            const payload = {
+                tanggal: tgl, bulan_key: tgl.slice(0,7),
+                pelapor: document.getElementById('inputPelapor').value,
+                jenis: document.getElementById('inputJenis').value,
+                jumlah: document.getElementById('inputJumlah').value,
+                rincian: document.getElementById('inputRincian').value
+            };
+
+            const {error} = await supabase.from('transaksi_keuangan').insert([payload]);
+            btn.innerText='Simpan Data'; btn.disabled=false;
+
+            if(!error) {
+                Swal.fire({icon:'success', title:'Berhasil', timer:1200, showConfirmButton:false});
+                this.reset(); document.getElementById('inputTanggal').valueAsDate = new Date();
+                
+                // Auto pindah ke Harian dan set tanggal sesuai input
+                document.getElementById('filterTanggal').value = tgl;
+                pindahTab('harian');
+            } else { Swal.fire('Error', error.message, 'error'); }
         });
 
+        // --- 10. INSTALL PWA ---
+        let deferredPrompt; const btnInstall = document.getElementById('btnInstall');
+        if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
+        window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferredPrompt=e; btnInstall.classList.remove('hidden'); btnInstall.classList.add('flex'); });
+        btnInstall.addEventListener('click', async () => { if(deferredPrompt) { deferredPrompt.prompt(); const {outcome} = await deferredPrompt.userChoice; if(outcome==='accepted') btnInstall.classList.add('hidden'); deferredPrompt=null; } });
+        
+        // --- 11. INIT ON LOAD ---
         window.addEventListener('DOMContentLoaded', () => {
             document.getElementById('inputTanggal').valueAsDate = new Date();
-            var today = new Date(); var m = String(today.getMonth()+1).padStart(2,'0');
-            document.getElementById('filterBulan').value = today.getFullYear() + '-' + m;
-            fetchSuggestions();
+            document.getElementById('filterTanggal').valueAsDate = new Date();
+            
+            const now = new Date();
+            document.getElementById('filterBulan').value = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
+            
+            // Set Tab Awal
+            pindahTab('input');
+            
+            // Listeners
+            document.getElementById('filterTanggal').addEventListener('change', fetchHarian);
+            document.getElementById('filterBulan').addEventListener('change', fetchBulanan);
         });
-        document.getElementById('filterBulan').addEventListener('change', fetchData);
     </script>
 </body>
 </html>
