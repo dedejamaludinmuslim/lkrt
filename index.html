@@ -21,17 +21,9 @@
         .fade-in { animation: fadeIn 0.3s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .hidden { display: none !important; }
-        .editable:hover { background-color: #FEF3C7; cursor: pointer; border-radius: 4px; }
-        
-        /* SweetAlert Styling */
-        .swal2-popup { border-radius: 1rem !important; font-family: 'Plus Jakarta Sans', sans-serif; }
-        .swal2-confirm { background-color: #4F46E5 !important; }
-        .swal2-cancel { background-color: #EF4444 !important; }
-        
-        html { scroll-behavior: smooth; }
         .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
         
-        /* Hide Date Picker Icon in some browsers to make custom arrows look cleaner */
+        /* Hilangkan icon date picker default browser agar panah navigasi kita rapi */
         input[type="date"]::-webkit-inner-spin-button,
         input[type="date"]::-webkit-calendar-picker-indicator {
             background: transparent; bottom: 0; color: transparent; cursor: pointer; height: auto; left: 0; position: absolute; right: 0; top: 0; width: auto;
@@ -102,14 +94,14 @@
 
             <section id="viewHarian" class="hidden fade-in space-y-6">
                 <div class="flex items-center justify-between bg-white p-2 rounded-xl shadow-sm border border-slate-200 sticky top-0 z-10">
-                    <button onclick="changeDate(-1)" class="p-3 bg-slate-100 rounded-lg hover:bg-slate-200 active:scale-95 transition">
+                    <button onclick="window.changeDate(-1)" class="p-3 bg-slate-100 rounded-lg hover:bg-slate-200 active:scale-95 transition">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
                     </button>
                     <div class="flex flex-col items-center">
                         <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Laporan Harian</span>
                         <input type="date" id="filterTanggal" class="bg-transparent text-center font-bold text-slate-700 focus:outline-none cursor-pointer">
                     </div>
-                    <button onclick="changeDate(1)" class="p-3 bg-slate-100 rounded-lg hover:bg-slate-200 active:scale-95 transition">
+                    <button onclick="window.changeDate(1)" class="p-3 bg-slate-100 rounded-lg hover:bg-slate-200 active:scale-95 transition">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
                     </button>
                 </div>
@@ -153,14 +145,14 @@
 
             <section id="viewBulanan" class="hidden fade-in space-y-6">
                 <div class="flex items-center justify-between bg-white p-2 rounded-xl shadow-sm border border-slate-200 sticky top-0 z-10">
-                    <button onclick="changeMonth(-1)" class="p-3 bg-slate-100 rounded-lg hover:bg-slate-200 active:scale-95 transition">
+                    <button onclick="window.changeMonth(-1)" class="p-3 bg-slate-100 rounded-lg hover:bg-slate-200 active:scale-95 transition">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
                     </button>
                     <div class="flex flex-col items-center">
                         <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Laporan Bulanan</span>
                         <input type="month" id="filterBulan" class="bg-transparent text-center font-bold text-slate-700 focus:outline-none cursor-pointer">
                     </div>
-                    <button onclick="changeMonth(1)" class="p-3 bg-slate-100 rounded-lg hover:bg-slate-200 active:scale-95 transition">
+                    <button onclick="window.changeMonth(1)" class="p-3 bg-slate-100 rounded-lg hover:bg-slate-200 active:scale-95 transition">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
                     </button>
                 </div>
@@ -211,17 +203,15 @@
 
     <div class="fixed bottom-0 left-0 w-full bg-white border-t border-slate-200 z-50 pb-safe">
         <div class="grid grid-cols-3 max-w-3xl mx-auto">
-            <button onclick="pindahTab('input')" id="tabInput" class="py-3 flex flex-col items-center gap-1 text-slate-500 hover:text-indigo-600 transition">
+            <button onclick="window.pindahTab('input')" id="tabInput" class="py-3 flex flex-col items-center gap-1 text-slate-500 hover:text-indigo-600 transition">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                 <span class="text-[10px] font-bold">Input</span>
             </button>
-            
-            <button onclick="pindahTab('harian')" id="tabHarian" class="py-3 flex flex-col items-center gap-1 text-slate-500 hover:text-indigo-600 transition">
+            <button onclick="window.pindahTab('harian')" id="tabHarian" class="py-3 flex flex-col items-center gap-1 text-slate-500 hover:text-indigo-600 transition">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                 <span class="text-[10px] font-bold">Harian</span>
             </button>
-
-            <button onclick="pindahTab('bulanan')" id="tabBulanan" class="py-3 flex flex-col items-center gap-1 text-slate-500 hover:text-indigo-600 transition">
+            <button onclick="window.pindahTab('bulanan')" id="tabBulanan" class="py-3 flex flex-col items-center gap-1 text-slate-500 hover:text-indigo-600 transition">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 011.414.586l4 4a1 1 0 01.586 1.414V19a2 2 0 01-2 2z" /></svg>
                 <span class="text-[10px] font-bold">Bulanan</span>
             </button>
@@ -229,7 +219,8 @@
     </div>
 
     <script>
-        // --- 1. CONFIG & INIT ---
+        // --- 1. CONFIG & INIT SUPABASE ---
+        // Pastikan variabel hanya dideklarasikan satu kali
         const MY_SUPABASE_URL = 'https://rvlmszheenxbhehpzlne.supabase.co';
         const MY_SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ2bG1zemhlZW54YmhlaHB6bG5lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY0MDIyNDEsImV4cCI6MjA4MTk3ODI0MX0.qqrPfESiAVG2CO4l-AgEPQqZ2ZNAV5WEZZN7MLLHitA';
         const supabase = window.supabase.createClient(MY_SUPABASE_URL, MY_SUPABASE_KEY);
@@ -240,20 +231,14 @@
 
         // --- 2. NAVIGASI TAB ---
         window.pindahTab = function(namaTab) {
-            // Sembunyikan semua view
             Object.values(views).forEach(el => el.classList.add('hidden'));
-            // Reset style tombol navigasi
             Object.values(tabs).forEach(el => {
                 el.className = "py-3 flex flex-col items-center gap-1 text-slate-400 hover:text-indigo-500 transition border-t-2 border-transparent";
             });
 
-            // Tampilkan view aktif
             views[namaTab].classList.remove('hidden');
-            
-            // Highlight tombol aktif
             tabs[namaTab].className = "py-3 flex flex-col items-center gap-1 text-indigo-600 transition border-t-2 border-indigo-600 bg-indigo-50/50";
 
-            // Logic Fetch Data
             if (namaTab === 'harian') fetchHarian();
             if (namaTab === 'bulanan') fetchBulanan();
             if (namaTab === 'input') fetchSuggestions();
@@ -263,16 +248,12 @@
         window.changeDate = function(offset) {
             const dateInput = document.getElementById('filterTanggal');
             if(!dateInput.value) dateInput.valueAsDate = new Date();
-            
             const current = new Date(dateInput.value);
-            current.setDate(current.getDate() + offset); // Tambah/Kurang hari
-            
-            // Format YYYY-MM-DD manually to avoid timezone issues
+            current.setDate(current.getDate() + offset);
             const y = current.getFullYear();
             const m = String(current.getMonth() + 1).padStart(2, '0');
             const d = String(current.getDate()).padStart(2, '0');
             dateInput.value = `${y}-${m}-${d}`;
-            
             fetchHarian();
         };
 
@@ -283,18 +264,13 @@
                 const now = new Date();
                 monthInput.value = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
             }
-
-            const parts = monthInput.value.split('-'); // [YYYY, MM]
+            const parts = monthInput.value.split('-'); 
             let year = parseInt(parts[0]);
-            let month = parseInt(parts[1]) - 1; // 0-11 index
-
-            // Buat date object baru
+            let month = parseInt(parts[1]) - 1; 
             const d = new Date(year, month + offset, 1);
-            
             const newY = d.getFullYear();
             const newM = String(d.getMonth() + 1).padStart(2, '0');
             monthInput.value = `${newY}-${newM}`;
-            
             fetchBulanan();
         };
 
@@ -302,7 +278,7 @@
         async function fetchHarian() {
             loading.classList.remove('hidden');
             const tgl = document.getElementById('filterTanggal').value;
-            
+            // Gunakan nama tabel huruf kecil semua sesuai PostgreSQL
             const { data, error } = await supabase
                 .from('transaksi_keuangan')
                 .select('*')
@@ -310,13 +286,10 @@
                 .order('created_at', { ascending: false });
 
             loading.classList.add('hidden');
-            if(error) return console.error(error);
+            if(error) { console.error(error); return; }
 
-            // Render
             renderTabel('tbodyAbiHarian', 'emptyAbiHarian', data.filter(x => x.pelapor === 'Abi'));
             renderTabel('tbodyUmiHarian', 'emptyUmiHarian', data.filter(x => x.pelapor === 'Umi'));
-            
-            // Hitung Saldo Harian
             hitungSaldo(data, 'Harian');
         }
 
@@ -333,13 +306,10 @@
                 .order('created_at', { ascending: false });
 
             loading.classList.add('hidden');
-            if(error) return console.error(error);
+            if(error) { console.error(error); return; }
 
-            // Render
             renderTabel('tbodyAbiBulanan', 'emptyAbiBulanan', data.filter(x => x.pelapor === 'Abi'));
             renderTabel('tbodyUmiBulanan', 'emptyUmiBulanan', data.filter(x => x.pelapor === 'Umi'));
-            
-            // Hitung Saldo Bulanan
             hitungSaldo(data, 'Bulanan');
         }
 
@@ -360,9 +330,9 @@
                 const tr = document.createElement('tr');
                 tr.className = "hover:bg-slate-50 border-b border-slate-50 transition";
                 tr.innerHTML = `
-                    <td class="px-4 py-3 w-[15%] text-slate-400 text-[10px] font-mono">${tgl}</td>
-                    <td class="px-4 py-3 w-[55%] text-slate-700 font-medium editable text-xs" onclick="editData(${item.id}, 'rincian', '${item.rincian}')">${item.rincian}</td>
-                    <td class="px-4 py-3 w-[30%] text-right font-bold ${color} editable text-xs" onclick="editData(${item.id}, 'jumlah', '${item.jumlah}')">${formatRupiah(item.jumlah)}</td>
+                    <td class="px-4 py-3 w-[15%] text-slate-400 text-[10px] font-mono align-top pt-4">${tgl}</td>
+                    <td class="px-4 py-3 w-[55%] text-slate-700 font-medium editable text-xs align-top pt-4 cursor-pointer" onclick="window.editData(${item.id}, 'rincian', '${item.rincian}')">${item.rincian}</td>
+                    <td class="px-4 py-3 w-[30%] text-right font-bold ${color} editable text-xs align-top pt-4 cursor-pointer" onclick="window.editData(${item.id}, 'jumlah', '${item.jumlah}')">${formatRupiah(item.jumlah)}</td>
                 `;
                 tbody.appendChild(tr);
             });
@@ -413,9 +383,13 @@
             const {data} = await supabase.from('transaksi_keuangan').select('rincian, jumlah').order('created_at',{ascending:false}).limit(100);
             if(data) {
                 const listR = document.getElementById('listRincian'); listR.innerHTML='';
-                [...new Set(data.map(i=>i.rincian))].forEach(r => listR.innerHTML += `<option value="${r}">`);
+                [...new Set(data.map(i=>i.rincian))].forEach(r => { 
+                    const opt = document.createElement('option'); opt.value = r; listR.appendChild(opt); 
+                });
                 const listJ = document.getElementById('listJumlah'); listJ.innerHTML='';
-                [...new Set(data.map(i=>i.jumlah))].forEach(j => listJ.innerHTML += `<option value="${j}">`);
+                [...new Set(data.map(i=>i.jumlah))].forEach(j => { 
+                    const opt = document.createElement('option'); opt.value = j; listJ.appendChild(opt); 
+                });
             }
         }
 
@@ -426,10 +400,12 @@
             e.preventDefault();
             const btn = document.getElementById('btnSubmit'); btn.innerText='Menyimpan...'; btn.disabled=true;
             const tgl = document.getElementById('inputTanggal').value;
+            // Pastikan 'bulan_key' dikirim dalam format YYYY-MM
             const payload = {
-                tanggal: tgl, bulan_key: tgl.slice(0,7),
-                pelapor: document.getElementById('inputPelapor').value,
-                jenis: document.getElementById('inputJenis').value,
+                tanggal: tgl, 
+                bulan_key: tgl.slice(0,7),
+                pelapor: document.getElementById('inputPelapor').value, // 'Abi' atau 'Umi' (Case Sensitive sesuai DB)
+                jenis: document.getElementById('inputJenis').value, // 'pemasukan' atau 'pengeluaran'
                 jumlah: document.getElementById('inputJumlah').value,
                 rincian: document.getElementById('inputRincian').value
             };
@@ -443,7 +419,7 @@
                 
                 // Auto pindah ke Harian dan set tanggal sesuai input
                 document.getElementById('filterTanggal').value = tgl;
-                pindahTab('harian');
+                window.pindahTab('harian');
             } else { Swal.fire('Error', error.message, 'error'); }
         });
 
@@ -462,7 +438,7 @@
             document.getElementById('filterBulan').value = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
             
             // Set Tab Awal
-            pindahTab('input');
+            window.pindahTab('input');
             
             // Listeners
             document.getElementById('filterTanggal').addEventListener('change', fetchHarian);
