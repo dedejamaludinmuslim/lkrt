@@ -214,10 +214,11 @@
 </div>
 
 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div class="bg-white rounded-2xl shadow-md overflow-hidden border border-blue-100">
+                    <div onclick="document.getElementById('sectionAbiHarian').scrollIntoView({behavior:'smooth'})" class="bg-white rounded-2xl shadow-md overflow-hidden border border-blue-100 group cursor-pointer">
                         <div class="card-gradient-abi p-4 text-white relative">
                             <p class="text-blue-100 text-xs font-bold uppercase">Dompet Abi (Hari Ini)</p>
                             <h2 class="text-2xl sm:text-3xl font-bold" id="sisaAbiHarian">Rp 0</h2>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="absolute right-4 top-4 h-6 w-6 text-white opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" /></svg>
                         </div>
                         <div class="p-3 grid grid-cols-2 divide-x divide-gray-100 text-center text-sm">
                             <div>Masuk: <span class="text-green-600 font-bold" id="masukAbiHarian">0</span></div>
@@ -249,10 +250,11 @@
                         
 
                     </div>
-                    <div class="bg-white rounded-2xl shadow-md overflow-hidden border border-pink-100">
+                    <div onclick="document.getElementById('sectionUmiHarian').scrollIntoView({behavior:'smooth'})" class="bg-white rounded-2xl shadow-md overflow-hidden border border-pink-100 group cursor-pointer">
                         <div class="card-gradient-umi p-4 text-white relative">
                             <p class="text-pink-100 text-xs font-bold uppercase">Dompet Umi (Hari Ini)</p>
                             <h2 class="text-2xl sm:text-3xl font-bold" id="sisaUmiHarian">Rp 0</h2>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="absolute right-4 top-4 h-6 w-6 text-white opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" /></svg>
                         </div>
                         <div class="p-3 grid grid-cols-2 divide-x divide-gray-100 text-center text-sm">
                             <div>Masuk: <span class="text-green-600 font-bold" id="masukUmiHarian">0</span></div>
@@ -283,12 +285,12 @@
                 </div>
 
                 <div class="space-y-4">
-                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                    <div id="sectionAbiHarian" class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
                         <div class="bg-slate-50 px-4 py-2 text-xs font-bold text-slate-500 uppercase">Transaksi Abi</div>
                         <table class="w-full text-sm text-left"><tbody id="tbodyAbiHarian"></tbody></table>
                         <div id="emptyAbiHarian" class="hidden py-4 text-center text-xs text-slate-400">Kosong</div>
                     </div>
-                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                    <div id="sectionUmiHarian" class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
                         <div class="bg-slate-50 px-4 py-2 text-xs font-bold text-slate-500 uppercase">Transaksi Umi</div>
                         <table class="w-full text-sm text-left"><tbody id="tbodyUmiHarian"></tbody></table>
                         <div id="emptyUmiHarian" class="hidden py-4 text-center text-xs text-slate-400">Kosong</div>

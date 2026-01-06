@@ -1,4 +1,4 @@
-const CACHE_NAME = 'lkrt-v6-filter-dropdown-no-meter';
+const CACHE_NAME = 'lkrt-v6-filter-dropdown-no-meter-harianjump';
 const urlsToCache = [
   './',
   './index.html',
