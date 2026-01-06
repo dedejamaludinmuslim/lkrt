@@ -1,4 +1,4 @@
-const CACHE_NAME = 'lkrt-v6-filter-kategori-meter';
+const CACHE_NAME = 'lkrt-v6-filter-dropdown';
 const urlsToCache = [
   './',
   './index.html',

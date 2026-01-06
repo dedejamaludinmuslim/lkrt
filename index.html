@@ -202,15 +202,18 @@
                     </button>
                 </div>
 
-                <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-2 flex flex-wrap gap-2" id="kategoriFilterHarian" aria-label="Filter kategori harian">
-    <button type="button" data-kat="all" class="kat-chip px-3 py-1.5 rounded-full text-xs font-bold border transition">Semua</button>
-    <button type="button" data-kat="rutin" class="kat-chip px-3 py-1.5 rounded-full text-xs font-bold border transition">Rutin</button>
-    <button type="button" data-kat="kebutuhan" class="kat-chip px-3 py-1.5 rounded-full text-xs font-bold border transition">Kebutuhan</button>
-    <button type="button" data-kat="insidental" class="kat-chip px-3 py-1.5 rounded-full text-xs font-bold border transition">Insidental</button>
-    <button type="button" data-kat="keinginan" class="kat-chip px-3 py-1.5 rounded-full text-xs font-bold border transition">Keinginan</button>
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-3">
+    <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2">Filter Kategori</label>
+    <select id="kategoriFilterHarian" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-bold text-slate-700 focus:bg-white focus:ring-2 focus:ring-indigo-500 outline-none">
+        <option value="all">Semua Kategori</option>
+        <option value="rutin">Rutin</option>
+        <option value="kebutuhan">Kebutuhan</option>
+        <option value="insidental">Insidental</option>
+        <option value="keinginan">Keinginan</option>
+    </select>
 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div class="bg-white rounded-2xl shadow-md overflow-hidden border border-blue-100">
                         <div class="card-gradient-abi p-4 text-white relative">
                             <p class="text-blue-100 text-xs font-bold uppercase">Dompet Abi (Hari Ini)</p>
@@ -347,15 +350,18 @@
                     </button>
                 </div>
 
-                <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-2 flex flex-wrap gap-2" id="kategoriFilterBulanan" aria-label="Filter kategori bulanan">
-    <button type="button" data-kat="all" class="kat-chip px-3 py-1.5 rounded-full text-xs font-bold border transition">Semua</button>
-    <button type="button" data-kat="rutin" class="kat-chip px-3 py-1.5 rounded-full text-xs font-bold border transition">Rutin</button>
-    <button type="button" data-kat="kebutuhan" class="kat-chip px-3 py-1.5 rounded-full text-xs font-bold border transition">Kebutuhan</button>
-    <button type="button" data-kat="insidental" class="kat-chip px-3 py-1.5 rounded-full text-xs font-bold border transition">Insidental</button>
-    <button type="button" data-kat="keinginan" class="kat-chip px-3 py-1.5 rounded-full text-xs font-bold border transition">Keinginan</button>
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-3">
+    <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2">Filter Kategori</label>
+    <select id="kategoriFilterBulanan" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-bold text-slate-700 focus:bg-white focus:ring-2 focus:ring-indigo-500 outline-none">
+        <option value="all">Semua Kategori</option>
+        <option value="rutin">Rutin</option>
+        <option value="kebutuhan">Kebutuhan</option>
+        <option value="insidental">Insidental</option>
+        <option value="keinginan">Keinginan</option>
+    </select>
 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div onclick="document.getElementById('sectionAbiBulan').scrollIntoView({behavior:'smooth'})" class="bg-white rounded-2xl shadow-md overflow-hidden border border-blue-100 group cursor-pointer">
                         <div class="card-gradient-abi p-5 text-white relative">
                             <p class="text-blue-100 text-xs font-bold uppercase">Dompet Abi (Bulan)</p>
@@ -600,38 +606,21 @@
             hitungSaldo(filtered, 'Bulanan');
         }
 
-        function updateKategoriChips(containerEl, activeKat) {
-            if (!containerEl) return;
-            const active = (activeKat || 'all').toString().toLowerCase();
-            const btns = containerEl.querySelectorAll('button[data-kat]');
-            btns.forEach(btn => {
-                const k = (btn.dataset.kat || 'all').toLowerCase();
-                const isActive = k === active;
-                btn.classList.remove('bg-indigo-600','text-white','border-indigo-600','bg-white','text-slate-600','border-slate-200','hover:bg-slate-50');
-                if (isActive) {
-                    btn.classList.add('bg-indigo-600','text-white','border-indigo-600');
-                } else {
-                    btn.classList.add('bg-white','text-slate-600','border-slate-200','hover:bg-slate-50');
-                }
-            });
-        }
+        function setupKategoriFilter(tabName, selectId) {
+    const el = document.getElementById(selectId);
+    if (!el) return;
 
-        function setupKategoriFilter(tabName, containerId) {
-            const el = document.getElementById(containerId);
-            if (!el) return;
+    // Init value sesuai state
+    el.value = (state.filter[tabName] || 'all').toLowerCase();
 
-            el.addEventListener('click', (e) => {
-                const btn = e.target.closest('button[data-kat]');
-                if (!btn) return;
-                const val = (btn.dataset.kat || 'all').toLowerCase();
-                state.filter[tabName] = val;
-                updateKategoriChips(el, val);
-                if (tabName === 'harian') renderHarianFromState();
-                if (tabName === 'bulanan') renderBulananFromState();
-            });
+    el.addEventListener('change', () => {
+        const val = (el.value || 'all').toLowerCase();
+        state.filter[tabName] = val;
+        if (tabName === 'harian') renderHarianFromState();
+        if (tabName === 'bulanan') renderBulananFromState();
+    });
+}
 
-            updateKategoriChips(el, state.filter[tabName]);
-        }
 
 // C. Rekomendasi Input
         async function fetchSuggestions() {
