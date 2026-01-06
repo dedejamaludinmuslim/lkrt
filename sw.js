@@ -1,4 +1,4 @@
-const CACHE_NAME = 'lkrt-v6-kategori-fix2-uiinput6';
+const CACHE_NAME = 'lkrt-v6-filter-kategori-meter';
 const urlsToCache = [
   './',
   './index.html',

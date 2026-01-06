@@ -125,7 +125,20 @@
         <div class="max-w-3xl mx-auto px-4 py-6 pb-32">
             
             <section id="viewInput" class="fade-in">
-                <div class="bg-white p-6 sm:p-8 rounded-3xl shadow-xl border border-slate-200 max-w-lg mx-auto mt-4">
+                <div class="flex items-center justify-between bg-white p-2 rounded-xl shadow-sm border border-slate-200 sticky top-0 z-10 max-w-lg mx-auto mt-3">
+    <button type="button" onclick="changeInputDate(-1)" class="p-3 bg-slate-100 rounded-lg hover:bg-slate-200 active:scale-95 transition">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
+    </button>
+    <div class="flex flex-col items-center">
+        <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Tanggal Transaksi</span>
+        <input type="date" id="inputTanggal" form="formTransaksi" required class="bg-transparent text-center font-bold text-slate-700 focus:outline-none cursor-pointer">
+    </div>
+    <button type="button" onclick="changeInputDate(1)" class="p-3 bg-slate-100 rounded-lg hover:bg-slate-200 active:scale-95 transition">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+    </button>
+</div>
+
+<div class="bg-white p-6 sm:p-8 rounded-3xl shadow-xl border border-slate-200 max-w-lg mx-auto mt-4">
                     <div class="text-center mb-6">
                         <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-indigo-50 text-indigo-600 mb-3">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>
@@ -134,18 +147,7 @@
                     </div>
 
                     <form id="formTransaksi" class="space-y-5">
-                        <div>
-    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Tanggal</label>
-    <div class="flex items-center justify-between bg-slate-50 border border-slate-200 rounded-xl px-2">
-        <button type="button" onclick="changeInputDate(-1)" class="p-3 bg-slate-100 rounded-lg hover:bg-slate-200 active:scale-95 transition">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
-        </button>
-        <input type="date" id="inputTanggal" required class="flex-1 mx-2 px-2 py-3 bg-transparent text-center font-bold text-slate-700 focus:outline-none cursor-pointer">
-        <button type="button" onclick="changeInputDate(1)" class="p-3 bg-slate-100 rounded-lg hover:bg-slate-200 active:scale-95 transition">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
-        </button>
-    </div>
-</div>
+                        
                         <div>
                                 <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Siapa yang laporan?</label>
                                 <input type="hidden" id="inputPelapor" value="Abi">
@@ -200,6 +202,14 @@
                     </button>
                 </div>
 
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-2 flex flex-wrap gap-2" id="kategoriFilterHarian" aria-label="Filter kategori harian">
+    <button type="button" data-kat="all" class="kat-chip px-3 py-1.5 rounded-full text-xs font-bold border transition">Semua</button>
+    <button type="button" data-kat="rutin" class="kat-chip px-3 py-1.5 rounded-full text-xs font-bold border transition">Rutin</button>
+    <button type="button" data-kat="kebutuhan" class="kat-chip px-3 py-1.5 rounded-full text-xs font-bold border transition">Kebutuhan</button>
+    <button type="button" data-kat="insidental" class="kat-chip px-3 py-1.5 rounded-full text-xs font-bold border transition">Insidental</button>
+    <button type="button" data-kat="keinginan" class="kat-chip px-3 py-1.5 rounded-full text-xs font-bold border transition">Keinginan</button>
+</div>
+
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div class="bg-white rounded-2xl shadow-md overflow-hidden border border-blue-100">
                         <div class="card-gradient-abi p-4 text-white relative">
@@ -228,6 +238,50 @@
                                     <span class="text-slate-600">Keinginan</span>
                                     <span class="font-bold text-rose-700" id="keluarAbiHarianKeinginan">0</span>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="px-3 pb-4 -mt-1">
+                            <div class="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2">Kebutuhan vs Keinginan</div>
+                            <div class="h-2 rounded-full bg-slate-100 overflow-hidden flex">
+                                <div id="needBarAbiHarian" class="h-full bg-rose-500" style="width:0%"></div>
+                                <div id="wantBarAbiHarian" class="h-full bg-amber-400" style="width:0%"></div>
+                            </div>
+                            <div class="mt-2 flex items-center justify-between text-[10px]">
+                                <span class="text-slate-500">Kebutuhan <span id="needPctAbiHarian" class="font-extrabold text-rose-700">0%</span></span>
+                                <span class="text-slate-500">Keinginan <span id="wantPctAbiHarian" class="font-extrabold text-amber-700">0%</span></span>
+                            </div>
+                        </div>
+                        <div class="px-3 pb-4 -mt-1">
+                            <div class="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2">Kebutuhan vs Keinginan</div>
+                            <div class="h-2 rounded-full bg-slate-100 overflow-hidden flex">
+                                <div id="needBarUmiHarian" class="h-full bg-rose-500" style="width:0%"></div>
+                                <div id="wantBarUmiHarian" class="h-full bg-amber-400" style="width:0%"></div>
+                            </div>
+                            <div class="mt-2 flex items-center justify-between text-[10px]">
+                                <span class="text-slate-500">Kebutuhan <span id="needPctUmiHarian" class="font-extrabold text-rose-700">0%</span></span>
+                                <span class="text-slate-500">Keinginan <span id="wantPctUmiHarian" class="font-extrabold text-amber-700">0%</span></span>
+                            </div>
+                        </div>
+                        <div class="px-3 pb-4 -mt-1">
+                            <div class="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2">Kebutuhan vs Keinginan</div>
+                            <div class="h-2 rounded-full bg-slate-100 overflow-hidden flex">
+                                <div id="needBarAbiBulanan" class="h-full bg-rose-500" style="width:0%"></div>
+                                <div id="wantBarAbiBulanan" class="h-full bg-amber-400" style="width:0%"></div>
+                            </div>
+                            <div class="mt-2 flex items-center justify-between text-[10px]">
+                                <span class="text-slate-500">Kebutuhan <span id="needPctAbiBulanan" class="font-extrabold text-rose-700">0%</span></span>
+                                <span class="text-slate-500">Keinginan <span id="wantPctAbiBulanan" class="font-extrabold text-amber-700">0%</span></span>
+                            </div>
+                        </div>
+                        <div class="px-3 pb-4 -mt-1">
+                            <div class="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2">Kebutuhan vs Keinginan</div>
+                            <div class="h-2 rounded-full bg-slate-100 overflow-hidden flex">
+                                <div id="needBarUmiBulanan" class="h-full bg-rose-500" style="width:0%"></div>
+                                <div id="wantBarUmiBulanan" class="h-full bg-amber-400" style="width:0%"></div>
+                            </div>
+                            <div class="mt-2 flex items-center justify-between text-[10px]">
+                                <span class="text-slate-500">Kebutuhan <span id="needPctUmiBulanan" class="font-extrabold text-rose-700">0%</span></span>
+                                <span class="text-slate-500">Keinginan <span id="wantPctUmiBulanan" class="font-extrabold text-amber-700">0%</span></span>
                             </div>
                         </div>
 
@@ -292,6 +346,14 @@
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
                     </button>
                 </div>
+
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-2 flex flex-wrap gap-2" id="kategoriFilterBulanan" aria-label="Filter kategori bulanan">
+    <button type="button" data-kat="all" class="kat-chip px-3 py-1.5 rounded-full text-xs font-bold border transition">Semua</button>
+    <button type="button" data-kat="rutin" class="kat-chip px-3 py-1.5 rounded-full text-xs font-bold border transition">Rutin</button>
+    <button type="button" data-kat="kebutuhan" class="kat-chip px-3 py-1.5 rounded-full text-xs font-bold border transition">Kebutuhan</button>
+    <button type="button" data-kat="insidental" class="kat-chip px-3 py-1.5 rounded-full text-xs font-bold border transition">Insidental</button>
+    <button type="button" data-kat="keinginan" class="kat-chip px-3 py-1.5 rounded-full text-xs font-bold border transition">Keinginan</button>
+</div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div onclick="document.getElementById('sectionAbiBulan').scrollIntoView({behavior:'smooth'})" class="bg-white rounded-2xl shadow-md overflow-hidden border border-blue-100 group cursor-pointer">
@@ -408,6 +470,13 @@
         var tabs = { input: document.getElementById('tabInput'), harian: document.getElementById('tabHarian'), bulanan: document.getElementById('tabBulanan') };
         var loading = document.getElementById('loadingIndicator');
 
+        // State (data mentah + filter kategori per tab)
+        var state = {
+            harianData: [],
+            bulananData: [],
+            filter: { harian: 'all', bulanan: 'all' }
+        };
+
         // --- 3. NAVIGASI TAB UTAMA ---
         function pindahTab(namaTab) {
             // Sembunyikan semua view
@@ -491,9 +560,9 @@
             loading.classList.add('hidden');
             if(error) return console.error(error);
 
-            renderTabel('tbodyAbiHarian', 'emptyAbiHarian', data.filter(x => x.pelapor === 'Abi'));
-            renderTabel('tbodyUmiHarian', 'emptyUmiHarian', data.filter(x => x.pelapor === 'Umi'));
-            hitungSaldo(data, 'Harian');
+            state.harianData = data || [];
+
+            renderHarianFromState();
         }
 
         // B. Bulanan
@@ -505,12 +574,66 @@
             loading.classList.add('hidden');
             if(error) return console.error(error);
 
-            renderTabel('tbodyAbiBulanan', 'emptyAbiBulanan', data.filter(x => x.pelapor === 'Abi'));
-            renderTabel('tbodyUmiBulanan', 'emptyUmiBulanan', data.filter(x => x.pelapor === 'Umi'));
-            hitungSaldo(data, 'Bulanan');
+            state.bulananData = data || [];
+
+            renderBulananFromState();
         }
 
-        // C. Rekomendasi Input
+                // --- FILTER KATEGORI (Harian & Bulanan) ---
+        function applyKategoriFilter(dataset, kat) {
+            const k = (kat || 'all').toString().toLowerCase();
+            if (k === 'all') return dataset || [];
+            return (dataset || []).filter(x => (x.kategori || '').toString().trim().toLowerCase() === k);
+        }
+
+        function renderHarianFromState() {
+            const filtered = applyKategoriFilter(state.harianData, state.filter.harian);
+            renderTabel('tbodyAbiHarian', 'emptyAbiHarian', filtered.filter(x => x.pelapor === 'Abi'));
+            renderTabel('tbodyUmiHarian', 'emptyUmiHarian', filtered.filter(x => x.pelapor === 'Umi'));
+            hitungSaldo(filtered, 'Harian');
+        }
+
+        function renderBulananFromState() {
+            const filtered = applyKategoriFilter(state.bulananData, state.filter.bulanan);
+            renderTabel('tbodyAbiBulanan', 'emptyAbiBulanan', filtered.filter(x => x.pelapor === 'Abi'));
+            renderTabel('tbodyUmiBulanan', 'emptyUmiBulanan', filtered.filter(x => x.pelapor === 'Umi'));
+            hitungSaldo(filtered, 'Bulanan');
+        }
+
+        function updateKategoriChips(containerEl, activeKat) {
+            if (!containerEl) return;
+            const active = (activeKat || 'all').toString().toLowerCase();
+            const btns = containerEl.querySelectorAll('button[data-kat]');
+            btns.forEach(btn => {
+                const k = (btn.dataset.kat || 'all').toLowerCase();
+                const isActive = k === active;
+                btn.classList.remove('bg-indigo-600','text-white','border-indigo-600','bg-white','text-slate-600','border-slate-200','hover:bg-slate-50');
+                if (isActive) {
+                    btn.classList.add('bg-indigo-600','text-white','border-indigo-600');
+                } else {
+                    btn.classList.add('bg-white','text-slate-600','border-slate-200','hover:bg-slate-50');
+                }
+            });
+        }
+
+        function setupKategoriFilter(tabName, containerId) {
+            const el = document.getElementById(containerId);
+            if (!el) return;
+
+            el.addEventListener('click', (e) => {
+                const btn = e.target.closest('button[data-kat]');
+                if (!btn) return;
+                const val = (btn.dataset.kat || 'all').toLowerCase();
+                state.filter[tabName] = val;
+                updateKategoriChips(el, val);
+                if (tabName === 'harian') renderHarianFromState();
+                if (tabName === 'bulanan') renderBulananFromState();
+            });
+
+            updateKategoriChips(el, state.filter[tabName]);
+        }
+
+// C. Rekomendasi Input
         async function fetchSuggestions() {
             var { data } = await supabase.from('transaksi_keuangan').select('rincian, jumlah').order('created_at', { ascending: false }).limit(200);
             if (data) {
@@ -597,7 +720,24 @@ function escapeHtml(s) {
             if(el) el.innerText = val;
         }
 
-        function hitungSaldo(data, suffix) {
+                function updateNeedWantMeter(who, suffix, kebutuhan, keinginan) {
+            const need = Number(kebutuhan) || 0;
+            const want = Number(keinginan) || 0;
+            const total = need + want;
+
+            const needPct = total > 0 ? Math.round((need / total) * 100) : 0;
+            const wantPct = total > 0 ? (100 - needPct) : 0;
+
+            setTextIfExists(`needPct${who}${suffix}`, `${needPct}%`);
+            setTextIfExists(`wantPct${who}${suffix}`, `${wantPct}%`);
+
+            const needBar = document.getElementById(`needBar${who}${suffix}`);
+            const wantBar = document.getElementById(`wantBar${who}${suffix}`);
+            if (needBar) needBar.style.width = `${needPct}%`;
+            if (wantBar) wantBar.style.width = `${wantPct}%`;
+        }
+
+function hitungSaldo(data, suffix) {
             var s = {
                 abi: {m:0, k:0, mr:0, mi:0, kk:0, kq:0},
                 umi: {m:0, k:0, mr:0, mi:0, kk:0, kq:0}
@@ -631,6 +771,9 @@ function escapeHtml(s) {
                 setTextIfExists(`masuk${who}${suffix}Insidental`, formatRupiah(s[key].mi));
                 setTextIfExists(`keluar${who}${suffix}Kebutuhan`, formatRupiah(s[key].kk));
                 setTextIfExists(`keluar${who}${suffix}Keinginan`, formatRupiah(s[key].kq));
+
+                // meter kebutuhan vs keinginan (berdasarkan pengeluaran)
+                updateNeedWantMeter(who, suffix, s[key].kk, s[key].kq);
             });
         }
 
@@ -797,6 +940,10 @@ function escapeHtml(s) {
             if(jenisEl) jenisEl.addEventListener('change', updateKategoriOptions);
             updateKategoriOptions();
 
+            // Filter chips (Harian/Bulanan)
+            setupKategoriFilter('harian', 'kategoriFilterHarian');
+            setupKategoriFilter('bulanan', 'kategoriFilterBulanan');
+
 
             const hideSplash = () => {
                 if(!splash) return;
@@ -854,24 +1001,7 @@ function escapeHtml(s) {
 
 </script>
 
-<script>
-  // Setelah app siap, kembalikan theme-color ke biru (untuk status bar), tanpa mengubah splash sistem.
-  (function(){
-    const BLUE = '#0B5BD3';
-    function setThemeColor(color){
-      let meta = document.querySelector('meta[name="theme-color"]');
-      if(!meta){
-        meta = document.createElement('meta');
-        meta.setAttribute('name','theme-color');
-        document.head.appendChild(meta);
-      }
-      meta.setAttribute('content', color);
-    }
-    window.addEventListener('load', function(){
-      setThemeColor(BLUE);
-    });
-  })();
-</script>
+
 
 </body>
 </html>
