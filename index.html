@@ -243,50 +243,10 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="px-3 pb-4 -mt-1">
-                            <div class="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2">Kebutuhan vs Keinginan</div>
-                            <div class="h-2 rounded-full bg-slate-100 overflow-hidden flex">
-                                <div id="needBarAbiHarian" class="h-full bg-rose-500" style="width:0%"></div>
-                                <div id="wantBarAbiHarian" class="h-full bg-amber-400" style="width:0%"></div>
-                            </div>
-                            <div class="mt-2 flex items-center justify-between text-[10px]">
-                                <span class="text-slate-500">Kebutuhan <span id="needPctAbiHarian" class="font-extrabold text-rose-700">0%</span></span>
-                                <span class="text-slate-500">Keinginan <span id="wantPctAbiHarian" class="font-extrabold text-amber-700">0%</span></span>
-                            </div>
-                        </div>
-                        <div class="px-3 pb-4 -mt-1">
-                            <div class="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2">Kebutuhan vs Keinginan</div>
-                            <div class="h-2 rounded-full bg-slate-100 overflow-hidden flex">
-                                <div id="needBarUmiHarian" class="h-full bg-rose-500" style="width:0%"></div>
-                                <div id="wantBarUmiHarian" class="h-full bg-amber-400" style="width:0%"></div>
-                            </div>
-                            <div class="mt-2 flex items-center justify-between text-[10px]">
-                                <span class="text-slate-500">Kebutuhan <span id="needPctUmiHarian" class="font-extrabold text-rose-700">0%</span></span>
-                                <span class="text-slate-500">Keinginan <span id="wantPctUmiHarian" class="font-extrabold text-amber-700">0%</span></span>
-                            </div>
-                        </div>
-                        <div class="px-3 pb-4 -mt-1">
-                            <div class="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2">Kebutuhan vs Keinginan</div>
-                            <div class="h-2 rounded-full bg-slate-100 overflow-hidden flex">
-                                <div id="needBarAbiBulanan" class="h-full bg-rose-500" style="width:0%"></div>
-                                <div id="wantBarAbiBulanan" class="h-full bg-amber-400" style="width:0%"></div>
-                            </div>
-                            <div class="mt-2 flex items-center justify-between text-[10px]">
-                                <span class="text-slate-500">Kebutuhan <span id="needPctAbiBulanan" class="font-extrabold text-rose-700">0%</span></span>
-                                <span class="text-slate-500">Keinginan <span id="wantPctAbiBulanan" class="font-extrabold text-amber-700">0%</span></span>
-                            </div>
-                        </div>
-                        <div class="px-3 pb-4 -mt-1">
-                            <div class="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2">Kebutuhan vs Keinginan</div>
-                            <div class="h-2 rounded-full bg-slate-100 overflow-hidden flex">
-                                <div id="needBarUmiBulanan" class="h-full bg-rose-500" style="width:0%"></div>
-                                <div id="wantBarUmiBulanan" class="h-full bg-amber-400" style="width:0%"></div>
-                            </div>
-                            <div class="mt-2 flex items-center justify-between text-[10px]">
-                                <span class="text-slate-500">Kebutuhan <span id="needPctUmiBulanan" class="font-extrabold text-rose-700">0%</span></span>
-                                <span class="text-slate-500">Keinginan <span id="wantPctUmiBulanan" class="font-extrabold text-amber-700">0%</span></span>
-                            </div>
-                        </div>
+                        
+                        
+                        
+                        
 
                     </div>
                     <div class="bg-white rounded-2xl shadow-md overflow-hidden border border-pink-100">
@@ -709,22 +669,7 @@ function escapeHtml(s) {
             if(el) el.innerText = val;
         }
 
-                function updateNeedWantMeter(who, suffix, kebutuhan, keinginan) {
-            const need = Number(kebutuhan) || 0;
-            const want = Number(keinginan) || 0;
-            const total = need + want;
 
-            const needPct = total > 0 ? Math.round((need / total) * 100) : 0;
-            const wantPct = total > 0 ? (100 - needPct) : 0;
-
-            setTextIfExists(`needPct${who}${suffix}`, `${needPct}%`);
-            setTextIfExists(`wantPct${who}${suffix}`, `${wantPct}%`);
-
-            const needBar = document.getElementById(`needBar${who}${suffix}`);
-            const wantBar = document.getElementById(`wantBar${who}${suffix}`);
-            if (needBar) needBar.style.width = `${needPct}%`;
-            if (wantBar) wantBar.style.width = `${wantPct}%`;
-        }
 
 function hitungSaldo(data, suffix) {
             var s = {
@@ -760,10 +705,7 @@ function hitungSaldo(data, suffix) {
                 setTextIfExists(`masuk${who}${suffix}Insidental`, formatRupiah(s[key].mi));
                 setTextIfExists(`keluar${who}${suffix}Kebutuhan`, formatRupiah(s[key].kk));
                 setTextIfExists(`keluar${who}${suffix}Keinginan`, formatRupiah(s[key].kq));
-
-                // meter kebutuhan vs keinginan (berdasarkan pengeluaran)
-                updateNeedWantMeter(who, suffix, s[key].kk, s[key].kq);
-            });
+});
         }
 
 

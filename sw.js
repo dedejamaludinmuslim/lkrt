@@ -1,4 +1,4 @@
-const CACHE_NAME = 'lkrt-v6-filter-dropdown';
+const CACHE_NAME = 'lkrt-v6-filter-dropdown-no-meter';
 const urlsToCache = [
   './',
   './index.html',
